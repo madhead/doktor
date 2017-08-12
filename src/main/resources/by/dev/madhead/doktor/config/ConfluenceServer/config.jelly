@@ -2,8 +2,14 @@
 
 <?jelly escape-by-default='true'?>
 
-<jelly:jelly xmlns:jelly="jelly:core" xmlns:form="/lib/form">
-	<form:entry field="name" title="Name">
+<jelly:jelly xmlns:jelly="jelly:core" xmlns:form="/lib/form" xmlns:credentials="/lib/credentials">
+	<form:entry field="name" title="${%doktor.config.ConfluenceServer.name}">
 		<form:textbox/>
+	</form:entry>
+	<form:entry field="url" title="${%doktor.config.ConfluenceServer.url}">
+		<form:textbox/>
+	</form:entry>
+	<form:entry field="credentials" title="${%doktor.config.ConfluenceServer.credentials}">
+		<credentials:select/>
 	</form:entry>
 </jelly:jelly>

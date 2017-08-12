@@ -8,6 +8,10 @@ import org.kohsuke.stapler.StaplerRequest
 @Extension(ordinal = -100.0)
 class ConfluenceServers : GlobalConfiguration() {
 	var servers: List<ConfluenceServer> = emptyList()
+		set(value) {
+			field = value
+			save()
+		}
 
 	init {
 		load()

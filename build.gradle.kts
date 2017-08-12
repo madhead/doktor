@@ -1,6 +1,4 @@
-import groovy.lang.GroovyObject
 import org.jenkinsci.gradle.plugins.jpi.JpiDeveloper
-import org.jenkinsci.gradle.plugins.jpi.JpiExtension
 import org.jenkinsci.gradle.plugins.jpi.JpiLicense
 
 plugins {
@@ -21,6 +19,8 @@ dependencies {
 
 	// SezPoz is used to process @hudson.Extension and other annotations
 	kapt("net.java.sezpoz:sezpoz:1.12") // TODO: Hardcoded version!
+
+	jenkinsPlugins("org.jenkins-ci.plugins:credentials:2.1.7@jar") // TODO: Not sure how to choose version to depend on
 }
 
 java {

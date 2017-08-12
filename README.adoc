@@ -2,6 +2,25 @@
 
 Doktor is a Jenkins plugin for automated documentation uploading to Confluence.
 
+== Usage
+
+As you may suspect Confluence REST API requires authentication.
+Doktor supports basic authentication (username and password).
+So, first thing to do is to https://github.com/jenkinsci/credentials-plugin/blob/master/docs/user.adoc[configure credentials] in Jenkins.
+
+Create a "Username with password" credentials to be used to authenticate on Confluence server:
+
+image::https://github.com/madhead/doktor/blob/master/.github/images/new_credentials.png[]
+
+You may have as many Confluence servers and credentials for them as you need.
+
+Next thing to do is to configure Confluence servers.
+Go to global configuration screen ("Manage Jenkins" -> "Configure System") and find "Confluence Servers" section.
+Configure the list of available Confluence servers:
+
+image::https://github.com/madhead/doktor/blob/master/.github/images/confluence_servers.png[]
+
+
 == Developing
 
 Doktor is built with https://kotlinlang.org/[Kotlin], https://gradle.org/[Gradle] and Love.
