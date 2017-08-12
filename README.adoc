@@ -1,0 +1,28 @@
+= Doktor
+
+Doktor is a Jenkins plugin for automated documentation uploading to Confluence.
+
+== Developing
+
+Doktor is built with https://kotlinlang.org/[Kotlin], https://gradle.org/[Gradle] and Love.
+Well, actually with hate to the workflows on my day-time job.
+
+JPI artifact is produced with https://github.com/jenkinsci/gradle-jpi-plugin[Gradle's JPI plugin].
+Read its documentation to know more about supported features and options.
+
+Also, take a look at https://github.com/SimpleFinance/jenkins-firebase-test-plugin[this Jenkins plugin], which is build in Gradle and Kotlin too!
+
+=== Building & running
+
+Basically, `./gradlew --rerun-tasks clean jpi server` will spin up a Jenkins with Doktor installed.
+`--rerun-tasks` is used to force clean build every time because Gradle aggressively caches build outputs, especially https://kotlinlang.org/docs/reference/kapt.html[Kotlin annotation processing tool] results.
+
+
+Debug is supported as well:
+
+----
+GRADLE_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005" ./gradlew --rerun-tasks clean jpi server
+----
+
+
+Omit `server` task if you just need a JPI file.
