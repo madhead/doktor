@@ -14,14 +14,18 @@ repositories {
 }
 
 val kotlinVersion by project
+val sezpozVersion by project
+val jenkinsCredentialsPluginVersion by project
+val jenkinsWorkflowStepsAPIPluginVersion by project
 
 dependencies {
-	compile(kotlin("stdlib", kotlinVersion as String))
+	compile(kotlin("stdlib", "${kotlinVersion}"))
 
 	// SezPoz is used to process @hudson.Extension and other annotations
-	kapt("net.java.sezpoz:sezpoz:1.12") // TODO: Hardcoded version!
+	kapt("net.java.sezpoz:sezpoz:${sezpozVersion}")
 
-	jenkinsPlugins("org.jenkins-ci.plugins:credentials:2.1.0@jar") // TODO: Not sure how to choose version to depend on
+	jenkinsPlugins("org.jenkins-ci.plugins:credentials:${jenkinsCredentialsPluginVersion}@jar")
+	jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:${jenkinsWorkflowStepsAPIPluginVersion}@jar")
 }
 
 java {

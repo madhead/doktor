@@ -8,8 +8,8 @@ import hudson.Extension
 import hudson.model.AbstractDescribableImpl
 import hudson.model.Descriptor
 import hudson.security.ACL
+
 import hudson.util.FormValidation
-import hudson.util.ListBoxModel
 import jenkins.model.Jenkins
 import org.kohsuke.stapler.DataBoundConstructor
 import org.kohsuke.stapler.QueryParameter
@@ -23,11 +23,9 @@ constructor(
 ) : AbstractDescribableImpl<ConfluenceServer>() {
 	@Extension
 	class ConfluenceServerDescriptor : Descriptor<ConfluenceServer>() {
-		fun doFillCredentialsItems(): ListBoxModel {
-			return StandardListBoxModel()
-				.includeEmptyValue()
-				.includeMatchingAs(ACL.SYSTEM, Jenkins.getInstance(), StandardUsernamePasswordCredentials::class.java, emptyList(), CredentialsMatchers.always())
-		}
+		fun doFillCredentialsItems() = StandardListBoxModel()
+			.includeEmptyValue()
+			.includeMatchingAs(ACL.SYSTEM, Jenkins.getInstance(), StandardUsernamePasswordCredentials::class.java, emptyList(), CredentialsMatchers.always())
 
 		fun doCheckName(@QueryParameter value: String?): FormValidation {
 			if (value.isNullOrBlank()) {
