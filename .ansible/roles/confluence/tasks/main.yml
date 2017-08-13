@@ -1,0 +1,17 @@
+- name: Install
+  pip:
+    name: bottle
+- name: Pull Confluence image
+  docker_image:
+    name: atlassian/confluence-server:latest
+- name: Start Confluence
+  docker_container:
+    name: confluence
+    image: atlassian/confluence-server:latest
+    state: started
+    recreate: true
+    restart_policy: always
+    ports:
+     - '80:8090'
+    volumes:
+     - 'confluence-data:/var/atlassian/application-data/confluence'

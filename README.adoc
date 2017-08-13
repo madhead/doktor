@@ -4,7 +4,7 @@ Doktor is a Jenkins plugin for automated documentation uploading to Confluence.
 
 == Usage
 
-As you may suspect Confluence REST API requires authentication.
+As you might suspect, Confluence REST API requires authentication.
 Doktor supports basic authentication (username and password).
 So, first thing to do is to https://github.com/jenkinsci/credentials-plugin/blob/master/docs/user.adoc[configure credentials] in Jenkins.
 
@@ -20,6 +20,7 @@ Configure the list of available Confluence servers:
 
 image::https://github.com/madhead/doktor/blob/master/.github/images/confluence_servers.png[]
 
+TODO: Using as pipeline step
 
 == Developing
 
@@ -29,12 +30,13 @@ Well, actually with hate to the workflows on my day-time job.
 JPI artifact is produced with https://github.com/jenkinsci/gradle-jpi-plugin[Gradle's JPI plugin].
 Read its documentation to know more about supported features and options.
 
-Also, take a look at https://github.com/SimpleFinance/jenkins-firebase-test-plugin[this Jenkins plugin], which is build in Gradle and Kotlin too!
+Also, take a look at https://github.com/SimpleFinance/jenkins-firebase-test-plugin[this awesome Jenkins plugin], which is build with Gradle and Kotlin too!
 
 === Building & running
 
 Basically, `./gradlew --rerun-tasks clean jpi server` will spin up a Jenkins with Doktor installed.
 `--rerun-tasks` is used to force clean build every time because Gradle aggressively caches build outputs, especially https://kotlinlang.org/docs/reference/kapt.html[Kotlin annotation processing tool] results.
+Feel free to tweak CLI arguments, assuming you know what you do.
 
 
 Debug is supported as well:
@@ -45,3 +47,56 @@ GRADLE_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
 
 
 Omit `server` task if you just need a JPI file.
+
+=== Testing Confluence integration
+
+==== Cloud
+
+Probably, the easiest (and CPU / RAM saving) way to run Confluence is to run it in the cloud (AWS EC2, DigitalOcean, ...).
+Though, it will cost you some money.
+
+There is an link:.ansible/confluence.yml[Ansible script] in this repo to automate Confluence installation.
+It assumes that you already have a running instance that meets https://confluence.atlassian.com/doc/system-requirements-126517514.html[Confluence's minimal system requirements].
+Read your cloud provider's documentation to know how to create and manageVMs.
+
+When you have a VM, just follow these steps to install Confluence Server:
+
+. Create inventory file (`.ansible/inventory`) with a content like this:
++
+----
+[confluence]
+your.confluence.host
+----
++
+You might want to add additional parameters.
+For example, a set of parameters for Ubuntu 16.04 EC2 instance:
++
+----
+[confluence]
+your.confluence.host ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/confluence.pem ansible_python_interpreter=/usr/bin/python3
+
+----
++
+Or you can just use http://docs.ansible.com/ansible/latest/intro_dynamic_inventory.html[dynamic inventories].
+
+. After the inventory is configured, just run `./confluence.yml` from the `.ansible` directory.
+
+. Go to `http://your.confluence.host/` (if the DNS and IPs are set) and configure the instance.
+Note, that you will need a license key (trial works for 90 days).
+
+
+==== Docker
+
+You can run Confluence locally as well.
+The easiest way here is https://www.docker.com/[Docker] (Windows uses should appreciate the joke).
+
+Running Confluence is as simple as:
+
+----
+docker volume create --name confluence-data
+docker run --detach --volume confluence-data:/var/atlassian/application-data/confluence --name confluence --publish-all atlassian/confluence-server:latest
+----
+
+You might want to add some https://docs.docker.com/engine/reference/run/[additional options] or tweak the existing ones.
+
+Note, that you will need a license key (trial works for 90 days).
