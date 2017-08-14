@@ -3,7 +3,13 @@
 <?jelly escape-by-default='true'?>
 
 <jelly:jelly xmlns:jelly="jelly:core" xmlns:form="/lib/form">
-	<form:entry field="message" title="Message">
+	<form:entry field="server" title="${%doktor.pipeline.DoktorStep.server}">
+		<form:select/>
+	</form:entry>
+	<form:entry field="markdownPattern" title="${%doktor.pipeline.DoktorStep.markdownPattern}">
+		<form:textbox/>
+	</form:entry>
+	<form:entry field="asciidocPattern" title="${%doktor.pipeline.DoktorStep.asciidocPattern}">
 		<form:textbox/>
 	</form:entry>
 </jelly:jelly>
