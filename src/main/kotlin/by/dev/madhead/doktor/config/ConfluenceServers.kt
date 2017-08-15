@@ -1,7 +1,9 @@
 package by.dev.madhead.doktor.config
 
+import by.dev.madhead.doktor.Messages
 import hudson.Extension
 import jenkins.model.GlobalConfiguration
+import net.sf.json.JSONArray
 import net.sf.json.JSONObject
 import org.kohsuke.stapler.StaplerRequest
 
@@ -18,9 +20,15 @@ class ConfluenceServers : GlobalConfiguration() {
 	}
 
 	override fun configure(req: StaplerRequest, json: JSONObject): Boolean {
-		servers = emptyList()
+		validate(json)
 		req.bindJSON(this, json)
 
 		return true
+	}
+
+	private fun validate(json: JSONObject) {
+		if ((json["servers"] as JSONArray).groupBy { (it as JSONObject)["name"] }.any { it.value.size > 1 }) {
+			throw FormException(Messages.doktor_config_ConfluenceServers_validation_name_dublicate(), "")
+		}
 	}
 }
