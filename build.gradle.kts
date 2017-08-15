@@ -1,5 +1,7 @@
 import org.jenkinsci.gradle.plugins.jpi.JpiDeveloper
 import org.jenkinsci.gradle.plugins.jpi.JpiLicense
+import org.jetbrains.kotlin.gradle.internal.KaptGenerateStubsTask
+import org.jetbrains.kotlin.gradle.internal.KaptTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -38,6 +40,14 @@ kapt {
 
 tasks.withType(KotlinCompile::class.java).all {
 	dependsOn("localizer")
+}
+
+tasks.withType(KaptTask::class.java).all {
+	outputs.upToDateWhen { false }
+}
+
+tasks.withType(KaptGenerateStubsTask::class.java).all {
+	outputs.upToDateWhen { false }
 }
 
 val jenkinsCoreVersion by project
