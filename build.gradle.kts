@@ -21,7 +21,7 @@ val jenkinsCredentialsPluginVersion by project
 val jenkinsWorkflowStepsAPIPluginVersion by project
 
 dependencies {
-	compile(kotlin("stdlib", "${kotlinVersion}"))
+	compile(kotlin("stdlib-jre8", "${kotlinVersion}"))
 
 	// SezPoz is used to process @hudson.Extension and other annotations
 	kapt("net.java.sezpoz:sezpoz:${sezpozVersion}")
@@ -40,6 +40,10 @@ kapt {
 
 tasks.withType(KotlinCompile::class.java).all {
 	dependsOn("localizer")
+
+	kotlinOptions {
+		jvmTarget = "1.8"
+	}
 }
 
 tasks.withType(KaptTask::class.java).all {
