@@ -27,6 +27,10 @@ class ConfluenceServers : GlobalConfiguration() {
 	}
 
 	private fun validate(json: JSONObject) {
+		// Single Confluence server, no validation needed
+		if (json["servers"] is JSONObject) {
+			return
+		}
 		if ((json["servers"] as JSONArray).groupBy { (it as JSONObject)["name"] }.any { it.value.size > 1 }) {
 			throw FormException(Messages.doktor_config_ConfluenceServers_validation_name_dublicate(), "")
 		}

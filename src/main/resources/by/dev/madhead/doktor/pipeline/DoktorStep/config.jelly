@@ -6,10 +6,16 @@
 	<form:entry field="server" title="${%doktor.pipeline.DoktorStep.server}">
 		<form:select/>
 	</form:entry>
-	<form:entry field="markdownPattern" title="${%doktor.pipeline.DoktorStep.markdownPattern}">
+	<form:entry field="markdownIncludePattern" title="${%doktor.pipeline.DoktorStep.markdownIncludePattern}">
 		<form:textbox/>
 	</form:entry>
-	<form:entry field="asciidocPattern" title="${%doktor.pipeline.DoktorStep.asciidocPattern}">
+	<form:entry field="markdownExcludePattern" title="${%doktor.pipeline.DoktorStep.markdownExcludePattern}">
+		<form:textbox/>
+	</form:entry>
+	<form:entry field="asciidocIncludePattern" title="${%doktor.pipeline.DoktorStep.asciidocIncludePattern}">
+		<form:textbox/>
+	</form:entry>
+	<form:entry field="asciidocExcludePattern" title="${%doktor.pipeline.DoktorStep.asciidocExcludePattern}">
 		<form:textbox/>
 	</form:entry>
 </jelly:jelly>
