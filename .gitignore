@@ -4,6 +4,7 @@ work
 
 .idea
 *.iml
+out
 
 .ansible/inventory
 .ansible/*.retry
