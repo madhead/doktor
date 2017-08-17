@@ -6,16 +6,56 @@
 	<form:entry field="server" title="${%doktor.pipeline.DoktorStep.server}">
 		<form:select/>
 	</form:entry>
-	<form:entry field="markdownIncludePattern" title="${%doktor.pipeline.DoktorStep.markdownIncludePattern}">
-		<form:textbox/>
-	</form:entry>
-	<form:entry field="markdownExcludePattern" title="${%doktor.pipeline.DoktorStep.markdownExcludePattern}">
-		<form:textbox/>
-	</form:entry>
-	<form:entry field="asciidocIncludePattern" title="${%doktor.pipeline.DoktorStep.asciidocIncludePattern}">
-		<form:textbox/>
-	</form:entry>
-	<form:entry field="asciidocExcludePattern" title="${%doktor.pipeline.DoktorStep.asciidocExcludePattern}">
-		<form:textbox/>
+	<form:entry>
+		<!--TODO: i18n-->
+		<div>
+			Doktor also accepts four optional String lists to configure set of files for processing:
+			<dl>
+				<dt>
+					<code>markdownIncludePatterns</code>
+				</dt>
+				<dd>
+					List of Java 8
+					<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/PathMatcher.html">PathMatcher</a>
+					<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-">
+						specifications
+					</a>
+					for <a href="https://daringfireball.net/projects/markdown/syntax">Markdown</a> files to include.
+				</dd>
+				<dt>
+					<code>markdownExcludePatterns</code>
+				</dt>
+				<dd>
+					List of Java 8
+					<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/PathMatcher.html">PathMatcher</a>
+					<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-">
+						specifications
+					</a>
+					for <a href="https://daringfireball.net/projects/markdown/syntax">Markdown</a> files to exclude.
+				</dd>
+				<dt>
+					<code>asciidocIncludePatterns</code>
+				</dt>
+				<dd>
+					List of Java 8
+					<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/PathMatcher.html">PathMatcher</a>
+					<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-">
+						specifications
+					</a>
+					for <a href="http://asciidoc.org/">AsciiDoc</a> files to include.
+				</dd>
+				<dt>
+					<code>asciidocExcludePatterns</code>
+				</dt>
+				<dd>
+					List of Java 8
+					<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/PathMatcher.html">PathMatcher</a>
+					<a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-">
+						specifications
+					</a>
+					for <a href="http://asciidoc.org/">AsciiDoc</a> files to exclude.
+				</dd>
+			</dl>
+		</div>
 	</form:entry>
 </jelly:jelly>
