@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?jelly escape-by-default='true'?>
+
+<jelly:jelly xmlns:jelly="jelly:core" xmlns:form="/lib/form">
+	<form:entry field="server" title="${%doktor.classic.DoktorStep.server}">
+		<form:select/>
+	</form:entry>
+	<form:entry title="${%doktor.classic.DoktorStep.markdownIncludePatterns}" help="/plugin/doktor/help-markdownIncludePatterns.html">
+		<form:repeatableProperty field="markdownIncludePatterns">
+			<form:entry title="">
+				<div align="right">
+					<form:repeatableDeleteButton/>
+				</div>
+			</form:entry>
+		</form:repeatableProperty>
+	</form:entry>
+	<form:entry title="${%doktor.classic.DoktorStep.markdownExcludePatterns}" help="/plugin/doktor/help-markdownExcludePatterns.html">
+		<form:repeatableProperty field="markdownExcludePatterns">
+			<form:entry title="">
+				<div align="right">
+					<form:repeatableDeleteButton/>
+				</div>
+			</form:entry>
+		</form:repeatableProperty>
+	</form:entry>
+	<form:entry title="${%doktor.classic.DoktorStep.asciidocIncludePatterns}" help="/plugin/doktor/help-asciidocIncludePatterns.html">
+		<form:repeatableProperty field="asciidocIncludePatterns">
+			<form:entry title="">
+				<div align="right">
+					<form:repeatableDeleteButton/>
+				</div>
+			</form:entry>
+		</form:repeatableProperty>
+	</form:entry>
+	<form:entry title="${%doktor.classic.DoktorStep.asciidocExcludePatterns}" help="/plugin/doktor/help-asciidocExcludePatterns.html">
+		<form:repeatableProperty field="asciidocExcludePatterns">
+			<form:entry title="">
+				<div align="right">
+					<form:repeatableDeleteButton/>
+				</div>
+			</form:entry>
+		</form:repeatableProperty>
+	</form:entry>
+</jelly:jelly>
