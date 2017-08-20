@@ -16,18 +16,22 @@ repositories {
 }
 
 val kotlinVersion by project
+val rxkotlinVersion by project
+val flexmarkVersion by project
 val sezpozVersion by project
 val jenkinsCredentialsPluginVersion by project
 val jenkinsWorkflowStepsAPIPluginVersion by project
 
 dependencies {
 	compile(kotlin("stdlib-jre8", "${kotlinVersion}"))
-
-	// SezPoz is used to process @hudson.Extension and other annotations
-	kapt("net.java.sezpoz:sezpoz:${sezpozVersion}")
+	compile("io.reactivex.rxjava2:rxkotlin:${rxkotlinVersion}")
+	compile("com.vladsch.flexmark:flexmark:${flexmarkVersion}")
 
 	jenkinsPlugins("org.jenkins-ci.plugins:credentials:${jenkinsCredentialsPluginVersion}@jar")
 	jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:${jenkinsWorkflowStepsAPIPluginVersion}@jar")
+
+	// SezPoz is used to process @hudson.Extension and other annotations
+	kapt("net.java.sezpoz:sezpoz:${sezpozVersion}")
 }
 
 java {
@@ -36,22 +40,6 @@ java {
 
 kapt {
 	correctErrorTypes = true
-}
-
-tasks.withType(KotlinCompile::class.java).all {
-	dependsOn("localizer")
-
-	kotlinOptions {
-		jvmTarget = "1.8"
-	}
-}
-
-tasks.withType(KaptTask::class.java).all {
-	outputs.upToDateWhen { false }
-}
-
-tasks.withType(KaptGenerateStubsTask::class.java).all {
-	outputs.upToDateWhen { false }
 }
 
 val jenkinsCoreVersion by project
@@ -81,6 +69,22 @@ jenkinsPlugin {
 			setProperty("url", "http://www.apache.org/licenses/LICENSE-2.0")
 		})
 	}
+}
+
+tasks.withType(KotlinCompile::class.java).all {
+	dependsOn("localizer")
+
+	kotlinOptions {
+		jvmTarget = "1.8"
+	}
+}
+
+tasks.withType(KaptTask::class.java).all {
+	outputs.upToDateWhen { false }
+}
+
+tasks.withType(KaptGenerateStubsTask::class.java).all {
+	outputs.upToDateWhen { false }
 }
 
 task<Wrapper>("wrapper") {

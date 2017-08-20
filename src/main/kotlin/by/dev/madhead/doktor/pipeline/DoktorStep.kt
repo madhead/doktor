@@ -2,15 +2,16 @@ package by.dev.madhead.doktor.pipeline
 
 import by.dev.madhead.doktor.Messages
 import by.dev.madhead.doktor.config.ConfluenceServers
+import by.dev.madhead.doktor.model.Markup.ASCIIDOC
+import by.dev.madhead.doktor.model.Markup.MARKDOWN
+import by.dev.madhead.doktor.model.DoktorStepConfig
 import hudson.Extension
 import hudson.FilePath
-import hudson.model.TaskListener
 import hudson.util.ListBoxModel
 import jenkins.model.GlobalConfiguration
 import org.jenkinsci.plugins.workflow.steps.Step
 import org.jenkinsci.plugins.workflow.steps.StepContext
 import org.jenkinsci.plugins.workflow.steps.StepDescriptor
-import org.jenkinsci.plugins.workflow.steps.SynchronousStepExecution
 import org.kohsuke.stapler.DataBoundConstructor
 
 class DoktorStep
@@ -22,7 +23,16 @@ constructor(
 	var asciidocIncludePatterns: List<String>?,
 	var asciidocExcludePatterns: List<String>?
 ) : Step() {
-	override fun start(context: StepContext) = Execution(context)
+	override fun start(context: StepContext) = DoktorStepExecution(
+		context,
+		DoktorStepConfig(
+			server,
+			mapOf(
+				MARKDOWN to Pair(markdownIncludePatterns ?: emptyList(), markdownExcludePatterns ?: emptyList()),
+				ASCIIDOC to Pair(asciidocIncludePatterns ?: emptyList(), asciidocExcludePatterns ?: emptyList())
+			)
+		)
+	)
 
 	@Extension
 	class DoktorStepDescriptor : StepDescriptor() {
@@ -40,12 +50,6 @@ constructor(
 			}
 
 			return result
-		}
-	}
-
-	inner class Execution(context: StepContext) : SynchronousStepExecution<Unit?>(context) {
-		override fun run(): Unit? {
-			return context.get(TaskListener::class.java)?.logger?.println(this@DoktorStep.toString())
 		}
 	}
 }
