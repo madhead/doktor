@@ -3,8 +3,11 @@ package by.dev.madhead.doktor.util
 import by.dev.madhead.doktor.model.DoktorConfig
 import by.dev.madhead.doktor.model.Markup.ASCIIDOC
 import by.dev.madhead.doktor.model.Markup.MARKDOWN
+import com.vladsch.flexmark.ext.yaml.front.matter.AbstractYamlFrontMatterVisitor
+import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
+import com.vladsch.flexmark.util.options.MutableDataSet
 import hudson.FilePath
 import hudson.model.TaskListener
 import hudson.remoting.VirtualChannel
@@ -22,23 +25,8 @@ fun diagnose(doktorConfig: DoktorConfig, workspace: FilePath, taskListener: Task
 		.flatMap { it.toObservable() }
 		.map {
 			when (it.markup) {
-				MARKDOWN -> {
-					it.filePath.actAsync(object : SlaveToMasterFileCallable<String>() {
-						override fun invoke(file: File, channel: VirtualChannel?): String {
-							val parser = Parser.builder().build()
-							val htmlRenderer = HtmlRenderer.builder().build()
-
-							return htmlRenderer.render(parser.parse(file.readText()))
-						}
-					})
-				}
-				ASCIIDOC -> {
-					it.filePath.actAsync(object : SlaveToMasterFileCallable<String>() {
-						override fun invoke(file: File, channel: VirtualChannel?): String {
-							return file.readText()
-						}
-					})
-				}
+				MARKDOWN -> it.filePath.actAsync(MarkdownRenderer())
+				ASCIIDOC -> it.filePath.actAsync(AsciiDocRenderer())
 			}
 		}
 		.flatMap { Observable.fromFuture(it) }

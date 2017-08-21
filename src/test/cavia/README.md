@@ -1,3 +1,7 @@
+---
+confluencePath: a/b/c
+---
+
 # Cavia
 
 Why "cavia"?

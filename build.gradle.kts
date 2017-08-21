@@ -26,6 +26,7 @@ dependencies {
 	compile(kotlin("stdlib-jre8", "${kotlinVersion}"))
 	compile("io.reactivex.rxjava2:rxkotlin:${rxkotlinVersion}")
 	compile("com.vladsch.flexmark:flexmark:${flexmarkVersion}")
+	compile("com.vladsch.flexmark:flexmark-ext-yaml-front-matter:${flexmarkVersion}")
 
 	jenkinsPlugins("org.jenkins-ci.plugins:credentials:${jenkinsCredentialsPluginVersion}@jar")
 	jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:${jenkinsWorkflowStepsAPIPluginVersion}@jar")
