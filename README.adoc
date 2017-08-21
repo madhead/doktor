@@ -4,6 +4,8 @@ Doktor is a Jenkins plugin for automated documentation uploading to Confluence.
 
 == Usage
 
+=== Configure Confluence servers
+
 As you might suspect, Confluence REST API requires authentication.
 Doktor supports basic authentication (username and password).
 So, first thing to do is to https://github.com/jenkinsci/credentials-plugin/blob/master/docs/user.adoc[configure credentials] in Jenkins.
@@ -20,7 +22,60 @@ Configure the list of available Confluence servers:
 
 image::https://github.com/madhead/doktor/blob/master/.github/images/confluence_servers.png[]
 
-TODO: Using as pipeline step
+Now, when you have some Confluence servers to publish documentation to, it's time test this plugin!
+Yes, I'm using word "test" https://github.com/madhead/doktor/issues/new[intentionally] here.
+
+=== Pipeline step
+
+Using Doktor with https://jenkins.io/doc/book/pipeline[pipelines] is very easy!
+Here is the full syntax of `doktor` step:
+
+[source,groovy]
+----
+doktor
+	server : 'Cantina', // <1>
+	markdownIncludePatterns: ['glob:**.md'], // <2>
+	markdownExcludePatterns: ['glob:README.md'], // <3>
+	asciidocIncludePatterns: ['glob:**.adoc', 'glob:**.asc'], // <4>
+	asciidocExcludePatterns: ['glob:LICENSE.adoc', 'glob:CONTRIBUTING.asc'] // <5>
+----
+<1> One of the available Confluence servers
+<2> List of Java 8 https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-[PathMatcher specifications] for https://daringfireball.net/projects/markdown/syntax[Markdown] files to include.
+<3> List of Java 8 https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-[PathMatcher specifications] for https://daringfireball.net/projects/markdown/syntax[Markdown] files to exclude.
+<4> List of Java 8 https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-[PathMatcher specifications] for http://asciidoc.org/[AsciiDoc] files to include.
+<5> List of Java 8 https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-[PathMatcher specifications] for http://asciidoc.org/[AsciiDoc] files to exclude.
+
+You can also try your luck with "Snippet Generator", available at `/pipeline-syntax` path of your Jenkins installation.
+
+=== Classic builds
+
+Doktor plays nice with "classic" builds too!
+
+image::https://github.com/madhead/doktor/blob/master/.github/images/freestyle_config.png[]
+
+Click those question icons on the right if you need any help.
+
+=== Features
+
+Doktor uses http://www.yaml.org[YAML] front matter in your doc files to tune the behaviour.
+_Front matter_ is another word for _metadata_, used by bloggers and hipsters widely.
+
+Front matter looks like a small YAML fragment at the beginning of the file, separated by a triple minus sign (`---`):
+
+[source,yml]
+----
+---
+key: value
+list:
+  - item1
+  - item2
+---
+----
+
+Supported options are:
+
+`confluencePath`::
+Target path for a document to appear in Confluence space
 
 == Developing
 
@@ -41,6 +96,7 @@ Feel free to tweak CLI arguments, assuming you know what you do.
 
 Debug is supported as well:
 
+[source, bash]
 ----
 GRADLE_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005" ./gradlew --rerun-tasks clean jpi server
 ----
@@ -63,6 +119,7 @@ When you have a VM, just follow these steps to install Confluence Server:
 
 . Create inventory file (`.ansible/inventory`) with a content like this:
 +
+[source, ini]
 ----
 [confluence]
 your.confluence.host
@@ -71,10 +128,10 @@ your.confluence.host
 You might want to add additional parameters.
 For example, a set of parameters for Ubuntu 16.04 EC2 instance:
 +
+[source, ini]
 ----
 [confluence]
 your.confluence.host ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/confluence.pem ansible_python_interpreter=/usr/bin/python3
-
 ----
 +
 Or you can just use http://docs.ansible.com/ansible/latest/intro_dynamic_inventory.html[dynamic inventories].
@@ -92,6 +149,7 @@ The easiest way here is https://www.docker.com/[Docker] (Windows uses should app
 
 Running Confluence is as simple as:
 
+[source, bash]
 ----
 docker volume create --name confluence-data
 docker run --detach --volume confluence-data:/var/atlassian/application-data/confluence --name confluence --publish-all atlassian/confluence-server:latest
