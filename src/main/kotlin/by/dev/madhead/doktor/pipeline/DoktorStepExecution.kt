@@ -24,9 +24,9 @@ class DoktorStepExecution(context: StepContext, val doktorStepConfig: DoktorStep
 	}
 
 	override fun start(): Boolean {
-		val cwd = context.get(FilePath::class.java)!!
+		val workspace = context.get(FilePath::class.java)!!
 
-		cwd
+		workspace
 			.actAsync(WorkspaceDokLister(doktorStepConfig))
 			.toSingle()
 			.flatMapObservable { it.toObservable() }

@@ -3,6 +3,10 @@ package by.dev.madhead.doktor.classic
 import by.dev.madhead.doktor.Messages
 import by.dev.madhead.doktor.config.ConfluenceServers
 import by.dev.madhead.doktor.model.DescribableString
+import by.dev.madhead.doktor.model.DoktorStepConfig
+import by.dev.madhead.doktor.model.Markup.ASCIIDOC
+import by.dev.madhead.doktor.model.Markup.MARKDOWN
+import hudson.AbortException
 import hudson.Extension
 import hudson.Launcher
 import hudson.model.AbstractBuild
@@ -24,9 +28,14 @@ constructor(
 	var asciidocExcludePatterns: List<DescribableString>?
 ) : Builder() {
 	override fun perform(build: AbstractBuild<*, *>, launcher: Launcher, listener: BuildListener): Boolean {
-
-
-		listener.logger.println("Server: ${server}, +MD: ${markdownIncludePatterns}, -MD: ${markdownExcludePatterns}, +AD: ${asciidocIncludePatterns}, -AD: ${asciidocExcludePatterns}")
+		val workspace = build.getWorkspace() ?: throw AbortException("Doktor requires a workspace to operate")
+		val doktorStepConfig = DoktorStepConfig(
+			server,
+			mapOf(
+				MARKDOWN to Pair(markdownIncludePatterns?.map { it.value } ?: emptyList(), markdownExcludePatterns?.map { it.value } ?: emptyList()),
+				ASCIIDOC to Pair(asciidocIncludePatterns?.map { it.value } ?: emptyList(), asciidocExcludePatterns?.map { it.value } ?: emptyList())
+			)
+		)
 
 		return true
 	}
