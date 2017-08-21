@@ -4,7 +4,7 @@ import java.io.Serializable
 
 typealias MarkupPatterns = Map<Markup, Pair<List<String>, List<String>>>
 
-data class DoktorStepConfig(
+data class DoktorConfig(
 	val server: String,
 	val markupPatterns: MarkupPatterns
 ) : Serializable

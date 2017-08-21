@@ -4,9 +4,10 @@ import by.dev.madhead.doktor.Messages
 import by.dev.madhead.doktor.config.ConfluenceServers
 import by.dev.madhead.doktor.model.Markup.ASCIIDOC
 import by.dev.madhead.doktor.model.Markup.MARKDOWN
-import by.dev.madhead.doktor.model.DoktorStepConfig
+import by.dev.madhead.doktor.model.DoktorConfig
 import hudson.Extension
 import hudson.FilePath
+import hudson.model.TaskListener
 import hudson.util.ListBoxModel
 import jenkins.model.GlobalConfiguration
 import org.jenkinsci.plugins.workflow.steps.Step
@@ -25,7 +26,7 @@ constructor(
 ) : Step() {
 	override fun start(context: StepContext) = DoktorStepExecution(
 		context,
-		DoktorStepConfig(
+		DoktorConfig(
 			server,
 			mapOf(
 				MARKDOWN to Pair(markdownIncludePatterns ?: emptyList(), markdownExcludePatterns ?: emptyList()),
@@ -40,7 +41,7 @@ constructor(
 
 		override fun getDisplayName() = Messages.doktor_pipeline_DoktorStep_displayName()
 
-		override fun getRequiredContext() = setOf(FilePath::class.java)
+		override fun getRequiredContext() = setOf(FilePath::class.java, TaskListener::class.java)
 
 		fun doFillServerItems(): ListBoxModel {
 			val result = ListBoxModel()
