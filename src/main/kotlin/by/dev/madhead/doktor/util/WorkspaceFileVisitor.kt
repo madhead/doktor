@@ -18,7 +18,7 @@ class WorkspaceFileVisitor(
 		for ((markup, matchers) in matchers) {
 			if ((matchers.first.map { path.fileSystem.getPathMatcher(it) }.any { it.matches(relativePath) })
 				&& (matchers.second.map { path.fileSystem.getPathMatcher(it) }.none { it.matches(relativePath) })) {
-				accept(relativePath, markup)
+				accept(path, markup)
 			}
 		}
 

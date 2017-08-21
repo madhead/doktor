@@ -10,16 +10,21 @@ import java.nio.file.Files
 
 class WorkspaceDokLister(val doktorConfig: DoktorConfig) : SlaveToMasterFileCallable<List<Dok>>() {
 	override fun invoke(file: File, channel: VirtualChannel?): List<Dok> {
-		val base = file.toPath()
+		val workspace = file.toPath()
 		val result = mutableListOf<Dok>()
 
 		Files.walkFileTree(
-			base,
+			workspace,
 			WorkspaceFileVisitor(
-				base,
+				workspace,
 				doktorConfig.markupPatterns
 			) { path, markup ->
-				result.add(Dok(FilePath(path.toFile()), markup))
+				result.add(
+					Dok(
+						FilePath(channel, path.toString()),
+						markup
+					)
+				)
 			}
 		)
 
