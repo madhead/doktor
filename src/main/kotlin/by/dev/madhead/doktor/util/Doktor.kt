@@ -1,36 +1,35 @@
 package by.dev.madhead.doktor.util
 
+import by.dev.madhead.doktor.Messages
 import by.dev.madhead.doktor.model.DoktorConfig
-import by.dev.madhead.doktor.model.Markup.ASCIIDOC
-import by.dev.madhead.doktor.model.Markup.MARKDOWN
-import com.vladsch.flexmark.ext.yaml.front.matter.AbstractYamlFrontMatterVisitor
-import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
-import com.vladsch.flexmark.html.HtmlRenderer
-import com.vladsch.flexmark.parser.Parser
-import com.vladsch.flexmark.util.options.MutableDataSet
+import by.dev.madhead.doktor.model.RenderedDok
+import by.dev.madhead.doktor.util.fs.WorkspaceDokLister
+import by.dev.madhead.doktor.util.render.DokRenderer
 import hudson.FilePath
 import hudson.model.TaskListener
-import hudson.remoting.VirtualChannel
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.toObservable
-import io.reactivex.rxkotlin.toSingle
-import jenkins.SlaveToMasterFileCallable
-import java.io.File
+import io.reactivex.schedulers.Schedulers
 
-fun diagnose(doktorConfig: DoktorConfig, workspace: FilePath, taskListener: TaskListener) {
-	workspace
-		.actAsync(WorkspaceDokLister(doktorConfig))
-		.toSingle()
-		.toObservable()
+fun diagnose(doktorConfig: DoktorConfig, workspace: FilePath, taskListener: TaskListener): Observable<RenderedDok> {
+	return Observable
+		.fromFuture(
+			workspace.actAsync(WorkspaceDokLister(doktorConfig)),
+			Schedulers.computation()
+		)
 		.flatMap { it.toObservable() }
 		.map {
-			when (it.markup) {
-				MARKDOWN -> it.filePath.actAsync(MarkdownRenderer())
-				ASCIIDOC -> it.filePath.actAsync(AsciiDocRenderer())
-			}
+			Pair(it, it.filePath.actAsync(DokRenderer(it.markup, taskListener)))
 		}
-		.flatMap { Observable.fromFuture(it) }
-		.blockingForEach {
-			taskListener.logger?.println(it)
+		.flatMap { (dok, renderedDokFuture) ->
+			Observable
+				.fromFuture(renderedDokFuture)
+				.doOnError {
+					taskListener.error(Messages.doktor_util_DoktorKt_diagnose_renderError(dok.filePath, it))
+				}
+				.onExceptionResumeNext(Observable.empty<RenderedDok>())
+		}
+		.doOnNext {
+			taskListener.logger.println(it)
 		}
 }

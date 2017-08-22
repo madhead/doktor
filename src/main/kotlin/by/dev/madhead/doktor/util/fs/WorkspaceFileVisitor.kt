@@ -1,4 +1,4 @@
-package by.dev.madhead.doktor.util
+package by.dev.madhead.doktor.util.fs
 
 import by.dev.madhead.doktor.model.Markup
 import by.dev.madhead.doktor.model.MarkupPatterns

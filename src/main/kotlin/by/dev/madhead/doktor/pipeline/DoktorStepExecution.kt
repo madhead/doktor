@@ -1,5 +1,6 @@
 package by.dev.madhead.doktor.pipeline
 
+import by.dev.madhead.doktor.Messages
 import by.dev.madhead.doktor.model.DoktorConfig
 import by.dev.madhead.doktor.util.diagnose
 import hudson.AbortException
@@ -17,14 +18,16 @@ class DoktorStepExecution(context: StepContext, val doktorConfig: DoktorConfig) 
 	override fun start(): Boolean {
 		diagnose(
 			doktorConfig,
-			context.get(FilePath::class.java) ?: throw AbortException("Doktor requires a workspace to operate"),
-			context.get(TaskListener::class.java) ?: throw AbortException("Doktor requires a TaskListener to operate")
-		) // TODO: Add callbacks, make it async
+			context.get(FilePath::class.java) ?: throw AbortException(Messages.doktor_hudson_AbortException_AbortException_workspaceRequired()),
+			context.get(TaskListener::class.java) ?: throw AbortException(Messages.doktor_hudson_AbortException_AbortException_taskListenerRequired())
+		)
+			.subscribe(
+				{},
+				{ context.onFailure(it) },
+				{ context.onSuccess(null) }
+			)
 
-		// TODO
-		context.onSuccess(42)
-
-		return true
+		return false
 	}
 
 	override fun stop(cause: Throwable) {

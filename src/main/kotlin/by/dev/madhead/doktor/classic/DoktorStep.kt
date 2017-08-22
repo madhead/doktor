@@ -29,19 +29,23 @@ constructor(
 	var asciidocExcludePatterns: List<DescribableString>?
 ) : Builder() {
 	override fun perform(build: AbstractBuild<*, *>, launcher: Launcher, listener: BuildListener?): Boolean {
-		diagnose(
-			DoktorConfig(
-				server,
-				mapOf(
-					MARKDOWN to Pair(markdownIncludePatterns?.map { it.value } ?: emptyList(), markdownExcludePatterns?.map { it.value } ?: emptyList()),
-					ASCIIDOC to Pair(asciidocIncludePatterns?.map { it.value } ?: emptyList(), asciidocExcludePatterns?.map { it.value } ?: emptyList())
-				)
-			),
-			build.getWorkspace() ?: throw AbortException("Doktor requires a workspace to operate"),
-			listener ?: throw AbortException("Doktor requires a TaskListener to operate")
-		)
+		try {
+			diagnose(
+				DoktorConfig(
+					server,
+					mapOf(
+						MARKDOWN to Pair(markdownIncludePatterns?.map { it.value } ?: emptyList(), markdownExcludePatterns?.map { it.value } ?: emptyList()),
+						ASCIIDOC to Pair(asciidocIncludePatterns?.map { it.value } ?: emptyList(), asciidocExcludePatterns?.map { it.value } ?: emptyList())
+					)
+				),
+				build.getWorkspace() ?: throw AbortException(Messages.doktor_hudson_AbortException_AbortException_workspaceRequired()),
+				listener ?: throw AbortException(Messages.doktor_hudson_AbortException_AbortException_taskListenerRequired())
+			).blockingSubscribe()
 
-		return true
+			return true
+		} catch (exception: Throwable) {
+			throw AbortException(exception.message)
+		}
 	}
 
 	@Extension

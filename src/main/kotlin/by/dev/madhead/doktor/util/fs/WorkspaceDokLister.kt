@@ -1,4 +1,4 @@
-package by.dev.madhead.doktor.util
+package by.dev.madhead.doktor.util.fs
 
 import by.dev.madhead.doktor.model.Dok
 import by.dev.madhead.doktor.model.DoktorConfig

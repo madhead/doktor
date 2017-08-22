@@ -2,9 +2,9 @@ package by.dev.madhead.doktor.pipeline
 
 import by.dev.madhead.doktor.Messages
 import by.dev.madhead.doktor.config.ConfluenceServers
+import by.dev.madhead.doktor.model.DoktorConfig
 import by.dev.madhead.doktor.model.Markup.ASCIIDOC
 import by.dev.madhead.doktor.model.Markup.MARKDOWN
-import by.dev.madhead.doktor.model.DoktorConfig
 import hudson.Extension
 import hudson.FilePath
 import hudson.model.TaskListener
