@@ -18,6 +18,7 @@ repositories {
 val kotlinVersion by project
 val rxkotlinVersion by project
 val flexmarkVersion by project
+val asciidoctorVersion by project
 val sezpozVersion by project
 val jenkinsCredentialsPluginVersion by project
 val jenkinsWorkflowStepsAPIPluginVersion by project
@@ -27,6 +28,7 @@ dependencies {
 	compile("io.reactivex.rxjava2:rxkotlin:${rxkotlinVersion}")
 	compile("com.vladsch.flexmark:flexmark:${flexmarkVersion}")
 	compile("com.vladsch.flexmark:flexmark-ext-yaml-front-matter:${flexmarkVersion}")
+	compile("org.asciidoctor:asciidoctorj:${asciidoctorVersion}")
 
 	jenkinsPlugins("org.jenkins-ci.plugins:credentials:${jenkinsCredentialsPluginVersion}@jar")
 	jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:${jenkinsWorkflowStepsAPIPluginVersion}@jar")

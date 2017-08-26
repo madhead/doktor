@@ -3,27 +3,31 @@ package by.dev.madhead.doktor.util.render
 import by.dev.madhead.doktor.model.CONFLUENCE_PATH
 import by.dev.madhead.doktor.model.FrontMatter
 import by.dev.madhead.doktor.model.RenderedDok
-import com.vladsch.flexmark.ext.yaml.front.matter.AbstractYamlFrontMatterVisitor
-import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
-import com.vladsch.flexmark.html.HtmlRenderer
-import com.vladsch.flexmark.parser.Parser
-import com.vladsch.flexmark.util.options.MutableDataSet
+import org.asciidoctor.Asciidoctor
+import org.asciidoctor.OptionsBuilder
+import org.jruby.RubyInstanceConfig
+import org.jruby.javasupport.JavaEmbedUtils
 
 fun asciiDoc(content: String): RenderedDok {
-	val options = MutableDataSet().apply {
-		set(Parser.EXTENSIONS, listOf(YamlFrontMatterExtension.create()))
-	}
-	val parser = Parser.builder(options).build()
-	val htmlRenderer = HtmlRenderer.builder(options).build()
-	val document = parser.parse(content)
-	val visitor = AbstractYamlFrontMatterVisitor()
+	// This crap is totally legal: https://github.com/asciidoctor/asciidoctorj#using-asciidoctorj-in-an-osgi-environment
+	val config = RubyInstanceConfig()
+	val classLoader = object : Any() {}::class.java.classLoader
 
-	visitor.visit(document)
+	config.loader = classLoader
+	JavaEmbedUtils.initialize(listOf("META-INF/jruby.home/lib/ruby/2.0", "gems/asciidoctor-1.5.4/lib"), config)
 
-	return RenderedDok(
-		htmlRenderer.render(document),
-		FrontMatter(
-			visitor.data?.get(CONFLUENCE_PATH)?.get(0)
+	val asciidoctor = Asciidoctor.Factory.create(classLoader)
+
+	try {
+		val header = asciidoctor.readDocumentHeader(content)
+
+		return RenderedDok(
+			asciidoctor.render(content, OptionsBuilder.options()),
+			FrontMatter(
+				header.attributes[CONFLUENCE_PATH].toString()
+			)
 		)
-	)
+	} finally {
+		asciidoctor.shutdown()
+	}
 }
