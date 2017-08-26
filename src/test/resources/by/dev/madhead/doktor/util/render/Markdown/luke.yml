@@ -1,0 +1,7 @@
+content: |
+  <h1>Luke</h1>
+  <p>Luke had a father.
+  So do this page.</p>
+frontMatter:
+  title: Luke Skywalker
+  parent: Darth Vader

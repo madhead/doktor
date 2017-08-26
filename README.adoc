@@ -40,9 +40,11 @@ There is no actually a front matter section in this case:
 
 ===== Supported attributes:
 
-`confluencePath`::
-Target path for a document to appear in Confluence space
+`title`::
+Page title, unsurprisingly.
 
+`parent`::
+Parent page title, if any.
 
 === Configure Confluence servers
 

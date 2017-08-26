@@ -16,10 +16,12 @@ data class Dok(
 	val markup: Markup
 )
 
-const val CONFLUENCE_PATH = "confluencePath"
+const val FRONTMATTER_TITLE = "title"
+const val FRONTMATTER_PARENT = "parent"
 
 data class FrontMatter(
-	val confluencePath: String?
+	val title: String,
+	val parent: String?
 )
 
 data class RenderedDok(

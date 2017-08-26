@@ -1,6 +1,7 @@
 package by.dev.madhead.doktor.util.render
 
-import by.dev.madhead.doktor.model.CONFLUENCE_PATH
+import by.dev.madhead.doktor.model.FRONTMATTER_PARENT
+import by.dev.madhead.doktor.model.FRONTMATTER_TITLE
 import by.dev.madhead.doktor.model.FrontMatter
 import by.dev.madhead.doktor.model.RenderedDok
 import com.vladsch.flexmark.ext.yaml.front.matter.AbstractYamlFrontMatterVisitor
@@ -23,7 +24,8 @@ fun markdown(content: String): RenderedDok {
 	return RenderedDok(
 		htmlRenderer.render(document),
 		FrontMatter(
-			visitor.data?.get(CONFLUENCE_PATH)?.get(0)
+			visitor.data?.get(FRONTMATTER_TITLE)?.get(0) ?: throw RenderException("'title' is required in front matter"),
+			visitor.data?.get(FRONTMATTER_PARENT)?.get(0)
 		)
 	)
 }

@@ -30,6 +30,7 @@ fun diagnose(doktorConfig: DoktorConfig, workspace: FilePath, taskListener: Task
 				.onExceptionResumeNext(Observable.empty<RenderedDok>())
 		}
 		.doOnNext {
+			// TODO: Remove this
 			taskListener.logger.println(it)
 		}
 }

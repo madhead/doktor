@@ -1,6 +1,7 @@
 package by.dev.madhead.doktor.util.render
 
-import by.dev.madhead.doktor.model.CONFLUENCE_PATH
+import by.dev.madhead.doktor.model.FRONTMATTER_PARENT
+import by.dev.madhead.doktor.model.FRONTMATTER_TITLE
 import by.dev.madhead.doktor.model.FrontMatter
 import by.dev.madhead.doktor.model.RenderedDok
 import org.asciidoctor.Asciidoctor
@@ -24,7 +25,8 @@ fun asciiDoc(content: String): RenderedDok {
 		return RenderedDok(
 			asciidoctor.render(content, OptionsBuilder.options()),
 			FrontMatter(
-				header.attributes[CONFLUENCE_PATH]?.toString()
+				header.attributes[FRONTMATTER_TITLE]?.toString() ?: throw RenderException("'title' is required in front matter"),
+				header.attributes[FRONTMATTER_PARENT]?.toString()
 			)
 		)
 	} finally {

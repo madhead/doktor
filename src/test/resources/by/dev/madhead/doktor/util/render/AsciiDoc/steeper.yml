@@ -1,6 +1,6 @@
 content: |-
   <div class="sect1">
-  <h2 id="_markdown_file_with_links">Markdown file with links</h2>
+  <h2 id="_asciidoc_file_with_links">AsciiDoc file with links</h2>
   <div class="sectionbody">
   <div class="paragraph">
   <p>[Links](<a href="https://google.com" class="bare">https://google.com</a>) are great!</p>
@@ -8,4 +8,4 @@ content: |-
   </div>
   </div>
 frontMatter:
-  confluencePath: ~
+  title: Steeper

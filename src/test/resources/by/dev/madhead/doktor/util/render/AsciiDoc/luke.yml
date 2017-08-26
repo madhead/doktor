@@ -1,11 +1,13 @@
 content: |-
   <div class="sect1">
-  <h2 id="_simple_asciidoc_file">Simple AsciiDoc file</h2>
+  <h2 id="_luke">Luke</h2>
   <div class="sectionbody">
   <div class="paragraph">
-  <p>What can be easier then rendering this one?</p>
+  <p>Luke had a father.
+  So do this page.</p>
   </div>
   </div>
   </div>
 frontMatter:
-  title: Simple
+  title: Luke Skywalker
+  parent: Darth Vader

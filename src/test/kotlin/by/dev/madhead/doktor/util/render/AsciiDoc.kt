@@ -17,8 +17,7 @@ class AsciiDoc {
 		return listOf(
 			"simple",
 			"steeper",
-			"front_matter",
-			"front_matter_with_space"
+			"luke"
 		).map {
 			arrayOf(
 				this::class.java.getResourceAsStream("/by/dev/madhead/doktor/util/render/AsciiDoc/${it}.asc").bufferedReader().use { it.readText() },
@@ -27,8 +26,14 @@ class AsciiDoc {
 		}.toTypedArray()
 	}
 
+
 	@Test(dataProvider = "data")
-	fun test(input: String, output: RenderedDok) {
+	fun testValid(input: String, output: RenderedDok) {
 		Assert.assertEquals(asciiDoc(input), output, "Unexpected output")
+	}
+
+	@Test(expectedExceptions = arrayOf(RenderException::class))
+	fun testInvalid() {
+		asciiDoc("# Content without front matter is not valid.")
 	}
 }
