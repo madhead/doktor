@@ -19,6 +19,7 @@ class ConfluenceServer
 constructor(
 	val name: String,
 	val url: String,
+	val space: String,
 	val credentials: String
 ) : AbstractDescribableImpl<ConfluenceServer>() {
 	@Extension
@@ -38,6 +39,14 @@ constructor(
 		fun doCheckUrl(@QueryParameter value: String?): FormValidation {
 			if (value.isNullOrBlank()) {
 				return FormValidation.error(Messages.doktor_config_ConfluenceServer_validation_url_empty())
+			}
+
+			return FormValidation.ok()
+		}
+
+		fun doCheckSpace(@QueryParameter value: String?): FormValidation {
+			if (value.isNullOrBlank()) {
+				return FormValidation.error(Messages.doktor_config_ConfluenceServer_validation_space_empty())
 			}
 
 			return FormValidation.ok()

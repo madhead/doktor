@@ -9,6 +9,9 @@
 	<form:entry field="url" title="${%doktor.config.ConfluenceServer.url}">
 		<form:textbox/>
 	</form:entry>
+	<form:entry field="space" title="${%doktor.config.ConfluenceServer.space}">
+		<form:textbox/>
+	</form:entry>
 	<form:entry field="credentials" title="${%doktor.config.ConfluenceServer.credentials}">
 		<credentials:select/>
 	</form:entry>
