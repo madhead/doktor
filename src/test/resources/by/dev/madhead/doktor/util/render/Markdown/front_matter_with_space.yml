@@ -1,0 +1,5 @@
+content: |
+  <h1>Markdown file with front matter</h1>
+  <p>This file has a front matter with space.</p>
+frontMatter:
+  confluencePath: /path/with spaces/

@@ -1,0 +1,11 @@
+content: |-
+  <div class="sect1">
+  <h2 id="_markdown_file_with_front_matter">Markdown file with front matter</h2>
+  <div class="sectionbody">
+  <div class="paragraph">
+  <p>This file has a front matter with space.</p>
+  </div>
+  </div>
+  </div>
+frontMatter:
+  confluencePath: /path/with spaces/

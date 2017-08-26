@@ -1,0 +1,11 @@
+content: |-
+  <div class="sect1">
+  <h2 id="_simple_asciidoc_file">Simple AsciiDoc file</h2>
+  <div class="sectionbody">
+  <div class="paragraph">
+  <p>What can be easier then rendering this one?</p>
+  </div>
+  </div>
+  </div>
+frontMatter:
+  confluencePath: ~

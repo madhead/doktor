@@ -19,9 +19,13 @@ val kotlinVersion by project
 val rxkotlinVersion by project
 val flexmarkVersion by project
 val asciidoctorVersion by project
-val sezpozVersion by project
 val jenkinsCredentialsPluginVersion by project
 val jenkinsWorkflowStepsAPIPluginVersion by project
+
+val testngVersion by project
+val jacksonVersion by project
+
+val sezpozVersion by project
 
 dependencies {
 	compile(kotlin("stdlib-jre8", "${kotlinVersion}"))
@@ -32,6 +36,10 @@ dependencies {
 
 	jenkinsPlugins("org.jenkins-ci.plugins:credentials:${jenkinsCredentialsPluginVersion}@jar")
 	jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:${jenkinsWorkflowStepsAPIPluginVersion}@jar")
+
+	testCompile("org.testng:testng:${testngVersion}")
+	testCompile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jacksonVersion}")
+	testCompile("com.fasterxml.jackson.module:jackson-module-kotlin:${jacksonVersion}")
 
 	// SezPoz is used to process @hudson.Extension and other annotations
 	kapt("net.java.sezpoz:sezpoz:${sezpozVersion}")
@@ -80,6 +88,10 @@ tasks.withType(KotlinCompile::class.java).all {
 	kotlinOptions {
 		jvmTarget = "1.8"
 	}
+}
+
+tasks.withType(Test::class.java).all {
+	useTestNG()
 }
 
 tasks.withType(KaptTask::class.java).all {

@@ -1,0 +1,5 @@
+content: |
+  <h1>Markdown file with links</h1>
+  <p><a href="https://google.com">Links</a> are great!</p>
+frontMatter:
+  confluencePath: ~

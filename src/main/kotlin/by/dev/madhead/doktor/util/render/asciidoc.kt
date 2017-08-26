@@ -24,7 +24,7 @@ fun asciiDoc(content: String): RenderedDok {
 		return RenderedDok(
 			asciidoctor.render(content, OptionsBuilder.options()),
 			FrontMatter(
-				header.attributes[CONFLUENCE_PATH].toString()
+				header.attributes[CONFLUENCE_PATH]?.toString()
 			)
 		)
 	} finally {

@@ -1,0 +1,5 @@
+content: |
+  <h1>Simple Markdown file</h1>
+  <p>What can be easier then rendering this one?</p>
+frontMatter:
+  confluencePath: ~
