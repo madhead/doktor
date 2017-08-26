@@ -4,6 +4,46 @@ Doktor is a Jenkins plugin for automated documentation uploading to Confluence.
 
 == Usage
 
+=== Features
+
+==== Supported formats
+
+Doktor supports https://daringfireball.net/projects/markdown/syntax[Markdown] and http://asciidoc.org[AsciiDoc].
+Markdown support is provided by awesome https://github.com/vsch/flexmark-java[flexmark-java] library.
+AsciiDoc is supported thanks to https://github.com/asciidoctor/asciidoctorj[AsciidoctorJ].
+
+==== Front matter
+
+_Front matter_ is another word for _metadata_, used by bloggers and hipsters widely.
+
+===== Markdown
+
+Doktor uses http://www.yaml.org[YAML] front matter in your Markdown files.
+Front matter looks like a small YAML fragment at the beginning of the file, separated by a triple minus sign (`---`) in this case:
+
+[source,yml]
+----
+---
+key: value
+---
+----
+
+===== AsciiDoc
+
+AsciiDoc provides native support for metadata via http://asciidoc.org/userguide.html#X18[attributes].
+There is no actually a front matter section in this case:
+
+[source, asciidoc]
+----
+:key: value
+----
+
+===== Supported attributes:
+
+`confluencePath`::
+Target path for a document to appear in Confluence space
+
+
 === Configure Confluence servers
 
 As you might suspect, Confluence REST API requires authentication.
@@ -42,8 +82,8 @@ doktor
 <1> One of the available Confluence servers
 <2> List of Java 8 https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-[PathMatcher specifications] for https://daringfireball.net/projects/markdown/syntax[Markdown] files to include.
 <3> List of Java 8 https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-[PathMatcher specifications] for https://daringfireball.net/projects/markdown/syntax[Markdown] files to exclude.
-<4> List of Java 8 https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-[PathMatcher specifications] for http://asciidoc.org/[AsciiDoc] files to include.
-<5> List of Java 8 https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-[PathMatcher specifications] for http://asciidoc.org/[AsciiDoc] files to exclude.
+<4> List of Java 8 https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-[PathMatcher specifications] for http://asciidoc.org[AsciiDoc] files to include.
+<5> List of Java 8 https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-[PathMatcher specifications] for http://asciidoc.org[AsciiDoc] files to exclude.
 
 You can also try your luck with "Snippet Generator", available at `/pipeline-syntax` path of your Jenkins installation.
 
@@ -55,31 +95,9 @@ image::https://github.com/madhead/doktor/blob/master/.github/images/freestyle_co
 
 Click those question icons on the right if you need any help.
 
-=== Features
-
-Doktor uses http://www.yaml.org[YAML] front matter in your doc files to tune the behaviour.
-_Front matter_ is another word for _metadata_, used by bloggers and hipsters widely.
-
-Front matter looks like a small YAML fragment at the beginning of the file, separated by a triple minus sign (`---`):
-
-[source,yml]
-----
----
-key: value
-list:
-  - item1
-  - item2
----
-----
-
-Supported options are:
-
-`confluencePath`::
-Target path for a document to appear in Confluence space
-
 == Developing
 
-Doktor is built with https://kotlinlang.org/[Kotlin], https://gradle.org/[Gradle] and Love.
+Doktor is built with https://kotlinlang.org[Kotlin], https://gradle.org[Gradle] and Love.
 Well, actually with hate to the workflows on my day-time job.
 
 JPI artifact is produced with https://github.com/jenkinsci/gradle-jpi-plugin[Gradle's JPI plugin].
@@ -145,7 +163,7 @@ Note, that you will need a license key (trial works for 90 days).
 ==== Docker
 
 You can run Confluence locally as well.
-The easiest way here is https://www.docker.com/[Docker] (Windows uses should appreciate the joke).
+The easiest way here is https://www.docker.com[Docker] (Windows uses should appreciate the joke).
 
 Running Confluence is as simple as:
 
@@ -155,6 +173,6 @@ docker volume create --name confluence-data
 docker run --detach --volume confluence-data:/var/atlassian/application-data/confluence --name confluence --publish-all atlassian/confluence-server:latest
 ----
 
-You might want to add some https://docs.docker.com/engine/reference/run/[additional options] or tweak the existing ones.
+You might want to add some https://docs.docker.com/engine/reference/run[additional options] or tweak the existing ones.
 
 Note, that you will need a license key (trial works for 90 days).
