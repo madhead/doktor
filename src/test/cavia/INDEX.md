@@ -1,5 +1,4 @@
 ---
-confluencePath: a/b/c
 title: Cavia
 ---
 

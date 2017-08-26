@@ -1,3 +1,6 @@
+:title: Natural habitat
+:parent: Traits and environment
+
 == Natural habitat
 
 C. porcellus is not found naturally in the wild; it is likely descended from some closely related species of cavies, such as C. aperea, C. fulgida, and C. tschudii, which are still commonly found in various regions of South America.

@@ -1,3 +1,8 @@
+---
+title: Behavior
+parent: Traits and environment
+---
+
 ## Behavior
 
 Guinea pigs can learn complex paths to food, and can accurately remember a learned path for months.

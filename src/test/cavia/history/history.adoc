@@ -1,3 +1,6 @@
+:title: History
+:parent: Cavia
+
 ## History
 
 The guinea pig was first domesticated as early as 5000 BC for food by tribes in the https://en.wikipedia.org/wiki/Andes[Andean] region of https://en.wikipedia.org/wiki/South_America[South America] (the present-day southern part of https://en.wikipedia.org/wiki/Colombia[Colombia], https://en.wikipedia.org/wiki/Ecuador[Ecuador], https://en.wikipedia.org/wiki/Peru[Peru], and https://en.wikipedia.org/wiki/Bolivia[Bolivia]), some thousands of years after the domestication of the South American https://en.wikipedia.org/wiki/Camelid[camelids].

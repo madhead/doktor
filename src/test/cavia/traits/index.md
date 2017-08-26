@@ -1,4 +1,9 @@
-# Traits and environment
+---
+title: Traits and environment
+parent: Cavia
+---
+
+## Traits and environment
 
 Guinea pigs are large for rodents, weighing between 700 and 1,200 g (1.5 and 2.6 lb), and measuring between 20 and 25 cm (8 and 10 in) in length.
 Modern breeding of cuy guinea pigs has resulted in animals weighing 6 pounds (2.7 kg).
