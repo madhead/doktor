@@ -27,12 +27,12 @@ class Markdown {
 	}
 
 	@Test(dataProvider = "data")
-	fun testValid(input: String, output: RenderedDok) {
+	fun valid(input: String, output: RenderedDok) {
 		Assert.assertEquals(markdown(input), output, "Unexpected output")
 	}
 
 	@Test(expectedExceptions = arrayOf(RenderException::class))
-	fun testInvalid() {
+	fun invalid() {
 		markdown("# Content without front matter is not valid.")
 	}
 }

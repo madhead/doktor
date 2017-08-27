@@ -28,12 +28,12 @@ class AsciiDoc {
 
 
 	@Test(dataProvider = "data")
-	fun testValid(input: String, output: RenderedDok) {
+	fun valid(input: String, output: RenderedDok) {
 		Assert.assertEquals(asciiDoc(input), output, "Unexpected output")
 	}
 
 	@Test(expectedExceptions = arrayOf(RenderException::class))
-	fun testInvalid() {
+	fun invalid() {
 		asciiDoc("# Content without front matter is not valid.")
 	}
 }
