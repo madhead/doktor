@@ -9,13 +9,15 @@ import hudson.FilePath
 import hudson.model.TaskListener
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.toObservable
-import io.reactivex.schedulers.Schedulers
+import org.jgrapht.graph.DefaultDirectedGraph
+import org.jgrapht.graph.DefaultEdge
+import org.jgrapht.traverse.TopologicalOrderIterator
+import java.util.concurrent.ConcurrentHashMap
 
 fun diagnose(doktorConfig: DoktorConfig, workspace: FilePath, taskListener: TaskListener): Observable<RenderedDok> {
 	return Observable
 		.fromFuture(
-			workspace.actAsync(WorkspaceDokLister(doktorConfig)),
-			Schedulers.computation()
+			workspace.actAsync(WorkspaceDokLister(doktorConfig))
 		)
 		.flatMap { it.toObservable() }
 		.map {
@@ -29,8 +31,28 @@ fun diagnose(doktorConfig: DoktorConfig, workspace: FilePath, taskListener: Task
 				}
 				.onExceptionResumeNext(Observable.empty<RenderedDok>())
 		}
+		.collectInto(ConcurrentHashMap<String, RenderedDok>()) { map, renderedDok ->
+			map[renderedDok.frontMatter.title] = renderedDok
+		}
+		.map { renderedDoksMap ->
+			val graph = DefaultDirectedGraph<RenderedDok, DefaultEdge>(DefaultEdge::class.java)
+
+			renderedDoksMap.values.forEach {
+				graph.addVertex(it)
+			}
+			renderedDoksMap.values.forEach {
+				if (!it.frontMatter.parent.isNullOrBlank()) {
+					graph.addEdge(renderedDoksMap[it.frontMatter.parent!!], it)
+				}
+			}
+
+			graph
+		}
+		.map {
+			TopologicalOrderIterator(it)
+		}
+		.flatMapObservable { it.toObservable() }
 		.doOnNext {
-			// TODO: Remove this
 			taskListener.logger.println(it)
 		}
 }

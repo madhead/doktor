@@ -19,6 +19,7 @@ val kotlinVersion by project
 val rxkotlinVersion by project
 val flexmarkVersion by project
 val asciidoctorVersion by project
+val jgraphtVersion by project
 val jenkinsCredentialsPluginVersion by project
 val jenkinsWorkflowStepsAPIPluginVersion by project
 
@@ -33,6 +34,7 @@ dependencies {
 	compile("com.vladsch.flexmark:flexmark:${flexmarkVersion}")
 	compile("com.vladsch.flexmark:flexmark-ext-yaml-front-matter:${flexmarkVersion}")
 	compile("org.asciidoctor:asciidoctorj:${asciidoctorVersion}")
+	compile("org.jgrapht:jgrapht-core:${jgraphtVersion}")
 
 	jenkinsPlugins("org.jenkins-ci.plugins:credentials:${jenkinsCredentialsPluginVersion}@jar")
 	jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:${jenkinsWorkflowStepsAPIPluginVersion}@jar")

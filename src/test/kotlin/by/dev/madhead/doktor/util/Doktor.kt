@@ -3,11 +3,13 @@ package by.dev.madhead.doktor.util
 import by.dev.madhead.doktor.model.Markup
 import by.dev.madhead.doktor.model.RenderedDok
 import io.reactivex.Observable
-import io.reactivex.observers.TestObserver
 import io.reactivex.rxkotlin.toObservable
-import io.reactivex.schedulers.Schedulers
+import org.jgrapht.graph.DefaultDirectedGraph
+import org.jgrapht.graph.DefaultEdge
+import org.jgrapht.traverse.TopologicalOrderIterator
 import org.testng.annotations.Test
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 
 class Doktor {
@@ -19,19 +21,18 @@ class Doktor {
 	 */
 	@Test
 	fun mockDataFlow() {
-		val observable = Observable
+		val observer = Observable
 			.fromFuture(
 				CompletableFuture.supplyAsync {
 					listOf(
-						Pair(Markup.MARKDOWN, "INDEX.md".content),
-						Pair(Markup.MARKDOWN, "traits/index.md".content),
-						Pair(Markup.MARKDOWN, "traits/behavior.markdown".content),
-						Pair(Markup.ASCIIDOC, "traits/habitat/natural.asciidoc".content),
 						Pair(Markup.ASCIIDOC, "traits/habitat/domestic.asc".content),
-						Pair(Markup.ASCIIDOC, "history/history.adoc".content)
+						Pair(Markup.ASCIIDOC, "traits/habitat/natural.asciidoc".content),
+						Pair(Markup.ASCIIDOC, "history/history.adoc".content),
+						Pair(Markup.MARKDOWN, "traits/behavior.markdown".content),
+						Pair(Markup.MARKDOWN, "INDEX.md".content),
+						Pair(Markup.MARKDOWN, "traits/index.md".content)
 					)
-				},
-				Schedulers.computation()
+				}
 			)
 			.flatMap { it.toObservable() }
 			.map { (markup, content) ->
@@ -46,16 +47,42 @@ class Doktor {
 					.onExceptionResumeNext(Observable.empty<RenderedDok>())
 
 			}
-		val observer = TestObserver<RenderedDok>()
+			.collectInto(ConcurrentHashMap<String, RenderedDok>()) { map, renderedDok ->
+				map[renderedDok.frontMatter.title] = renderedDok
+			}
+			.map { renderedDoksMap ->
+				val graph = DefaultDirectedGraph<RenderedDok, DefaultEdge>(DefaultEdge::class.java)
 
-		observable.subscribe(observer)
+				renderedDoksMap.values.forEach {
+					graph.addVertex(it)
+				}
+				renderedDoksMap.values.forEach {
+					if (!it.frontMatter.parent.isNullOrBlank()) {
+						graph.addEdge(renderedDoksMap[it.frontMatter.parent!!], it)
+					}
+				}
+
+				graph
+			}
+			.map {
+				TopologicalOrderIterator(it)
+			}
+			.flatMapObservable { it.toObservable() }
+			.test()
 
 		observer.run {
-			awaitTerminalEvent(10, TimeUnit.SECONDS)
+			awaitTerminalEvent(60, TimeUnit.SECONDS)
 
 			assertComplete()
 			assertNoErrors()
 			assertValueCount(6)
+
+			this.assertValueAt(0) { it.frontMatter.title == "Cavia" }
+			this.assertValueAt(1) { it.frontMatter.title == "Traits and environment" }
+			this.assertValueAt(2) { it.frontMatter.title == "History" }
+			this.assertValueAt(3) { it.frontMatter.title == "Domestic habitat" }
+			this.assertValueAt(4) { it.frontMatter.title == "Natural habitat" }
+			this.assertValueAt(5) { it.frontMatter.title == "Behavior" }
 		}
 	}
 
