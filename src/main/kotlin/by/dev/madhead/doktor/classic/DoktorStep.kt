@@ -32,7 +32,7 @@ constructor(
 		try {
 			diagnose(
 				DoktorConfig(
-					server,
+					ConfluenceServers.resolve(server),
 					mapOf(
 						MARKDOWN to Pair(markdownIncludePatterns?.map { it.value } ?: emptyList(), markdownExcludePatterns?.map { it.value } ?: emptyList()),
 						ASCIIDOC to Pair(asciidocIncludePatterns?.map { it.value } ?: emptyList(), asciidocExcludePatterns?.map { it.value } ?: emptyList())

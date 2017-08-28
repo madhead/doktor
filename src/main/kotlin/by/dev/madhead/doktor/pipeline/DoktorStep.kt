@@ -27,7 +27,7 @@ constructor(
 	override fun start(context: StepContext) = DoktorStepExecution(
 		context,
 		DoktorConfig(
-			server,
+			ConfluenceServers.resolve(server),
 			mapOf(
 				MARKDOWN to Pair(markdownIncludePatterns ?: emptyList(), markdownExcludePatterns ?: emptyList()),
 				ASCIIDOC to Pair(asciidocIncludePatterns ?: emptyList(), asciidocExcludePatterns ?: emptyList())
