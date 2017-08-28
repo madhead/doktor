@@ -3,14 +3,15 @@ package by.dev.madhead.doktor.util.render
 import by.dev.madhead.doktor.model.FRONTMATTER_PARENT
 import by.dev.madhead.doktor.model.FRONTMATTER_TITLE
 import by.dev.madhead.doktor.model.FrontMatter
-import by.dev.madhead.doktor.model.RenderedDok
+import by.dev.madhead.doktor.model.Markup.MARKDOWN
+import by.dev.madhead.doktor.model.RenderedContent
 import com.vladsch.flexmark.ext.yaml.front.matter.AbstractYamlFrontMatterVisitor
 import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.options.MutableDataSet
 
-fun markdown(content: String): RenderedDok {
+fun markdown(content: String): RenderedContent {
 	val options = MutableDataSet().apply {
 		set(Parser.EXTENSIONS, listOf(YamlFrontMatterExtension.create()))
 	}
@@ -21,7 +22,8 @@ fun markdown(content: String): RenderedDok {
 
 	visitor.visit(document)
 
-	return RenderedDok(
+	return RenderedContent(
+		MARKDOWN,
 		htmlRenderer.render(document),
 		FrontMatter(
 			visitor.data?.get(FRONTMATTER_TITLE)?.get(0) ?: throw RenderException("'title' is required in front matter"),

@@ -21,18 +21,18 @@ fun diagnose(doktorConfig: DoktorConfig, workspace: FilePath, taskListener: Task
 		)
 		.flatMap { it.toObservable() }
 		.map {
-			Pair(it, it.filePath.actAsync(DokRenderer(it.markup, taskListener)))
+			Pair(it.filePath.remote, it.filePath.actAsync(DokRenderer(it.markup, taskListener)))
 		}
-		.flatMap { (dok, renderedDokFuture) ->
+		.flatMap { (originalPath, renderedDokFuture) ->
 			Observable
 				.fromFuture(renderedDokFuture)
 				.doOnError {
-					taskListener.error(Messages.doktor_util_DoktorKt_diagnose_renderError(dok.filePath, it))
+					taskListener.error(Messages.doktor_util_diagnose_renderError(originalPath, it))
 				}
 				.onExceptionResumeNext(Observable.empty<RenderedDok>())
 		}
 		.collectInto(ConcurrentHashMap<String, RenderedDok>()) { map, renderedDok ->
-			map[renderedDok.frontMatter.title] = renderedDok
+			map[renderedDok.rendered.frontMatter.title] = renderedDok
 		}
 		.map { renderedDoksMap ->
 			val graph = DefaultDirectedGraph<RenderedDok, DefaultEdge>(DefaultEdge::class.java)
@@ -41,8 +41,8 @@ fun diagnose(doktorConfig: DoktorConfig, workspace: FilePath, taskListener: Task
 				graph.addVertex(it)
 			}
 			renderedDoksMap.values.forEach {
-				if (!it.frontMatter.parent.isNullOrBlank()) {
-					graph.addEdge(renderedDoksMap[it.frontMatter.parent!!], it)
+				if (!it.rendered.frontMatter.parent.isNullOrBlank()) {
+					graph.addEdge(renderedDoksMap[it.rendered.frontMatter.parent!!], it)
 				}
 			}
 

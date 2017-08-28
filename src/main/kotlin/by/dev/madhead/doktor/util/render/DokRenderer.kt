@@ -15,6 +15,6 @@ class DokRenderer(
 	override fun invoke(file: File, channel: VirtualChannel?): RenderedDok {
 		taskListener.logger.println(Messages.doktor_util_render_DokRenderer_rendering(markup, file))
 
-		return markup.render(file.readText())
+		return RenderedDok(file.absolutePath, markup.render(file.readText()))
 	}
 }

@@ -25,30 +25,32 @@ class Doktor {
 			.fromFuture(
 				CompletableFuture.supplyAsync {
 					listOf(
-						Pair(Markup.ASCIIDOC, "traits/habitat/domestic.asc".content),
-						Pair(Markup.ASCIIDOC, "traits/habitat/natural.asciidoc".content),
-						Pair(Markup.ASCIIDOC, "history/history.adoc".content),
-						Pair(Markup.MARKDOWN, "traits/behavior.markdown".content),
-						Pair(Markup.MARKDOWN, "INDEX.md".content),
-						Pair(Markup.MARKDOWN, "traits/index.md".content)
-					)
+						Pair(Markup.ASCIIDOC, "traits/habitat/domestic.asc"),
+						Pair(Markup.ASCIIDOC, "traits/habitat/natural.asciidoc"),
+						Pair(Markup.ASCIIDOC, "history/history.adoc"),
+						Pair(Markup.MARKDOWN, "traits/behavior.markdown"),
+						Pair(Markup.MARKDOWN, "INDEX.md"),
+						Pair(Markup.MARKDOWN, "traits/index.md")
+					).map {
+						Triple(it.first, it.second, it.second.content)
+					}
 				}
 			)
 			.flatMap { it.toObservable() }
-			.map { (markup, content) ->
-				Pair(markup, CompletableFuture.supplyAsync { markup.render(content) })
+			.map { (markup, originalPath, content) ->
+				Pair(originalPath, CompletableFuture.supplyAsync { RenderedDok(originalPath, markup.render(content)) })
 			}
-			.flatMap { (_, renderedDokFuture) ->
+			.flatMap { (originalPath, renderedDokFuture) ->
 				Observable
 					.fromFuture(renderedDokFuture)
 					.doOnError {
-						println("Error while rendering content: ${it}")
+						println("Error while rendering file ${originalPath}: ${it}")
 					}
 					.onExceptionResumeNext(Observable.empty<RenderedDok>())
 
 			}
 			.collectInto(ConcurrentHashMap<String, RenderedDok>()) { map, renderedDok ->
-				map[renderedDok.frontMatter.title] = renderedDok
+				map[renderedDok.rendered.frontMatter.title] = renderedDok
 			}
 			.map { renderedDoksMap ->
 				val graph = DefaultDirectedGraph<RenderedDok, DefaultEdge>(DefaultEdge::class.java)
@@ -57,8 +59,8 @@ class Doktor {
 					graph.addVertex(it)
 				}
 				renderedDoksMap.values.forEach {
-					if (!it.frontMatter.parent.isNullOrBlank()) {
-						graph.addEdge(renderedDoksMap[it.frontMatter.parent!!], it)
+					if (!it.rendered.frontMatter.parent.isNullOrBlank()) {
+						graph.addEdge(renderedDoksMap[it.rendered.frontMatter.parent!!], it)
 					}
 				}
 
@@ -77,12 +79,12 @@ class Doktor {
 			assertNoErrors()
 			assertValueCount(6)
 
-			this.assertValueAt(0) { it.frontMatter.title == "Cavia" }
-			this.assertValueAt(1) { it.frontMatter.title == "Traits and environment" }
-			this.assertValueAt(2) { it.frontMatter.title == "History" }
-			this.assertValueAt(3) { it.frontMatter.title == "Domestic habitat" }
-			this.assertValueAt(4) { it.frontMatter.title == "Natural habitat" }
-			this.assertValueAt(5) { it.frontMatter.title == "Behavior" }
+			this.assertValueAt(0) { it.rendered.frontMatter.title == "Cavia" }
+			this.assertValueAt(1) { it.rendered.frontMatter.title == "Traits and environment" }
+			this.assertValueAt(2) { it.rendered.frontMatter.title == "History" }
+			this.assertValueAt(3) { it.rendered.frontMatter.title == "Domestic habitat" }
+			this.assertValueAt(4) { it.rendered.frontMatter.title == "Natural habitat" }
+			this.assertValueAt(5) { it.rendered.frontMatter.title == "Behavior" }
 		}
 	}
 
