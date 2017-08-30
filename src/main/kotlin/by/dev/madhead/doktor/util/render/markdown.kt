@@ -1,5 +1,6 @@
 package by.dev.madhead.doktor.util.render
 
+import by.dev.madhead.doktor.Messages
 import by.dev.madhead.doktor.model.FRONTMATTER_PARENT
 import by.dev.madhead.doktor.model.FRONTMATTER_TITLE
 import by.dev.madhead.doktor.model.FrontMatter
@@ -26,7 +27,7 @@ fun markdown(content: String): RenderedContent {
 		MARKDOWN,
 		htmlRenderer.render(document),
 		FrontMatter(
-			visitor.data?.get(FRONTMATTER_TITLE)?.get(0) ?: throw RenderException("'title' is required in front matter"),
+			visitor.data?.get(FRONTMATTER_TITLE)?.get(0) ?: throw RenderException(Messages.doktor_util_render_RenderException_titleRequired()),
 			visitor.data?.get(FRONTMATTER_PARENT)?.get(0)
 		)
 	)

@@ -32,7 +32,7 @@ fun diagnose(doktorConfig: DoktorConfig, workspace: FilePath, taskListener: Task
 				.onExceptionResumeNext(Observable.empty<RenderedDok>())
 		}
 		.collectInto(ConcurrentHashMap<String, RenderedDok>()) { map, renderedDok ->
-			map[renderedDok.rendered.frontMatter.title] = renderedDok
+			map[renderedDok.content.frontMatter.title] = renderedDok
 		}
 		.map { renderedDoksMap ->
 			val graph = DefaultDirectedGraph<RenderedDok, DefaultEdge>(DefaultEdge::class.java)
@@ -41,8 +41,8 @@ fun diagnose(doktorConfig: DoktorConfig, workspace: FilePath, taskListener: Task
 				graph.addVertex(it)
 			}
 			renderedDoksMap.values.forEach {
-				if (!it.rendered.frontMatter.parent.isNullOrBlank()) {
-					graph.addEdge(renderedDoksMap[it.rendered.frontMatter.parent!!], it)
+				if (!it.content.frontMatter.parent.isNullOrBlank()) {
+					graph.addEdge(renderedDoksMap[it.content.frontMatter.parent!!], it)
 				}
 			}
 

@@ -15,5 +15,5 @@ data class RenderedContent(
 
 data class RenderedDok(
 	val filePath: String,
-	val rendered: RenderedContent
+	val content: RenderedContent
 )

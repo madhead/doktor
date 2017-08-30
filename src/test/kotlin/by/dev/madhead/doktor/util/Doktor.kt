@@ -50,7 +50,7 @@ class Doktor {
 
 			}
 			.collectInto(ConcurrentHashMap<String, RenderedDok>()) { map, renderedDok ->
-				map[renderedDok.rendered.frontMatter.title] = renderedDok
+				map[renderedDok.content.frontMatter.title] = renderedDok
 			}
 			.map { renderedDoksMap ->
 				val graph = DefaultDirectedGraph<RenderedDok, DefaultEdge>(DefaultEdge::class.java)
@@ -59,8 +59,8 @@ class Doktor {
 					graph.addVertex(it)
 				}
 				renderedDoksMap.values.forEach {
-					if (!it.rendered.frontMatter.parent.isNullOrBlank()) {
-						graph.addEdge(renderedDoksMap[it.rendered.frontMatter.parent!!], it)
+					if (!it.content.frontMatter.parent.isNullOrBlank()) {
+						graph.addEdge(renderedDoksMap[it.content.frontMatter.parent!!], it)
 					}
 				}
 
@@ -79,12 +79,12 @@ class Doktor {
 			assertNoErrors()
 			assertValueCount(6)
 
-			this.assertValueAt(0) { it.rendered.frontMatter.title == "Cavia" }
-			this.assertValueAt(1) { it.rendered.frontMatter.title == "Traits and environment" }
-			this.assertValueAt(2) { it.rendered.frontMatter.title == "History" }
-			this.assertValueAt(3) { it.rendered.frontMatter.title == "Domestic habitat" }
-			this.assertValueAt(4) { it.rendered.frontMatter.title == "Natural habitat" }
-			this.assertValueAt(5) { it.rendered.frontMatter.title == "Behavior" }
+			this.assertValueAt(0) { it.content.frontMatter.title == "Cavia" }
+			this.assertValueAt(1) { it.content.frontMatter.title == "Traits and environment" }
+			this.assertValueAt(2) { it.content.frontMatter.title == "History" }
+			this.assertValueAt(3) { it.content.frontMatter.title == "Domestic habitat" }
+			this.assertValueAt(4) { it.content.frontMatter.title == "Natural habitat" }
+			this.assertValueAt(5) { it.content.frontMatter.title == "Behavior" }
 		}
 	}
 

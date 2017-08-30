@@ -1,5 +1,6 @@
 package by.dev.madhead.doktor.util.render
 
+import by.dev.madhead.doktor.Messages
 import by.dev.madhead.doktor.model.FRONTMATTER_PARENT
 import by.dev.madhead.doktor.model.FRONTMATTER_TITLE
 import by.dev.madhead.doktor.model.FrontMatter
@@ -27,7 +28,7 @@ fun asciiDoc(content: String): RenderedContent {
 			ASCIIDOC,
 			asciidoctor.render(content, OptionsBuilder.options()),
 			FrontMatter(
-				header.attributes[FRONTMATTER_TITLE]?.toString() ?: throw RenderException("'title' is required in front matter"),
+				header.attributes[FRONTMATTER_TITLE]?.toString() ?: throw RenderException(Messages.doktor_util_render_RenderException_titleRequired()),
 				header.attributes[FRONTMATTER_PARENT]?.toString()
 			)
 		)
