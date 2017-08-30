@@ -1,0 +1,56 @@
+{
+	"request": {
+		"method": "GET",
+		"urlPath": "/rest/api/content",
+		"queryParameters": {
+			"spaceKey": {
+				"equalTo": "TEST"
+			},
+			"title": {
+				"equalTo": "anonymous, one page, success"
+			}
+		}
+	},
+	"response": {
+		"status": 200,
+		"jsonBody": {
+			"results": [
+				{
+					"id": "57005",
+					"type": "page",
+					"status": "current",
+					"title": "anonymous, one page, success",
+					"extensions": {
+						"position": "none"
+					},
+					"_links": {
+						"webui": "/display/TEST/anonymous%2C+one+page%2C+success",
+						"edit": "/pages/resumedraft.action?draftId=57005&draftShareId=2a968cae-8f4f-11e7-bb31-be2e44b06b34",
+						"tinyui": "/x/FwAM",
+						"self": "http://confluen.ce/rest/api/content/57005"
+					},
+					"_expandable": {
+						"container": "/rest/api/space/TEST",
+						"metadata": "",
+						"operations": "",
+						"children": "/rest/api/content/57005/child",
+						"history": "/rest/api/content/57005/history",
+						"ancestors": "",
+						"body": "",
+						"version": "",
+						"descendants": "/rest/api/content/57005/descendant",
+						"space": "/rest/api/space/TEST"
+					}
+				}
+			],
+			"start": 0,
+			"limit": 25,
+			"size": 1,
+			"_links": {
+				"self": "http://confluen.ce/rest/api/content?spaceKey=TEST&title=TEST",
+				"base": "http://confluen.ce",
+				"context": ""
+			}
+		}
+	}
+}

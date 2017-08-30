@@ -1,0 +1,17 @@
+{
+	"request": {
+		"method": "GET",
+		"urlPath": "/rest/api/content",
+		"queryParameters": {
+			"spaceKey": {
+				"equalTo": "TEST"
+			},
+			"title": {
+				"equalTo": "anonymous, 500"
+			}
+		}
+	},
+	"response": {
+		"status": 500
+	}
+}

@@ -1,0 +1,27 @@
+{
+	"request": {
+		"method": "GET",
+		"urlPath": "/rest/api/content",
+		"queryParameters": {
+			"spaceKey": {
+				"equalTo": "TEST"
+			},
+			"title": {
+				"equalTo": "anonymous, 404"
+			}
+		}
+	},
+	"response": {
+		"status": 404,
+		"jsonBody": {
+			"statusCode": 404,
+			"data": {
+				"authorized": false,
+				"valid": true,
+				"errors": [],
+				"successful": false
+			},
+			"message": "No space with key : TEST"
+		}
+	}
+}

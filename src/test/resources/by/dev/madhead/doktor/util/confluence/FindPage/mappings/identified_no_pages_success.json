@@ -1,0 +1,32 @@
+{
+	"request": {
+		"method": "GET",
+		"urlPath": "/rest/api/content",
+		"queryParameters": {
+			"spaceKey": {
+				"equalTo": "TEST"
+			},
+			"title": {
+				"equalTo": "identified, no pages, success"
+			}
+		},
+		"basicAuth": {
+			"username": "test",
+			"password": "test"
+		}
+	},
+	"response": {
+		"status": 200,
+		"jsonBody": {
+			"results": [],
+			"start": 0,
+			"limit": 25,
+			"size": 0,
+			"_links": {
+				"self": "http://confluen.ce/rest/api/content?spaceKey=TEST&title=TEST",
+				"base": "http://confluen.ce",
+				"context": ""
+			}
+		}
+	}
+}
