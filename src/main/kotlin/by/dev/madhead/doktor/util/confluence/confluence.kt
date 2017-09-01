@@ -3,12 +3,9 @@ package by.dev.madhead.doktor.util.confluence
 import by.dev.madhead.doktor.model.RenderedDok
 import by.dev.madhead.doktor.model.ResolvedConfluenceServer
 import by.dev.madhead.doktor.model.confluence.*
-import com.github.kittinunf.fuel.core.FuelError
-import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.fuel.rx.rx_object
-import com.github.kittinunf.fuel.rx.rx_response
 import com.github.kittinunf.result.Result
 import io.reactivex.Maybe
 import io.reactivex.Single
@@ -42,36 +39,40 @@ fun findPage(confluenceServer: ResolvedConfluenceServer, title: String): Maybe<C
 		}
 }
 
-fun upload(confluenceServer: ResolvedConfluenceServer, renderedDok: RenderedDok): Single<Pair<Response, Result<ByteArray, FuelError>>>? {
+fun createPage(confluenceServer: ResolvedConfluenceServer, createPageRequest: CreatePageRequest): Single<CreatePageResponse> {
 	return URL(URL(confluenceServer.url), "/rest/api/content").toString()
-		.httpGet(
-			listOf(
-				"spaceKey" to confluenceServer.space,
-				"title" to renderedDok.content.frontMatter.title
-			)
-		)
+		.httpPost()
 		.apply {
 			if (!confluenceServer.user.isNullOrBlank()) {
 				authenticate(confluenceServer.user!!, confluenceServer.password ?: "")
 			}
 		}
-		.rx_object(FindPageResponse.Deserializer())
-		.flatMap { result ->
-			when (result) {
-				is Result.Success -> {
-					if (result.value.size == 0) {
-						// 1. Find parent
-						// 2. Craft request
-						// 3. Fire
-						URL(URL(confluenceServer.url), "/rest/api/content").toString()
-							.httpPost()
-							.apply {
-								if (!confluenceServer.user.isNullOrBlank()) {
-									authenticate(confluenceServer.user!!, confluenceServer.password ?: "")
-								}
-							}
-							.header("Content-Type" to "application/json")
-							.body(
+		.header("Content-Type" to "application/json")
+		.body(createPageRequest.asJSON())
+		.rx_object(CreatePageResponse.Deserializer())
+		.flatMap {
+			when (it) {
+				is Result.Success -> Single.just(it.value)
+				is Result.Failure -> Single.error(it.error)
+			}
+		}
+}
+
+fun upload(confluenceServer: ResolvedConfluenceServer, renderedDok: RenderedDok): Single<CreatePageResponse> {
+	return findPage(confluenceServer, renderedDok.content.frontMatter.title)
+		.isEmpty
+		.flatMap {
+			if (it) {
+				// New page
+
+				Single
+					.just(renderedDok.content.frontMatter.parent.isNullOrEmpty())
+					.flatMap {
+						if (it) {
+							// Top level page
+
+							createPage(
+								confluenceServer,
 								CreatePageRequest(
 									title = renderedDok.content.frontMatter.title,
 									space = SpaceReference(confluenceServer.space),
@@ -80,38 +81,34 @@ fun upload(confluenceServer: ResolvedConfluenceServer, renderedDok: RenderedDok)
 											value = renderedDok.content.content
 										)
 									)
-								).asJSON()
+								)
 							)
-							.rx_response()
-					} else {
-						// 1. Find parent
-						// 2. Parent changed?
-						// 3. Craft request
-						// 4. Fire
-						URL(URL(confluenceServer.url), "/rest/api/content").toString()
-							.httpPost()
-							.apply {
-								if (!confluenceServer.user.isNullOrBlank()) {
-									authenticate(confluenceServer.user!!, confluenceServer.password ?: "")
-								}
-							}
-							.body(
-								CreatePageRequest(
-									title = renderedDok.content.frontMatter.title,
-									space = SpaceReference(confluenceServer.space),
-									body = Body(
-										storage = Storage(
-											value = renderedDok.content.content
+						} else {
+							// Child page
+
+							findPage(confluenceServer, renderedDok.content.frontMatter.parent!!)
+								.flatMapSingleElement {
+									createPage(
+										confluenceServer,
+										CreatePageRequest(
+											title = renderedDok.content.frontMatter.title,
+											space = SpaceReference(confluenceServer.space),
+											ancestors = listOf(it),
+											body = Body(
+												storage = Storage(
+													value = renderedDok.content.content
+												)
+											)
 										)
 									)
-								).asJSON()
-							)
-							.rx_response()
+								}
+								.toSingle()
+						}
 					}
-				}
-				is Result.Failure -> {
-					TODO()
-				}
+			} else {
+				// Update existing page
+
+				TODO()
 			}
 		}
 }

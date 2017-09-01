@@ -1,0 +1,24 @@
+{
+	"request": {
+		"method": "POST",
+		"urlPath": "/rest/api/content",
+		"bodyPatterns": [
+			{
+				"equalToJson": "{\"type\":\"page\",\"title\":\"anonymous, top level, exist\",\"space\":{\"key\":\"TEST\"},\"body\":{\"storage\":{\"value\":\"\\u003ch1\\u003eTest\\u003c/h1\\u003e\",\"representation\":\"storage\"}}}"
+			}
+		]
+	},
+	"response": {
+		"status": 400,
+		"jsonBody": {
+			"statusCode": 400,
+			"data": {
+				"authorized": false,
+				"valid": true,
+				"errors": [],
+				"successful": false
+			},
+			"message": "A page with this title already exists: A page already exists with the title anonymous, top level, exist in the space with key TEST"
+		}
+	}
+}

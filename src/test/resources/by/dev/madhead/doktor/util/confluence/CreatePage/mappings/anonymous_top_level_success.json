@@ -1,0 +1,21 @@
+{
+	"request": {
+		"method": "POST",
+		"urlPath": "/rest/api/content",
+		"bodyPatterns": [
+			{
+				"equalToJson": "{\"type\":\"page\",\"title\":\"anonymous, top level, success\",\"space\":{\"key\":\"TEST\"},\"body\":{\"storage\":{\"value\":\"\\u003ch1\\u003eTest\\u003c/h1\\u003e\",\"representation\":\"storage\"}}}"
+			}
+		]
+	},
+	"response": {
+		"status": 200,
+		"jsonBody": {
+			"id": "57005",
+			"type": "page",
+			"status": "current",
+			"title": "anonymous, top level, success",
+			"ancestors": []
+		}
+	}
+}

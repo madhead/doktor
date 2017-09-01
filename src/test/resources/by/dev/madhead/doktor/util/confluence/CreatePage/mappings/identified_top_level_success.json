@@ -1,0 +1,25 @@
+{
+	"request": {
+		"method": "POST",
+		"urlPath": "/rest/api/content",
+		"bodyPatterns": [
+			{
+				"equalToJson": "{\"type\":\"page\",\"title\":\"identified, top level, success\",\"space\":{\"key\":\"TEST\"},\"body\":{\"storage\":{\"value\":\"\\u003ch1\\u003eTest\\u003c/h1\\u003e\",\"representation\":\"storage\"}}}"
+			}
+		],
+		"basicAuth": {
+			"username": "test",
+			"password": "test"
+		}
+	},
+	"response": {
+		"status": 200,
+		"jsonBody": {
+			"id": "57005",
+			"type": "page",
+			"status": "current",
+			"title": "identified, top level, success",
+			"ancestors": []
+		}
+	}
+}
