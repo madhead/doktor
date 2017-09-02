@@ -3,6 +3,8 @@ package by.dev.madhead.doktor.util
 import by.dev.madhead.doktor.Messages
 import by.dev.madhead.doktor.model.DoktorConfig
 import by.dev.madhead.doktor.model.RenderedDok
+import by.dev.madhead.doktor.model.confluence.CreatePageResponse
+import by.dev.madhead.doktor.util.confluence.upload
 import by.dev.madhead.doktor.util.fs.WorkspaceDokLister
 import by.dev.madhead.doktor.util.render.DokRenderer
 import hudson.FilePath
@@ -14,7 +16,7 @@ import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.traverse.TopologicalOrderIterator
 import java.util.concurrent.ConcurrentHashMap
 
-fun diagnose(doktorConfig: DoktorConfig, workspace: FilePath, taskListener: TaskListener): Observable<RenderedDok> {
+fun diagnose(doktorConfig: DoktorConfig, workspace: FilePath, taskListener: TaskListener): Observable<CreatePageResponse> {
 	return Observable
 		.fromFuture(
 			workspace.actAsync(WorkspaceDokLister(doktorConfig))
@@ -52,7 +54,10 @@ fun diagnose(doktorConfig: DoktorConfig, workspace: FilePath, taskListener: Task
 			TopologicalOrderIterator(it)
 		}
 		.flatMapObservable { it.toObservable() }
-		.doOnNext {
-			taskListener.logger.println(it)
+		.flatMapSingle {
+			upload(
+				doktorConfig.server,
+				it
+			)
 		}
 }

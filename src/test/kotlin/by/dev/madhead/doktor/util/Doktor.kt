@@ -12,6 +12,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 
+@Test(enabled = false)
 class Doktor {
 	/**
 	 * This test does not real [diagnose][by.dev.madhead.doktor.util.diagnose] function, but instead it tests its own, "mocked" flow.

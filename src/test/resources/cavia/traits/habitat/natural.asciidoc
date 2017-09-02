@@ -1,7 +1,7 @@
 :title: Natural habitat
 :parent: Traits and environment
 
-== Natural habitat
+== Natural habitatz
 
 C. porcellus is not found naturally in the wild; it is likely descended from some closely related species of cavies, such as C. aperea, C. fulgida, and C. tschudii, which are still commonly found in various regions of South America.
 Some species of cavy identified in the 20th century, such as C. anolaimae and C. guianae, may be domestic guinea pigs that have become feral by reintroduction into the wild.
