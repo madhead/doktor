@@ -11,6 +11,7 @@ Doktor is a Jenkins plugin for automated documentation uploading to Confluence.
 Doktor supports https://daringfireball.net/projects/markdown/syntax[Markdown] and http://asciidoc.org[AsciiDoc].
 Markdown support is provided by awesome https://github.com/vsch/flexmark-java[flexmark-java] library.
 AsciiDoc is supported thanks to https://github.com/asciidoctor/asciidoctorj[AsciidoctorJ].
+Please note that AsciiDoc support is very experimental.
 
 ==== Front matter
 
@@ -113,14 +114,12 @@ Basically, `./gradlew --rerun-tasks clean jpi server` will spin up a Jenkins wit
 `--rerun-tasks` is used to force clean build every time because Gradle aggressively caches build outputs, especially https://kotlinlang.org/docs/reference/kapt.html[Kotlin annotation processing tool] results.
 Feel free to tweak CLI arguments, assuming you know what you do.
 
-
 Debug is supported as well:
 
 [source, bash]
 ----
 GRADLE_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005" ./gradlew --rerun-tasks clean jpi server
 ----
-
 
 Omit `server` task if you just need a JPI file.
 
@@ -160,7 +159,6 @@ Or you can just use http://docs.ansible.com/ansible/latest/intro_dynamic_invento
 
 . Go to `http://your.confluence.host/` (if the DNS and IPs are set) and configure the instance.
 Note, that you will need a license key (trial works for 90 days).
-
 
 ==== Docker
 
