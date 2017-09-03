@@ -44,7 +44,9 @@ fun diagnose(doktorConfig: DoktorConfig, workspace: FilePath, taskListener: Task
 			}
 			renderedDoksMap.values.forEach {
 				if (!it.content.frontMatter.parent.isNullOrBlank()) {
-					graph.addEdge(renderedDoksMap[it.content.frontMatter.parent!!], it)
+					if (null != renderedDoksMap[it.content.frontMatter.parent!!]) {
+						graph.addEdge(renderedDoksMap[it.content.frontMatter.parent!!], it)
+					}
 				}
 			}
 
@@ -54,10 +56,11 @@ fun diagnose(doktorConfig: DoktorConfig, workspace: FilePath, taskListener: Task
 			TopologicalOrderIterator(it)
 		}
 		.flatMapObservable { it.toObservable() }
-		.flatMapSingle {
+		.flatMapMaybe {
 			upload(
 				doktorConfig.server,
-				it
+				it,
+				taskListener
 			)
 		}
 }
