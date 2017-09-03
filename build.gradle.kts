@@ -35,6 +35,7 @@ dependencies {
 	compile("io.reactivex.rxjava2:rxkotlin:${rxkotlinVersion}")
 	compile("com.vladsch.flexmark:flexmark:${flexmarkVersion}")
 	compile("com.vladsch.flexmark:flexmark-ext-yaml-front-matter:${flexmarkVersion}")
+	compile("com.vladsch.flexmark:flexmark-ext-tables:${flexmarkVersion}")
 	compile("org.asciidoctor:asciidoctorj:${asciidoctorVersion}")
 	compile("org.jgrapht:jgrapht-core:${jgraphtVersion}")
 	compile("com.github.kittinunf.fuel:fuel-rxjava:${fuelVersion}")

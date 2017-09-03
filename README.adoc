@@ -16,10 +16,11 @@ Please note that AsciiDoc support is very experimental.
 ==== Front matter
 
 _Front matter_ is another word for _metadata_, used by bloggers and hipsters widely.
+Doktor uses front matter to configure the way pages appear in Confluence.
 
 ===== Markdown
 
-Doktor uses http://www.yaml.org[YAML] front matter in your Markdown files.
+Doktor supports http://www.yaml.org[YAML] front matter in your Markdown files.
 Front matter looks like a small YAML fragment at the beginning of the file, separated by a triple minus sign (`---`) in this case:
 
 [source,yml]
@@ -39,13 +40,28 @@ There is no actually a front matter section in this case:
 :key: value
 ----
 
-===== Supported attributes:
+===== Supported front matter attributes:
 
 `title`::
+Required.
 Page title, unsurprisingly.
 
 `parent`::
+Optional.
 Parent page title, if any.
+If omitted, https://confluence.atlassian.com/doc/orphaned-pages-139542.html["orphaned" page] will be created.
+If parent page is not found by title, child page will not be created at all.
+
+==== Tables
+
+===== Markdown
+
+Though Markdown does not have any support for tables, Doktor supports https://help.github.com/articles/organizing-information-with-tables[GitHub Flavored Markdown tables].
+You can also create tables by inlining XHTML markup directly in your docs.
+
+===== AsciiDoc
+
+AsciiDoc (thus Asciidoctor and AsciidoctorJ) http://asciidoctor.org/docs/user-manual/#tables[supports tables natively].
 
 === Configure Confluence servers
 

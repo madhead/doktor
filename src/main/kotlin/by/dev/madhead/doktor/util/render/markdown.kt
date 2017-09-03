@@ -6,6 +6,7 @@ import by.dev.madhead.doktor.model.FRONTMATTER_TITLE
 import by.dev.madhead.doktor.model.FrontMatter
 import by.dev.madhead.doktor.model.Markup.MARKDOWN
 import by.dev.madhead.doktor.model.RenderedContent
+import com.vladsch.flexmark.ext.tables.TablesExtension
 import com.vladsch.flexmark.ext.yaml.front.matter.AbstractYamlFrontMatterVisitor
 import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
 import com.vladsch.flexmark.html.HtmlRenderer
@@ -14,7 +15,7 @@ import com.vladsch.flexmark.util.options.MutableDataSet
 
 fun markdown(content: String): RenderedContent {
 	val options = MutableDataSet().apply {
-		set(Parser.EXTENSIONS, listOf(YamlFrontMatterExtension.create()))
+		set(Parser.EXTENSIONS, listOf(YamlFrontMatterExtension.create(), TablesExtension.create()))
 	}
 	val parser = Parser.builder(options).build()
 	val htmlRenderer = HtmlRenderer.builder(options).build()

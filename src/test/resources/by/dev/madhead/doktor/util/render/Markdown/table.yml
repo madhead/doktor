@@ -1,6 +1,7 @@
 markup: MARKDOWN
 content: |
-  <p>Markdown does not have special markup for tables.</p>
+  <p>Markdown does not have special markup for tables.
+  So, you can create tables by simply inlining HTML markup:</p>
   <table>
   	<thead>
   		<tr>
@@ -18,6 +19,39 @@ content: |
   			<td>purple</td>
   		</tr>
   	</tbody>
+  </table>
+  <p>But, there are Markdown flavours &amp; extensions!
+  For example, <a href="https://help.github.com/articles/organizing-information-with-tables/">this one</a> allows you to create tables with pipes <code>|</code> and hyphens <code>-</code>.
+  Hyphens are used to create each column's header, while pipes separate each column.
+  You must include a blank line before your table in order for it to correctly render.</p>
+  <table>
+  <thead>
+  <tr><th>Character</th><th>Lightsaber color</th></tr>
+  </thead>
+  <tbody>
+  <tr><td>Darth Vader</td><td>red</td></tr>
+  <tr><td>Mace Windu</td><td>purple</td></tr>
+  </tbody>
+  </table>
+  <p>Aligns are supported as well:</p>
+  <table>
+  <thead>
+  <tr><th align="left">Left-aligned</th><th align="center">Center-aligned</th><th align="right">Right-aligned</th></tr>
+  </thead>
+  <tbody>
+  <tr><td align="left">git status</td><td align="center">git status</td><td align="right">git status</td></tr>
+  <tr><td align="left">git diff</td><td align="center">git diff</td><td align="right">git diff</td></tr>
+  </tbody>
+  </table>
+  <p>Pipes in tables:</p>
+  <table>
+  <thead>
+  <tr><th>Name</th><th>Character</th></tr>
+  </thead>
+  <tbody>
+  <tr><td>Backtick</td><td>`</td></tr>
+  <tr><td>Pipe</td><td>|</td></tr>
+  </tbody>
   </table>
 frontMatter:
   title: Tables
