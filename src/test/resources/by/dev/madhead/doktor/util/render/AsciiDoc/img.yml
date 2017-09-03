@@ -1,0 +1,12 @@
+markup: ASCIIDOC
+content: |-
+  <div class="paragraph">
+  <p>Look at this image:</p>
+  </div>
+  <div class="imageblock">
+  <div class="content">
+  <img src="http://asciidoctor.org/images/octocat.jpg" alt="GitHub mascot"/>
+  </div>
+  </div>
+frontMatter:
+  title: Images

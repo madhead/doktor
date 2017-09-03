@@ -1,0 +1,29 @@
+markup: ASCIIDOC
+content: |-
+  <div class="paragraph">
+  <p>So, here is a table:</p>
+  </div>
+  <table class="tableblock frame-all grid-all spread">
+  <colgroup>
+  <col style="width: 50%;"/>
+  <col style="width: 50%;"/>
+  </colgroup>
+  <thead>
+  <tr>
+  <th class="tableblock halign-left valign-top">Character</th>
+  <th class="tableblock halign-left valign-top">Lightsaber color</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+  <td class="tableblock halign-left valign-top"><p class="tableblock">Darth Vader</p></td>
+  <td class="tableblock halign-left valign-top"><p class="tableblock">red</p></td>
+  </tr>
+  <tr>
+  <td class="tableblock halign-left valign-top"><p class="tableblock">Mace Windu</p></td>
+  <td class="tableblock halign-left valign-top"><p class="tableblock">purple</p></td>
+  </tr>
+  </tbody>
+  </table>
+frontMatter:
+  title: Tables

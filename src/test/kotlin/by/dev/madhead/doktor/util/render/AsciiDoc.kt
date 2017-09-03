@@ -1,6 +1,6 @@
 package by.dev.madhead.doktor.util.render
 
-import by.dev.madhead.doktor.model.RenderedDok
+import by.dev.madhead.doktor.model.RenderedContent
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -17,18 +17,20 @@ class AsciiDoc {
 		return listOf(
 			"simple",
 			"steeper",
-			"luke"
+			"luke",
+			"table",
+			"img"
 		).map {
 			arrayOf(
 				this::class.java.getResourceAsStream("/by/dev/madhead/doktor/util/render/AsciiDoc/${it}.asc").bufferedReader().use { it.readText() },
-				objectMapper.readValue<RenderedDok>(this::class.java.getResourceAsStream("/by/dev/madhead/doktor/util/render/AsciiDoc/${it}.yml"))
+				objectMapper.readValue<RenderedContent>(this::class.java.getResourceAsStream("/by/dev/madhead/doktor/util/render/AsciiDoc/${it}.yml"))
 			)
 		}.toTypedArray()
 	}
 
 
 	@Test(dataProvider = "data")
-	fun valid(input: String, output: RenderedDok) {
+	fun valid(input: String, output: RenderedContent) {
 		Assert.assertEquals(asciiDoc(input), output, "Unexpected output")
 	}
 

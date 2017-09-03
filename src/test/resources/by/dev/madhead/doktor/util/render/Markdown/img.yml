@@ -1,0 +1,6 @@
+markup: MARKDOWN
+content: |
+  <p>Look at this image:</p>
+  <p><img src="http://asciidoctor.org/images/octocat.jpg" alt="GitHub mascot" title="GitHub mascot" /></p>
+frontMatter:
+  title: Images

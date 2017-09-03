@@ -26,7 +26,7 @@ fun asciiDoc(content: String): RenderedContent {
 
 		return RenderedContent(
 			ASCIIDOC,
-			asciidoctor.render(content, OptionsBuilder.options()),
+			asciidoctor.render(content, OptionsBuilder.options().backend("xhtml")),
 			FrontMatter(
 				header.attributes[FRONTMATTER_TITLE]?.toString() ?: throw RenderException(Messages.doktor_util_render_RenderException_titleRequired()),
 				header.attributes[FRONTMATTER_PARENT]?.toString()
