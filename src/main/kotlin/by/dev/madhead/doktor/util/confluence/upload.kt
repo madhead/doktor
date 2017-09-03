@@ -7,8 +7,8 @@ import hudson.model.TaskListener
 import io.reactivex.Maybe
 import io.reactivex.Single
 
-fun upload(confluenceServer: ResolvedConfluenceServer, renderedDok: RenderedDok, taskListener: TaskListener): Maybe<CreatePageResponse> {
-	return findPage(confluenceServer, renderedDok.content.frontMatter.title)
+fun upload(confluenceServer: ResolvedConfluenceServer, renderedDok: RenderedDok, taskListener: TaskListener): Maybe<CreatePageResponse> =
+	findPage(confluenceServer, renderedDok.content.frontMatter.title)
 		.flatMap {
 			taskListener.logger.println("Deleting existing page ${it.id}")
 
@@ -73,4 +73,3 @@ fun upload(confluenceServer: ResolvedConfluenceServer, renderedDok: RenderedDok,
 					}
 				}
 		)
-}
