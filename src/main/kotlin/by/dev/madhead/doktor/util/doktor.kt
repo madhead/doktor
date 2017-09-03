@@ -45,7 +45,7 @@ fun diagnose(doktorConfig: DoktorConfig, workspace: FilePath, taskListener: Task
 			renderedDoksMap.values.forEach {
 				if (!it.content.frontMatter.parent.isNullOrBlank()) {
 					if (null != renderedDoksMap[it.content.frontMatter.parent!!]) {
-						graph.addEdge(renderedDoksMap[it.content.frontMatter.parent!!], it)
+						graph.addEdge(renderedDoksMap[it.content.frontMatter.parent], it)
 					}
 				}
 			}
