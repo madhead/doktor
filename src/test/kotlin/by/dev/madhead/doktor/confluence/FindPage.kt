@@ -1,10 +1,8 @@
-package by.dev.madhead.doktor.util.confluence
+package by.dev.madhead.doktor.confluence
 
-import com.github.kittinunf.fuel.core.FuelError
 import org.testng.Assert
 import org.testng.annotations.Test
 import java.util.concurrent.TimeUnit
-
 
 class FindPage : BaseConfluenceTest() {
 	@Test
@@ -41,8 +39,8 @@ class FindPage : BaseConfluenceTest() {
 				awaitTerminalEvent(10, TimeUnit.SECONDS)
 
 				assertError {
-					it as FuelError
-					Assert.assertEquals(it.response.httpStatusCode, 404)
+					it as ConfluenceException
+					Assert.assertEquals(it.message, "No space with key : TEST")
 
 					true
 				}
@@ -57,8 +55,8 @@ class FindPage : BaseConfluenceTest() {
 				awaitTerminalEvent(10, TimeUnit.SECONDS)
 
 				assertError {
-					it as FuelError
-					Assert.assertEquals(it.response.httpStatusCode, 500)
+					it as ConfluenceException
+					Assert.assertEquals(it.message, "HTTP Exception 500 Server Error")
 
 					true
 				}
@@ -84,8 +82,8 @@ class FindPage : BaseConfluenceTest() {
 				awaitTerminalEvent(10, TimeUnit.SECONDS)
 
 				assertError {
-					it as FuelError
-					Assert.assertEquals(it.response.httpStatusCode, 401)
+					it as ConfluenceException
+					Assert.assertEquals(it.message, "HTTP Exception 401 Unauthorized")
 
 					true
 				}

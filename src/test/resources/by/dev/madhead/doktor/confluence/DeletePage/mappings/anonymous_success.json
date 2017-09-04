@@ -1,0 +1,9 @@
+{
+	"request": {
+		"method": "DELETE",
+		"urlPath": "/rest/api/content/57003"
+	},
+	"response": {
+		"status": 204
+	}
+}

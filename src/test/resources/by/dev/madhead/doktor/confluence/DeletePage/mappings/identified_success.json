@@ -1,0 +1,13 @@
+{
+	"request": {
+		"method": "DELETE",
+		"urlPath": "/rest/api/content/57004",
+		"basicAuth": {
+			"username": "test",
+			"password": "test"
+		}
+	},
+	"response": {
+		"status": 204
+	}
+}

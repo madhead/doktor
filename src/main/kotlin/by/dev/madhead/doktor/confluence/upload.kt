@@ -1,4 +1,4 @@
-package by.dev.madhead.doktor.util.confluence
+package by.dev.madhead.doktor.confluence
 
 import by.dev.madhead.doktor.model.RenderedDok
 import by.dev.madhead.doktor.model.ResolvedConfluenceServer

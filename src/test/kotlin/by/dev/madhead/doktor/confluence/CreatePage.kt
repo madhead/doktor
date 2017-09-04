@@ -1,7 +1,6 @@
-package by.dev.madhead.doktor.util.confluence
+package by.dev.madhead.doktor.confluence
 
 import by.dev.madhead.doktor.model.confluence.*
-import com.github.kittinunf.fuel.core.FuelError
 import org.testng.Assert
 import org.testng.annotations.Test
 import java.util.concurrent.TimeUnit
@@ -78,8 +77,8 @@ class CreatePage : BaseConfluenceTest() {
 				awaitTerminalEvent(10, TimeUnit.SECONDS)
 
 				assertError {
-					it as FuelError
-					Assert.assertEquals(it.response.httpStatusCode, 400)
+					it as ConfluenceException
+					Assert.assertEquals(it.message, "The parent ID specified (ContentId{id=57004}) does not exist?")
 
 					true
 				}
@@ -98,8 +97,8 @@ class CreatePage : BaseConfluenceTest() {
 				awaitTerminalEvent(10, TimeUnit.SECONDS)
 
 				assertError {
-					it as FuelError
-					Assert.assertEquals(it.response.httpStatusCode, 400)
+					it as ConfluenceException
+					Assert.assertEquals(it.message, "A page with this title already exists: A page already exists with the title anonymous, top level, exist in the space with key TEST")
 
 					true
 				}
@@ -118,8 +117,8 @@ class CreatePage : BaseConfluenceTest() {
 				awaitTerminalEvent(10, TimeUnit.SECONDS)
 
 				assertError {
-					it as FuelError
-					Assert.assertEquals(it.response.httpStatusCode, 401)
+					it as ConfluenceException
+					Assert.assertEquals(it.message, "HTTP Exception 401 Unauthorized")
 
 					true
 				}
@@ -138,8 +137,8 @@ class CreatePage : BaseConfluenceTest() {
 				awaitTerminalEvent(10, TimeUnit.SECONDS)
 
 				assertError {
-					it as FuelError
-					Assert.assertEquals(it.response.httpStatusCode, 500)
+					it as ConfluenceException
+					Assert.assertEquals(it.message, "HTTP Exception 500 Server Error")
 
 					true
 				}

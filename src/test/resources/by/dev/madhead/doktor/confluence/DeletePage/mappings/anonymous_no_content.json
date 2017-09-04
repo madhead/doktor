@@ -1,0 +1,13 @@
+{
+	"request": {
+		"method": "DELETE",
+		"urlPath": "/rest/api/content/57005"
+	},
+	"response": {
+		"status": 404,
+		"jsonBody": {
+			"statusCode": 404,
+			"message": "Cannot delete content with id 'ContentId{id=57005}': not found"
+		}
+	}
+}
