@@ -1,10 +1,10 @@
 package by.dev.madhead.doktor.util
 
 import by.dev.madhead.doktor.Messages
+import by.dev.madhead.doktor.confluence.upload
 import by.dev.madhead.doktor.model.DoktorConfig
 import by.dev.madhead.doktor.model.RenderedDok
 import by.dev.madhead.doktor.model.confluence.CreatePageResponse
-import by.dev.madhead.doktor.confluence.upload
 import by.dev.madhead.doktor.util.fs.WorkspaceDokLister
 import by.dev.madhead.doktor.util.render.DokRenderer
 import hudson.FilePath
@@ -56,11 +56,13 @@ fun diagnose(doktorConfig: DoktorConfig, workspace: FilePath, taskListener: Task
 			TopologicalOrderIterator(it)
 		}
 		.flatMapObservable { it.toObservable() }
-		.flatMapMaybe {
+		.flatMapMaybe { renderedDok ->
 			upload(
 				doktorConfig.server,
-				it,
+				renderedDok,
 				taskListener
-			)
+			).doOnError {
+				taskListener.error(Messages.doktor_util_diagnose_confluenceError(renderedDok.filePath, it))
+			}.onErrorComplete()
 		}
 }

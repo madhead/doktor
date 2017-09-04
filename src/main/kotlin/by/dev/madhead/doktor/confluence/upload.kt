@@ -7,22 +7,22 @@ import hudson.model.TaskListener
 import io.reactivex.Maybe
 import io.reactivex.Single
 
-fun upload(confluenceServer: ResolvedConfluenceServer, renderedDok: RenderedDok, taskListener: TaskListener): Maybe<CreatePageResponse> =
-	findPage(confluenceServer, renderedDok.content.frontMatter.title)
+fun upload(confluenceServer: ResolvedConfluenceServer, renderedDok: RenderedDok, taskListener: TaskListener): Maybe<CreatePageResponse> {
+	taskListener.logger.println("Checking if a page already exists for ${renderedDok.filePath} ('${renderedDok.content.frontMatter.title}')")
+
+	return findPage(confluenceServer, renderedDok.content.frontMatter.title)
 		.flatMap {
-			taskListener.logger.println("Deleting existing page ${it.id}")
+			taskListener.logger.println("Deleting existing page (ID: ${it.id}) for ${renderedDok.filePath} ('${renderedDok.content.frontMatter.title}')")
 
 			deletePage(confluenceServer, it.id)
-				.flatMapMaybe {
-					Maybe.empty<CreatePageResponse>()
-				}
+				.toMaybe<CreatePageResponse>()
 		}
 		.switchIfEmpty(
 			Single
 				.just(renderedDok.content.frontMatter.parent.isNullOrEmpty())
 				.flatMapMaybe {
 					if (it) {
-						taskListener.logger.println("Creating new top level page from ${renderedDok.filePath}")
+						taskListener.logger.println("Creating new top level page from ${renderedDok.filePath} ('${renderedDok.content.frontMatter.title}')")
 
 						createPage(
 							confluenceServer,
@@ -35,13 +35,15 @@ fun upload(confluenceServer: ResolvedConfluenceServer, renderedDok: RenderedDok,
 									)
 								)
 							)
-						).toMaybe()
+						).doOnSuccess {
+							taskListener.logger.println("Created new top level page from ${renderedDok.filePath} ('${renderedDok.content.frontMatter.title}'). ID: ${it.id}")
+						}.toMaybe()
 					} else {
-						taskListener.logger.println("Resolving parent id for ${renderedDok.filePath} (parent title is ${renderedDok.content.frontMatter.parent})")
+						taskListener.logger.println("Resolving parent ID for ${renderedDok.filePath} ('${renderedDok.content.frontMatter.title}'), parent is '${renderedDok.content.frontMatter.parent}'")
 
 						findPage(confluenceServer, renderedDok.content.frontMatter.parent!!)
 							.map {
-								taskListener.logger.println("Resolved parent id for ${renderedDok.filePath}: ${it.id}")
+								taskListener.logger.println("Resolved parent ID for ${renderedDok.filePath} ('${renderedDok.content.frontMatter.title}'): ${it.id}")
 								listOf(it.id)
 							}
 							.switchIfEmpty(
@@ -49,7 +51,7 @@ fun upload(confluenceServer: ResolvedConfluenceServer, renderedDok: RenderedDok,
 							)
 							.flatMap {
 								if (it.isNotEmpty()) {
-									taskListener.logger.println("Creating new child page from ${renderedDok.filePath} (parent is ${renderedDok.content.frontMatter.parent} [${it}])")
+									taskListener.logger.println("Creating new child page from ${renderedDok.filePath} ('${renderedDok.content.frontMatter.title}'), parent is '${renderedDok.content.frontMatter.parent}' (${it})")
 
 									createPage(
 										confluenceServer,
@@ -65,7 +67,7 @@ fun upload(confluenceServer: ResolvedConfluenceServer, renderedDok: RenderedDok,
 										)
 									).toMaybe()
 								} else {
-									taskListener.logger.println("Cannot resolve parent id for ${renderedDok.filePath}, the page will not be created!")
+									taskListener.error("Cannot resolve parent ID for ${renderedDok.filePath} ('${renderedDok.content.frontMatter.title}'), the page will not be created!")
 
 									Maybe.empty<CreatePageResponse>()
 								}
@@ -73,3 +75,4 @@ fun upload(confluenceServer: ResolvedConfluenceServer, renderedDok: RenderedDok,
 					}
 				}
 		)
+}
