@@ -11,7 +11,7 @@ import org.testng.annotations.Test
 
 class Markdown {
 	@DataProvider(name = "data")
-	fun data(): Array<Array<Any>> {
+	fun data(): Array<Array<*>> {
 		val objectMapper = ObjectMapper(YAMLFactory()).registerKotlinModule()
 
 		return listOf(

@@ -12,7 +12,7 @@ class DeletePage : BaseConfluenceTest() {
 			.run {
 				awaitTerminalEvent(10, TimeUnit.SECONDS)
 
-				assertValue(true)
+				assertComplete()
 			}
 	}
 
@@ -23,7 +23,7 @@ class DeletePage : BaseConfluenceTest() {
 			.run {
 				awaitTerminalEvent(10, TimeUnit.SECONDS)
 
-				assertValue(true)
+				assertComplete()
 			}
 	}
 

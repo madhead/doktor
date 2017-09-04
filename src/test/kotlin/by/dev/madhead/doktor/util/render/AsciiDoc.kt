@@ -11,7 +11,7 @@ import org.testng.annotations.Test
 
 class AsciiDoc {
 	@DataProvider(name = "data")
-	fun data(): Array<Array<Any>> {
+	fun data(): Array<Array<*>> {
 		val objectMapper = ObjectMapper(YAMLFactory()).registerKotlinModule()
 
 		return listOf(
@@ -27,7 +27,6 @@ class AsciiDoc {
 			)
 		}.toTypedArray()
 	}
-
 
 	@Test(dataProvider = "data")
 	fun valid(input: String, output: RenderedContent) {
