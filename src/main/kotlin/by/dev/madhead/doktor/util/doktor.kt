@@ -23,7 +23,7 @@ fun diagnose(doktorConfig: DoktorConfig, workspace: FilePath, taskListener: Task
 		)
 		.flatMap { it.toObservable() }
 		.map {
-			Pair(it.filePath.remote, it.filePath.actAsync(DokRenderer(it.markup, taskListener)))
+			Pair(it.filePath.remote, workspace.child(it.filePath.remote).actAsync(DokRenderer(it.markup, taskListener)))
 		}
 		.flatMap { (originalPath, renderedDokFuture) ->
 			Observable

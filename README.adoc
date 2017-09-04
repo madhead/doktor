@@ -139,6 +139,48 @@ GRADLE_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
 
 Omit `server` task if you just need a JPI file.
 
+=== Testing on remote agents
+
+Once you may want to test how Doktor behaves on agents.
+The simplest way to do that is to run an agent in Docker.
+There are two images for agents available.
+
+==== jenkinsci/slave
+
+https://hub.docker.com/r/jenkinsci/slave[jenkinsci/slave] is an image meant to be run by Jenkins to start a new agent.
+The configuration is very simple:
+
+image::https://github.com/madhead/doktor/blob/master/.github/images/slave.png[]
+
+When you're running Jenkins via Gradle JPI plugin it will be run under you user account, so either your user needs to be able to execute `sudo docker` without password or you will need to type that password in Gradle's terminal session.
+
+==== jenkinsci/ssh-slave
+
+https://hub.docker.com/r/jenkinsci/ssh-slave[jenkinsci/ssh-slave] is another (better) option.
+It allows you manage agent container separately and then attach it to Jenkins, thus eliminating the need to provide any password or execute `sudo docker`.
+Container's mounts and FS modifications will be preserved between Jenkins restarts.
+
+First, you need to have an SSH key pair that will be used to connect to the agent.
+Looks like only RSA keys are supported (public key must start with `ssh-` prefix).
+Either https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent[create a new one], or use the existing.
+
+Then, install https://wiki.jenkins.io/display/JENKINS/SSH+Slaves+plugin[SSH Slaves plugin] on the master.
+
+Create new "SSH Username with private key" credentials:
+
+image::https://github.com/madhead/doktor/blob/master/.github/images/ssh_slave_credentials.png[]
+
+You can paste private key directly here or use one of the defaults (`~/.ssh/id_ecdsa`, `~/.ssh/id_rsa`, `~/.ssh/id_dsa`, `~/.ssh/identity`).
+
+Next, start agent container by executing `docker run --detach --name jenkins-slave jenkinsci/ssh-slave "$(cat ~/.ssh/jenkins.pub)"` (assuming that `~/.ssh/jenkins.pub` is a public key corresponding to the private key from previous step).
+
+Finally, create new agent with a configuration like this:
+
+image::https://github.com/madhead/doktor/blob/master/.github/images/ssh_slave.png[]
+
+`172.17.0.2` here is the IP of a Docker contaner from the previous step, https://stackoverflow.com/a/20686101/750510[found in `docker inspect` output].
+You could also run the container exposing the ports (e.g. `-p 2222:22`) and then use `localhost` as host and `2222` as port.
+
 === Testing Confluence integration
 
 ==== Cloud
