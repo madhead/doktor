@@ -124,7 +124,7 @@ Recreating pages has some counterintuitive effects:
  - Any modification will overridden on each Doktor run, obviously
  - Page likes are not preserved
  - Attachments are not preserved
- - There is no support for extra Confluence markup and macroses
+ - There is no support for extra Confluence markup, macroses and features like comments
 
 This may sound shocking to you, but let me explain.
 
