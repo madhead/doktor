@@ -33,7 +33,6 @@ fun asciiDoc(content: String): RenderedContent {
 				.skipFrontMatter(true)
 			)
 		val documentStructure = asciidoctor.readDocumentStructure(content, options.asMap())
-		val content = asciidoctor.convert(content, options)
 		val objectMapper = ObjectMapper(YAMLFactory()).registerKotlinModule()
 
 		if (null == documentStructure.header.attributes["front-matter"]) {
@@ -49,7 +48,7 @@ fun asciiDoc(content: String): RenderedContent {
 
 		return RenderedContent(
 			ASCIIDOC,
-			content,
+			asciidoctor.convert(content, options),
 			FrontMatter(
 				title = frontMatter[FRONTMATTER_TITLE]?.asText() ?: throw RenderException(Messages.doktor_util_render_RenderException_titleRequired()),
 				parent = frontMatter[FRONTMATTER_PARENT]?.asText(),
