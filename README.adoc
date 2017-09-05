@@ -54,6 +54,10 @@ Parent page title, if any.
 If omitted, https://confluence.atlassian.com/doc/orphaned-pages-139542.html["orphaned" page] will be created.
 If parent page is not found by title, child page will not be created at all.
 
+`labels`::
+Optional.
+List of labels to add to a page.
+
 ==== Tables
 
 ===== Markdown
