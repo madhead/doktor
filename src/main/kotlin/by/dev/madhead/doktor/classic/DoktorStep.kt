@@ -40,7 +40,7 @@ constructor(
 				),
 				build.getWorkspace() ?: throw AbortException(Messages.doktor_hudson_AbortException_AbortException_workspaceRequired()),
 				listener ?: throw AbortException(Messages.doktor_hudson_AbortException_AbortException_taskListenerRequired())
-			).blockingSubscribe()
+			).blockingAwait()
 
 			return true
 		} catch (exception: Throwable) {

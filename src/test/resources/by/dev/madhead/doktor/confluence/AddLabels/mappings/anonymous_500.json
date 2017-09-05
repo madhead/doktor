@@ -1,0 +1,14 @@
+{
+	"request": {
+		"method": "POST",
+		"urlPath": "/rest/api/content/57009/label",
+		"bodyPatterns": [
+			{
+				"equalToJson": "[{\"prefix\":\"global\", \"name\":\"test\"},{\"prefix\":\"global\", \"name\":\"labels\"}]"
+			}
+		]
+	},
+	"response": {
+		"status": 500
+	}
+}

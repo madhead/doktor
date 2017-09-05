@@ -1,0 +1,11 @@
+markup: ASCIIDOC
+content: |-
+  <div class="paragraph">
+  <p>Labels are really cool!</p>
+  </div>
+frontMatter:
+  title: Labels inline
+  labels:
+    - labels
+    - are
+    - cool

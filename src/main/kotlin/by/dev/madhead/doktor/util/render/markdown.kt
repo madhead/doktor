@@ -1,11 +1,8 @@
 package by.dev.madhead.doktor.util.render
 
 import by.dev.madhead.doktor.Messages
-import by.dev.madhead.doktor.model.FRONTMATTER_PARENT
-import by.dev.madhead.doktor.model.FRONTMATTER_TITLE
-import by.dev.madhead.doktor.model.FrontMatter
+import by.dev.madhead.doktor.model.*
 import by.dev.madhead.doktor.model.Markup.MARKDOWN
-import by.dev.madhead.doktor.model.RenderedContent
 import com.vladsch.flexmark.ext.tables.TablesExtension
 import com.vladsch.flexmark.ext.yaml.front.matter.AbstractYamlFrontMatterVisitor
 import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
@@ -23,13 +20,17 @@ fun markdown(content: String): RenderedContent {
 	val visitor = AbstractYamlFrontMatterVisitor()
 
 	visitor.visit(document)
+	if ((null == visitor.data) || (visitor.data.isEmpty())) {
+		throw RenderException(Messages.doktor_util_render_RenderException_frontMatterRequired())
+	}
 
 	return RenderedContent(
 		MARKDOWN,
 		htmlRenderer.render(document),
 		FrontMatter(
-			visitor.data?.get(FRONTMATTER_TITLE)?.get(0) ?: throw RenderException(Messages.doktor_util_render_RenderException_titleRequired()),
-			visitor.data?.get(FRONTMATTER_PARENT)?.get(0)
+			title = visitor.data[FRONTMATTER_TITLE]?.get(0) ?: throw RenderException(Messages.doktor_util_render_RenderException_titleRequired()),
+			parent = visitor.data[FRONTMATTER_PARENT]?.get(0),
+			labels = visitor.data[FRONTMATTER_LABELS] ?: emptyList()
 		)
 	)
 }

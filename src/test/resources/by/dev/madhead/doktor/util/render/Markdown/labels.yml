@@ -1,0 +1,9 @@
+markup: MARKDOWN
+content: |
+  <p>Labels are really cool!</p>
+frontMatter:
+  title: Labels
+  labels:
+    - labels
+    - are
+    - cool

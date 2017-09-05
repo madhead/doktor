@@ -19,13 +19,13 @@ val kotlinVersion by project
 val rxkotlinVersion by project
 val flexmarkVersion by project
 val asciidoctorVersion by project
+val jacksonVersion by project
 val jgraphtVersion by project
 val fuelVersion by project
 val jenkinsCredentialsPluginVersion by project
 val jenkinsWorkflowStepsAPIPluginVersion by project
 
 val testngVersion by project
-val jacksonVersion by project
 val wiremockVersion by project
 
 val sezpozVersion by project
@@ -37,6 +37,8 @@ dependencies {
 	compile("com.vladsch.flexmark:flexmark-ext-yaml-front-matter:${flexmarkVersion}")
 	compile("com.vladsch.flexmark:flexmark-ext-tables:${flexmarkVersion}")
 	compile("org.asciidoctor:asciidoctorj:${asciidoctorVersion}")
+	compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jacksonVersion}")
+	compile("com.fasterxml.jackson.module:jackson-module-kotlin:${jacksonVersion}")
 	compile("org.jgrapht:jgrapht-core:${jgraphtVersion}")
 	compile("com.github.kittinunf.fuel:fuel-rxjava:${fuelVersion}")
 	compile("com.github.kittinunf.fuel:fuel-gson:${fuelVersion}")
@@ -45,8 +47,6 @@ dependencies {
 	jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:${jenkinsWorkflowStepsAPIPluginVersion}@jar")
 
 	testCompile("org.testng:testng:${testngVersion}")
-	testCompile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jacksonVersion}")
-	testCompile("com.fasterxml.jackson.module:jackson-module-kotlin:${jacksonVersion}")
 	testCompile("com.github.tomakehurst:wiremock:${wiremockVersion}")
 
 	// SezPoz is used to process @hudson.Extension and other annotations

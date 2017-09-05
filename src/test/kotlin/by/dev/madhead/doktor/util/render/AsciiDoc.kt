@@ -19,7 +19,11 @@ class AsciiDoc {
 			"steeper",
 			"luke",
 			"table",
-			"img"
+			"img",
+			"single_label",
+			"single_label_inline",
+			"labels",
+			"labels_inline"
 		).map {
 			arrayOf(
 				this::class.java.getResourceAsStream("/by/dev/madhead/doktor/util/render/AsciiDoc/${it}.asc").bufferedReader().use { it.readText() },
@@ -34,7 +38,28 @@ class AsciiDoc {
 	}
 
 	@Test(expectedExceptions = arrayOf(RenderException::class))
-	fun invalid() {
+	fun `invalid - no front matter`() {
 		asciiDoc("# Content without front matter is not valid.")
+	}
+
+	@Test(expectedExceptions = arrayOf(RenderException::class))
+	fun `invalid - empty front matter`() {
+		asciiDoc("---\n---\n# Content with empty front matter is not valid.")
+	}
+
+	@Test(expectedExceptions = arrayOf(RenderException::class))
+	fun `invalid - no title`() {
+		asciiDoc("---\nparent: Parent\n---\n# Content without title is not valid.")
+	}
+
+	@Test(expectedExceptions = arrayOf(RenderException::class))
+	fun `invalid - ivalid YAML`() {
+		asciiDoc("---\n" +
+			"title: Steeper: Truth or Fiction\n" +
+			"---\n" +
+			"\n" +
+			"== AsciiDoc file with links\n" +
+			"\n" +
+			"[Links](https://google.com) are great!\n")
 	}
 }

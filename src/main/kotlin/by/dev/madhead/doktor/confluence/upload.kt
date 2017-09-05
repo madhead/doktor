@@ -4,10 +4,11 @@ import by.dev.madhead.doktor.model.RenderedDok
 import by.dev.madhead.doktor.model.ResolvedConfluenceServer
 import by.dev.madhead.doktor.model.confluence.*
 import hudson.model.TaskListener
+import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Single
 
-fun upload(confluenceServer: ResolvedConfluenceServer, renderedDok: RenderedDok, taskListener: TaskListener): Maybe<CreatePageResponse> {
+fun upload(confluenceServer: ResolvedConfluenceServer, renderedDok: RenderedDok, taskListener: TaskListener): Completable {
 	taskListener.logger.println("Checking if a page already exists for ${renderedDok.filePath} ('${renderedDok.content.frontMatter.title}')")
 
 	return findPage(confluenceServer, renderedDok.content.frontMatter.title)
@@ -65,7 +66,9 @@ fun upload(confluenceServer: ResolvedConfluenceServer, renderedDok: RenderedDok,
 											),
 											ancestors = it.map { ContentReference(it) }
 										)
-									).toMaybe()
+									).doOnSuccess {
+										taskListener.logger.println("Created new child page from ${renderedDok.filePath} ('${renderedDok.content.frontMatter.title}'), parent is '${renderedDok.content.frontMatter.parent}' (${it}). ID: ${it.id}")
+									}.toMaybe()
 								} else {
 									taskListener.error("Cannot resolve parent ID for ${renderedDok.filePath} ('${renderedDok.content.frontMatter.title}'), the page will not be created!")
 
@@ -75,4 +78,14 @@ fun upload(confluenceServer: ResolvedConfluenceServer, renderedDok: RenderedDok,
 					}
 				}
 		)
+		.flatMapCompletable {
+			if (renderedDok.content.frontMatter.labels.isNotEmpty()) {
+				taskListener.logger.println("Adding ${renderedDok.content.frontMatter.labels} labels for ${renderedDok.filePath} ('${renderedDok.content.frontMatter.title}', ${it.id})")
+
+				addLabels(confluenceServer, it.id, renderedDok.content.frontMatter.labels.map { Label(name = it) })
+					.toCompletable()
+			} else {
+				Completable.complete()
+			}
+		}
 }

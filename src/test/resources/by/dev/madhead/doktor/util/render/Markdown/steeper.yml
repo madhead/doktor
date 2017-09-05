@@ -4,3 +4,4 @@ content: |
   <p><a href="https://google.com">Links</a> are great!</p>
 frontMatter:
   title: 'Steeper: Truth or Fiction'
+  labels: []

@@ -1,0 +1,18 @@
+{
+	"request": {
+		"method": "POST",
+		"urlPath": "/rest/api/content/57007/label",
+		"bodyPatterns": [
+			{
+				"equalToJson": "[{\"prefix\":\"global\", \"name\":\"test\"},{\"prefix\":\"global\", \"name\":\"labels\"}]"
+			}
+		]
+	},
+	"response": {
+		"status": 404,
+		"jsonBody": {
+			"statusCode": 404,
+			"message": "No content found with id : ContentId{id=57007}"
+		}
+	}
+}

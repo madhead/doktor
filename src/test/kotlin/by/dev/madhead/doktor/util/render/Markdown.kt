@@ -19,7 +19,10 @@ class Markdown {
 			"steeper",
 			"luke",
 			"table",
-			"img"
+			"img",
+			"single_label",
+			"single_label_inline",
+			"labels"
 		).map {
 			arrayOf(
 				this::class.java.getResourceAsStream("/by/dev/madhead/doktor/util/render/Markdown/${it}.md").bufferedReader().use { it.readText() },
@@ -34,7 +37,17 @@ class Markdown {
 	}
 
 	@Test(expectedExceptions = arrayOf(RenderException::class))
-	fun invalid() {
+	fun `invalid - no front matter`() {
 		markdown("# Content without front matter is not valid.")
+	}
+
+	@Test(expectedExceptions = arrayOf(RenderException::class))
+	fun `invalid - empty front matter`() {
+		markdown("---\n---\n# Content with empty front matter is not valid.")
+	}
+
+	@Test(expectedExceptions = arrayOf(RenderException::class))
+	fun `invalid - no title`() {
+		markdown("---\nparent: Parent\n---\n# Content without title is not valid.")
 	}
 }

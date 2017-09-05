@@ -32,12 +32,14 @@ key: value
 
 ===== AsciiDoc
 
-AsciiDoc provides native support for metadata via http://asciidoc.org/userguide.html#X18[attributes].
-There is no actually a front matter section in this case:
+Doktor supports http://www.yaml.org[YAML] front matter in your AsciiDoc files as well.
+Front matter looks like a small YAML fragment at the beginning of the file, separated by a triple minus sign (`---`) in this case.
+Note, that due to a more strict YAML parser logic for AsciiDoc, strings with special characters need to be quoted:
 
 [source, asciidoc]
 ----
-:key: value
+key: value
+key_with_specials: 'value: with specials'
 ----
 
 ===== Supported front matter attributes:
