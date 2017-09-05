@@ -116,6 +116,25 @@ image::https://github.com/madhead/doktor/blob/master/.github/images/freestyle_co
 
 Click those question icons on the right if you need any help.
 
+== Limitations
+
+Doktor recreates pages instead of updating them.
+Recreating pages has some counterintuitive effects:
+
+ - Any modification will overridden on each Doktor run, obviously
+ - Page likes are not preserved
+ - Attachments are not preserved
+ - There is no support for extra Confluence markup and macroses
+
+This may sound shocking to you, but let me explain.
+
+Doktor's idea is just uploading your documentation somewhere, making it available to _read_ by everybody.
+Doktor is not about collaborative editing - use VCS for that.
+It's a unidirectional flow - from sources to rendered documents - by design.
+I was inspired by GitHub's https://pages.github.com[pages] and https://help.github.com/articles/about-github-wikis[wikis], and I sincerely believe in this approach.
+
+At the moment, Doktor supports only Confluence and may never support any other services (unless my employer switches to another vendor).
+
 == Developing
 
 Doktor is built with https://kotlinlang.org[Kotlin], https://gradle.org[Gradle] and Love.
@@ -184,6 +203,10 @@ image::https://github.com/madhead/doktor/blob/master/.github/images/ssh_slave.pn
 You could also run the container exposing the ports (e.g. `-p 2222:22`) and then use `localhost` as host and `2222` as port.
 
 === Testing Confluence integration
+
+You'll need to refer to Confluence REST API.
+https://docs.atlassian.com/confluence/REST/latest[Here] is the link.
+https://developer.atlassian.com/confdev/confluence-server-rest-api/confluence-rest-api-examples[Samples] are also available.
 
 ==== Cloud
 
