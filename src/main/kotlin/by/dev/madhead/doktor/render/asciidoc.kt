@@ -36,21 +36,21 @@ fun asciiDoc(content: String): RenderedContent {
 		val objectMapper = ObjectMapper(YAMLFactory()).registerKotlinModule()
 
 		if (null == documentStructure.header.attributes["front-matter"]) {
-			throw RenderException(Messages.doktor_util_render_RenderException_frontMatterRequired())
+			throw RenderException(Messages.doktor_render_RenderException_frontMatterRequired())
 		}
 
 		val frontMatter =
 			try {
-				objectMapper.readTree(documentStructure.header.attributes["front-matter"] as String) ?: throw RenderException(Messages.doktor_util_render_RenderException_frontMatterRequired())
+				objectMapper.readTree(documentStructure.header.attributes["front-matter"] as String) ?: throw RenderException(Messages.doktor_render_RenderException_frontMatterRequired())
 			} catch (e: Throwable) {
-				throw RenderException(Messages.doktor_util_render_RenderException_frontMatterInvalid())
+				throw RenderException(Messages.doktor_render_RenderException_frontMatterInvalid())
 			}
 
 		return RenderedContent(
 			ASCIIDOC,
 			asciidoctor.convert(content, options),
 			FrontMatter(
-				title = frontMatter[FRONTMATTER_TITLE]?.asText() ?: throw RenderException(Messages.doktor_util_render_RenderException_titleRequired()),
+				title = frontMatter[FRONTMATTER_TITLE]?.asText() ?: throw RenderException(Messages.doktor_render_RenderException_titleRequired()),
 				parent = frontMatter[FRONTMATTER_PARENT]?.asText(),
 				labels = when (frontMatter[FRONTMATTER_LABELS]) {
 					is TextNode -> listOf(frontMatter[FRONTMATTER_LABELS].asText())

@@ -26,9 +26,15 @@ fun createPage(confluenceServer: ResolvedConfluenceServer, createPageRequest: Cr
 				is Result.Success -> Single.just(it.value)
 				is Result.Failure -> {
 					try {
-						Single.error<CreatePageResponse>(Gson().fromJson(it.error.response.data.toString(Charsets.UTF_8), ConfluenceException::class.java))
+						val exception = Gson().fromJson(it.error.response.data.toString(Charsets.UTF_8), ConfluenceException::class.java)
+
+						if (!exception.message.isBlank()) {
+							Single.error<CreatePageResponse>(exception)
+						} else {
+							throw IllegalArgumentException()
+						}
 					} catch (e: Throwable) {
-						Single.error<CreatePageResponse>(ConfluenceException(it.error.message ?: it.error.exception.message ?: it.error.response.httpResponseMessage))
+						Single.error<CreatePageResponse>(ConfluenceException(it.error.exception.message ?: it.error.message ?: it.error.response.responseMessage))
 					}
 				}
 			}

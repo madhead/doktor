@@ -4,9 +4,7 @@ import by.dev.madhead.doktor.model.ResolvedConfluenceServer
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import org.testng.annotations.AfterClass
-import org.testng.annotations.AfterTest
 import org.testng.annotations.BeforeClass
-import org.testng.annotations.BeforeTest
 
 open class BaseConfluenceTest {
 	lateinit private var wiremock: WireMockServer

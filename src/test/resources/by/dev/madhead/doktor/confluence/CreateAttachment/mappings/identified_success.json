@@ -1,0 +1,24 @@
+{
+	"request": {
+		"method": "POST",
+		"urlPath": "/rest/api/content/57006/child/attachment",
+		"basicAuth": {
+			"username": "test",
+			"password": "test"
+		}
+	},
+	"response": {
+		"status": 200,
+		"jsonBody": {
+			"results": [
+				{
+					"id": "att57006",
+					"type": "attachment",
+					"status": "current",
+					"title": "file.png"
+				}
+			],
+			"size": 1
+		}
+	}
+}

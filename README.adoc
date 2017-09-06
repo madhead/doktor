@@ -69,6 +69,34 @@ You can also create tables by inlining XHTML markup directly in your docs.
 
 AsciiDoc (thus Asciidoctor and AsciidoctorJ) http://asciidoctor.org/docs/user-manual/#tables[supports tables natively].
 
+==== Images
+
+Doktor supports images.
+When an image is referred by relative URL it will be uploaded to a Confluence server as an attachment of a page, given unique name.
+When an image is referred by remote URL (Internet link) it will be referred by this URL from a Confluence server.
+
+===== Markdown
+
+https://daringfireball.net/projects/markdown/syntax#img[Markdown syntax] for images:
+
+[source, markdown]
+----
+![Millennium Falcon](./millennium_falcon.png "The Millennium Falcon, Han Solo's most prized possession")
+----
+
+===== AsciiDoc
+
+Images look like http://asciidoctor.org/docs/asciidoc-writers-guide/#images[this] is AsciiDoc:
+
+[source, asciidoc]
+----
+.The Millennium Falcon, Han Solo's most prized possession
+[link=http://starwars.wikia.com/wiki/Millennium_Falcon]
+image::./millennium_falcon.png[Millennium Falcon,400,float="right",align="center"]
+----
+
+As you see, AsciiDoc is more feature-rich.
+
 === Configure Confluence servers
 
 As you might suspect, Confluence REST API requires authentication.

@@ -1,0 +1,9 @@
+{
+	"request": {
+		"method": "POST",
+		"urlPath": "/rest/api/content/57009/child/attachment"
+	},
+	"response": {
+		"status": 500
+	}
+}

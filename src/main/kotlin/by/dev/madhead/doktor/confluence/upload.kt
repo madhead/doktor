@@ -1,5 +1,6 @@
 package by.dev.madhead.doktor.confluence
 
+import by.dev.madhead.doktor.Messages
 import by.dev.madhead.doktor.model.RenderedDok
 import by.dev.madhead.doktor.model.ResolvedConfluenceServer
 import by.dev.madhead.doktor.model.confluence.*
@@ -9,11 +10,11 @@ import io.reactivex.Maybe
 import io.reactivex.Single
 
 fun upload(confluenceServer: ResolvedConfluenceServer, renderedDok: RenderedDok, taskListener: TaskListener): Completable {
-	taskListener.logger.println("Checking if a page already exists for ${renderedDok.filePath} ('${renderedDok.content.frontMatter.title}')")
+	taskListener.logger.println(Messages.doktor_confluence_upload_checkingExistence(renderedDok.filePath, renderedDok.content.frontMatter.title))
 
 	return findPage(confluenceServer, renderedDok.content.frontMatter.title)
 		.flatMap {
-			taskListener.logger.println("Deleting existing page (ID: ${it.id}) for ${renderedDok.filePath} ('${renderedDok.content.frontMatter.title}')")
+			taskListener.logger.println(Messages.doktor_confluence_upload_deletingExistingPage(it.id, renderedDok.filePath, renderedDok.content.frontMatter.title))
 
 			deletePage(confluenceServer, it.id)
 				.toMaybe<CreatePageResponse>()
@@ -23,7 +24,7 @@ fun upload(confluenceServer: ResolvedConfluenceServer, renderedDok: RenderedDok,
 				.just(renderedDok.content.frontMatter.parent.isNullOrEmpty())
 				.flatMapMaybe {
 					if (it) {
-						taskListener.logger.println("Creating new top level page from ${renderedDok.filePath} ('${renderedDok.content.frontMatter.title}')")
+						taskListener.logger.println(Messages.doktor_confluence_upload_creatingNewTopLevelPage(renderedDok.filePath, renderedDok.content.frontMatter.title))
 
 						createPage(
 							confluenceServer,
@@ -37,14 +38,14 @@ fun upload(confluenceServer: ResolvedConfluenceServer, renderedDok: RenderedDok,
 								)
 							)
 						).doOnSuccess {
-							taskListener.logger.println("Created new top level page from ${renderedDok.filePath} ('${renderedDok.content.frontMatter.title}'). ID: ${it.id}")
+							taskListener.logger.println(Messages.doktor_confluence_upload_createdNewTopLevelPage(renderedDok.filePath, renderedDok.content.frontMatter.title, it.id))
 						}.toMaybe()
 					} else {
-						taskListener.logger.println("Resolving parent ID for ${renderedDok.filePath} ('${renderedDok.content.frontMatter.title}'), parent is '${renderedDok.content.frontMatter.parent}'")
+						taskListener.logger.println(Messages.doktor_confluence_upload_resolvingParent(renderedDok.filePath, renderedDok.content.frontMatter.title, renderedDok.content.frontMatter.parent))
 
 						findPage(confluenceServer, renderedDok.content.frontMatter.parent!!)
 							.map {
-								taskListener.logger.println("Resolved parent ID for ${renderedDok.filePath} ('${renderedDok.content.frontMatter.title}'): ${it.id}")
+								taskListener.logger.println(Messages.doktor_confluence_upload_resolvedParent(renderedDok.filePath, renderedDok.content.frontMatter.title, it.id))
 								listOf(it.id)
 							}
 							.switchIfEmpty(
@@ -52,7 +53,7 @@ fun upload(confluenceServer: ResolvedConfluenceServer, renderedDok: RenderedDok,
 							)
 							.flatMap {
 								if (it.isNotEmpty()) {
-									taskListener.logger.println("Creating new child page from ${renderedDok.filePath} ('${renderedDok.content.frontMatter.title}'), parent is '${renderedDok.content.frontMatter.parent}' (${it})")
+									taskListener.logger.println(Messages.doktor_confluence_upload_creatingNewChildPage(renderedDok.filePath, renderedDok.content.frontMatter.title, renderedDok.content.frontMatter.parent, it))
 
 									createPage(
 										confluenceServer,
@@ -67,10 +68,10 @@ fun upload(confluenceServer: ResolvedConfluenceServer, renderedDok: RenderedDok,
 											ancestors = it.map { ContentReference(it) }
 										)
 									).doOnSuccess {
-										taskListener.logger.println("Created new child page from ${renderedDok.filePath} ('${renderedDok.content.frontMatter.title}'), parent is '${renderedDok.content.frontMatter.parent}' (${it}). ID: ${it.id}")
+										taskListener.logger.println(Messages.doktor_confluence_upload_createdNewChildPage(renderedDok.filePath, renderedDok.content.frontMatter.title, renderedDok.content.frontMatter.parent, it, it.id))
 									}.toMaybe()
 								} else {
-									taskListener.error("Cannot resolve parent ID for ${renderedDok.filePath} ('${renderedDok.content.frontMatter.title}'), the page will not be created!")
+									taskListener.error(Messages.doktor_confluence_upload_cannotResolveParent(renderedDok.filePath, renderedDok.content.frontMatter.title))
 
 									Maybe.empty<CreatePageResponse>()
 								}
@@ -78,14 +79,38 @@ fun upload(confluenceServer: ResolvedConfluenceServer, renderedDok: RenderedDok,
 					}
 				}
 		)
-		.flatMapCompletable {
-			if (renderedDok.content.frontMatter.labels.isNotEmpty()) {
-				taskListener.logger.println("Adding ${renderedDok.content.frontMatter.labels} labels for ${renderedDok.filePath} ('${renderedDok.content.frontMatter.title}', ${it.id})")
+		.flatMapCompletable { (id) ->
+			val labelsCompletable =
+				if (renderedDok.content.frontMatter.labels.isNotEmpty()) {
+					taskListener.logger.println(Messages.doktor_confluence_upload_addingLabels(renderedDok.content.frontMatter.labels, renderedDok.filePath, renderedDok.content.frontMatter.title, id))
 
-				addLabels(confluenceServer, it.id, renderedDok.content.frontMatter.labels.map { Label(name = it) })
-					.toCompletable()
-			} else {
-				Completable.complete()
-			}
+					addLabels(confluenceServer, id, renderedDok.content.frontMatter.labels.map { Label(name = it) })
+						.toCompletable()
+						.doOnError {
+							taskListener.error(Messages.doktor_confluence_upload_addingLabelsError(renderedDok.filePath, renderedDok.content.frontMatter.title, id))
+						}
+						.onErrorComplete()
+				} else {
+					Completable.complete()
+				}
+			val attachmentsCompletables =
+				if (renderedDok.images.isNotEmpty()) {
+					taskListener.logger.println(Messages.doktor_confluence_upload_uploadingAttachmnets(renderedDok.filePath, renderedDok.content.frontMatter.title, id))
+
+					renderedDok.images.map {
+						createAttachment(confluenceServer, id, it)
+							.toCompletable()
+							.doOnError {
+								taskListener.error(Messages.doktor_confluence_upload_uploadingAttachmnetsError(renderedDok.filePath, renderedDok.content.frontMatter.title, id))
+							}
+							.onErrorComplete()
+					}
+				} else {
+					listOf(Completable.complete())
+				}
+
+			Completable.mergeDelayError(
+				listOf(labelsCompletable) + attachmentsCompletables
+			).onErrorComplete()
 		}
 }

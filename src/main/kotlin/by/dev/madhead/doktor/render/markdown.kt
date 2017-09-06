@@ -21,14 +21,14 @@ fun markdown(content: String): RenderedContent {
 
 	visitor.visit(document)
 	if ((null == visitor.data) || (visitor.data.isEmpty())) {
-		throw RenderException(Messages.doktor_util_render_RenderException_frontMatterRequired())
+		throw RenderException(Messages.doktor_render_RenderException_frontMatterRequired())
 	}
 
 	return RenderedContent(
 		MARKDOWN,
 		htmlRenderer.render(document),
 		FrontMatter(
-			title = visitor.data[FRONTMATTER_TITLE]?.get(0) ?: throw RenderException(Messages.doktor_util_render_RenderException_titleRequired()),
+			title = visitor.data[FRONTMATTER_TITLE]?.get(0) ?: throw RenderException(Messages.doktor_render_RenderException_titleRequired()),
 			parent = visitor.data[FRONTMATTER_PARENT]?.get(0),
 			labels = visitor.data[FRONTMATTER_LABELS] ?: emptyList()
 		)

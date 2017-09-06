@@ -1,0 +1,20 @@
+{
+	"request": {
+		"method": "POST",
+		"urlPath": "/rest/api/content/57005/child/attachment"
+	},
+	"response": {
+		"status": 200,
+		"jsonBody": {
+			"results": [
+				{
+					"id": "att57005",
+					"type": "attachment",
+					"status": "current",
+					"title": "file.png"
+				}
+			],
+			"size": 1
+		}
+	}
+}

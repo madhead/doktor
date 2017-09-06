@@ -35,9 +35,15 @@ fun findPage(confluenceServer: ResolvedConfluenceServer, title: String): Maybe<C
 				}
 				is Result.Failure -> {
 					try {
-						Maybe.error<ContentReference>(Gson().fromJson(it.error.response.data.toString(Charsets.UTF_8), ConfluenceException::class.java))
+						val exception = Gson().fromJson(it.error.response.data.toString(Charsets.UTF_8), ConfluenceException::class.java)
+
+						if (!exception.message.isBlank()) {
+							Maybe.error<ContentReference>(exception)
+						} else {
+							throw IllegalArgumentException()
+						}
 					} catch (e: Throwable) {
-						Maybe.error<ContentReference>(ConfluenceException(it.error.message ?: it.error.exception.message ?: it.error.response.httpResponseMessage))
+						Maybe.error<ContentReference>(ConfluenceException(it.error.exception.message ?: it.error.message ?: it.error.response.responseMessage))
 					}
 				}
 			}

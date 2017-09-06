@@ -1,0 +1,19 @@
+{
+	"request": {
+		"method": "POST",
+		"urlPath": "/rest/api/content/57007/child/attachment"
+	},
+	"response": {
+		"status": 400,
+		"jsonBody": {
+			"statusCode": 400,
+			"data": {
+				"authorized": false,
+				"valid": true,
+				"errors": [],
+				"successful": false
+			},
+			"message": "The request was rejected because no multipart boundary was found"
+		}
+	}
+}

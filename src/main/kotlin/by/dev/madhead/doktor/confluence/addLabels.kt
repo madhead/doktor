@@ -27,9 +27,15 @@ fun addLabels(confluenceServer: ResolvedConfluenceServer, id: String, labels: La
 				is Result.Success -> Single.just(it.value)
 				is Result.Failure -> {
 					try {
-						Single.error<AddLabelsResponse>(Gson().fromJson(it.error.response.data.toString(Charsets.UTF_8), ConfluenceException::class.java))
+						val exception = Gson().fromJson(it.error.response.data.toString(Charsets.UTF_8), ConfluenceException::class.java)
+
+						if (!exception.message.isBlank()) {
+							Single.error<AddLabelsResponse>(exception)
+						} else {
+							throw IllegalArgumentException()
+						}
 					} catch (e: Throwable) {
-						Single.error<AddLabelsResponse>(ConfluenceException(it.error.message ?: it.error.exception.message ?: it.error.response.httpResponseMessage))
+						Single.error<AddLabelsResponse>(ConfluenceException(it.error.exception.message ?: it.error.message ?: it.error.response.responseMessage))
 					}
 				}
 			}

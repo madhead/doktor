@@ -25,8 +25,8 @@ class Markdown {
 			"labels"
 		).map {
 			arrayOf(
-				this::class.java.getResourceAsStream("/by/dev/madhead/doktor/util/render/Markdown/${it}.md").bufferedReader().use { it.readText() },
-				objectMapper.readValue<RenderedContent>(this::class.java.getResourceAsStream("/by/dev/madhead/doktor/util/render/Markdown/${it}.yml"))
+				this::class.java.getResourceAsStream("/by/dev/madhead/doktor/render/Markdown/${it}.md").bufferedReader().use { it.readText() },
+				objectMapper.readValue<RenderedContent>(this::class.java.getResourceAsStream("/by/dev/madhead/doktor/render/Markdown/${it}.yml"))
 			)
 		}.toTypedArray()
 	}

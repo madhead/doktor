@@ -1,0 +1,18 @@
+{
+	"request": {
+		"method": "POST",
+		"urlPath": "/rest/api/content/57008/child/attachment"
+	},
+	"response": {
+		"status": 403,
+		"jsonBody": {
+			"statusCode": 403,
+			"data": {
+				"authorized": false,
+				"valid": true,
+				"errors": [],
+				"successful": false
+			}
+		}
+	}
+}

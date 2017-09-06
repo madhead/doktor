@@ -16,5 +16,6 @@ data class RenderedContent(
 
 data class RenderedDok(
 	val filePath: String,
-	val content: RenderedContent
+	val content: RenderedContent,
+	val images: List<Attachment>
 ) : Serializable

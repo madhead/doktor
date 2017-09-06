@@ -45,7 +45,7 @@ class ConfluenceServers : GlobalConfiguration() {
 	companion object {
 		fun resolve(server: String): ResolvedConfluenceServer {
 			val confluenceServer = GlobalConfiguration.all().get(ConfluenceServers::class.java)?.servers?.find { it.name == server }
-				?: throw AbortException(Messages.doktor_hudson_AbortException_AbortException_unknownConfluenceServer())
+				?: throw AbortException(Messages.doktor_hudson_AbortException_unknownConfluenceServer())
 
 			val credentials = if (!confluenceServer.credentials.isNullOrBlank()) {
 				CredentialsMatchers.firstOrNull(
@@ -56,7 +56,7 @@ class ConfluenceServers : GlobalConfiguration() {
 						emptyList()
 					),
 					CredentialsMatchers.withId(confluenceServer.credentials)
-				) ?: throw AbortException(Messages.doktor_hudson_AbortException_AbortException_unknownCredentials())
+				) ?: throw AbortException(Messages.doktor_hudson_AbortException_unknownCredentials())
 			} else {
 				null
 			}

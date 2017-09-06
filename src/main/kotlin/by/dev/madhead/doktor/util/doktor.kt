@@ -4,8 +4,8 @@ import by.dev.madhead.doktor.Messages
 import by.dev.madhead.doktor.confluence.upload
 import by.dev.madhead.doktor.model.DoktorConfig
 import by.dev.madhead.doktor.model.RenderedDok
-import by.dev.madhead.doktor.util.fs.WorkspaceDokLister
 import by.dev.madhead.doktor.render.DokRenderer
+import by.dev.madhead.doktor.util.fs.WorkspaceDokLister
 import hudson.FilePath
 import hudson.model.TaskListener
 import io.reactivex.Completable
@@ -22,6 +22,7 @@ fun diagnose(doktorConfig: DoktorConfig, workspace: FilePath, taskListener: Task
 			workspace.actAsync(WorkspaceDokLister(doktorConfig))
 		)
 		.flatMap { it.toObservable() }
+//		.subscribeOn(Schedulers.computation())
 		.map {
 			Pair(it.filePath.remote, workspace.child(it.filePath.remote).actAsync(DokRenderer(it.markup, taskListener)))
 		}

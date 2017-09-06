@@ -26,8 +26,8 @@ class AsciiDoc {
 			"labels_inline"
 		).map {
 			arrayOf(
-				this::class.java.getResourceAsStream("/by/dev/madhead/doktor/util/render/AsciiDoc/${it}.asc").bufferedReader().use { it.readText() },
-				objectMapper.readValue<RenderedContent>(this::class.java.getResourceAsStream("/by/dev/madhead/doktor/util/render/AsciiDoc/${it}.yml"))
+				this::class.java.getResourceAsStream("/by/dev/madhead/doktor/render/AsciiDoc/${it}.asc").bufferedReader().use { it.readText() },
+				objectMapper.readValue<RenderedContent>(this::class.java.getResourceAsStream("/by/dev/madhead/doktor/render/AsciiDoc/${it}.yml"))
 			)
 		}.toTypedArray()
 	}

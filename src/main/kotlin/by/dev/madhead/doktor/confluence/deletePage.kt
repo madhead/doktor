@@ -22,9 +22,15 @@ fun deletePage(confluenceServer: ResolvedConfluenceServer, id: String): Completa
 				is Result.Success -> Completable.complete()
 				is Result.Failure -> {
 					try {
-						Completable.error(Gson().fromJson(result.error.response.data.toString(Charsets.UTF_8), ConfluenceException::class.java))
+						val exception = Gson().fromJson(result.error.response.data.toString(Charsets.UTF_8), ConfluenceException::class.java)
+
+						if (!exception.message.isBlank()) {
+							Completable.error(exception)
+						} else {
+							throw IllegalArgumentException()
+						}
 					} catch (e: Throwable) {
-						Completable.error(ConfluenceException(result.error.message ?: result.error.exception.message ?: result.error.response.httpResponseMessage))
+						Completable.error(ConfluenceException(result.error.exception.message ?: result.error.message ?: result.error.response.responseMessage))
 					}
 				}
 			}

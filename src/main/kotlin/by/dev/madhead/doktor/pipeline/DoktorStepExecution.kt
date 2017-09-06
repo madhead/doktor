@@ -14,8 +14,8 @@ class DoktorStepExecution(context: StepContext, val doktorConfig: DoktorConfig) 
 		try {
 			diagnose(
 				doktorConfig,
-				context.get(FilePath::class.java) ?: throw AbortException(Messages.doktor_hudson_AbortException_AbortException_workspaceRequired()),
-				context.get(TaskListener::class.java) ?: throw AbortException(Messages.doktor_hudson_AbortException_AbortException_taskListenerRequired())
+				context.get(FilePath::class.java) ?: throw AbortException(Messages.doktor_hudson_AbortException_workspaceRequired()),
+				context.get(TaskListener::class.java) ?: throw AbortException(Messages.doktor_hudson_AbortException_taskListenerRequired())
 			).blockingAwait()
 
 			return null

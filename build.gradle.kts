@@ -22,6 +22,9 @@ val asciidoctorVersion by project
 val jacksonVersion by project
 val jgraphtVersion by project
 val fuelVersion by project
+val jsoupVersion by project
+val kotlinxHtmlJvmVersion by project
+val simplemagicVersion by project
 val jenkinsCredentialsPluginVersion by project
 val jenkinsWorkflowStepsAPIPluginVersion by project
 
@@ -42,6 +45,9 @@ dependencies {
 	compile("org.jgrapht:jgrapht-core:${jgraphtVersion}")
 	compile("com.github.kittinunf.fuel:fuel-rxjava:${fuelVersion}")
 	compile("com.github.kittinunf.fuel:fuel-gson:${fuelVersion}")
+	compile("org.jsoup:jsoup:${jsoupVersion}")
+	compile("org.jetbrains.kotlinx:kotlinx-html-jvm:${kotlinxHtmlJvmVersion}")
+	compile("com.j256.simplemagic:simplemagic:${simplemagicVersion}")
 
 	jenkinsPlugins("org.jenkins-ci.plugins:credentials:${jenkinsCredentialsPluginVersion}@jar")
 	jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:${jenkinsWorkflowStepsAPIPluginVersion}@jar")
