@@ -1,4 +1,4 @@
-package by.dev.madhead.doktor.util.render
+package by.dev.madhead.doktor.render
 
 import by.dev.madhead.doktor.model.RenderedContent
 import com.fasterxml.jackson.databind.ObjectMapper

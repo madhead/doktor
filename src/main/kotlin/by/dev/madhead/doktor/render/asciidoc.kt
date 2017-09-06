@@ -1,4 +1,4 @@
-package by.dev.madhead.doktor.util.render
+package by.dev.madhead.doktor.render
 
 import by.dev.madhead.doktor.Messages
 import by.dev.madhead.doktor.model.*

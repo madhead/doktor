@@ -1,7 +1,7 @@
 package by.dev.madhead.doktor.model
 
-import by.dev.madhead.doktor.util.render.asciiDoc
-import by.dev.madhead.doktor.util.render.markdown
+import by.dev.madhead.doktor.render.asciiDoc
+import by.dev.madhead.doktor.render.markdown
 
 typealias RenderFunction = (String) -> RenderedContent
 

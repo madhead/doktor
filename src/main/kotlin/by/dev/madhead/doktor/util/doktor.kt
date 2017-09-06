@@ -5,7 +5,7 @@ import by.dev.madhead.doktor.confluence.upload
 import by.dev.madhead.doktor.model.DoktorConfig
 import by.dev.madhead.doktor.model.RenderedDok
 import by.dev.madhead.doktor.util.fs.WorkspaceDokLister
-import by.dev.madhead.doktor.util.render.DokRenderer
+import by.dev.madhead.doktor.render.DokRenderer
 import hudson.FilePath
 import hudson.model.TaskListener
 import io.reactivex.Completable
