@@ -67,6 +67,7 @@ jenkinsPlugin {
 	displayName = "Doktor"
 	shortName = "doktor"
 	gitHubUrl = "https://github.com/madhead/doktor"
+	url = "https://wiki.jenkins.io/display/JENKINS/Doktor+Plugin"
 
 	coreVersion = jenkinsCoreVersion as String?
 	compatibleSinceVersion = coreVersion
