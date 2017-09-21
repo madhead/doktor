@@ -26,16 +26,15 @@ class ConfluenceServers : GlobalConfiguration() {
 		load()
 	}
 
-	override fun configure(req: StaplerRequest, json: JSONObject): Boolean {
+	override fun configure(req: StaplerRequest, json: JSONObject?): Boolean {
 		validate(json)
 		req.bindJSON(this, json)
 
 		return true
 	}
 
-	private fun validate(json: JSONObject) {
-		// Single Confluence server, no validation needed
-		if (json["servers"] is JSONObject) {
+	private fun validate(json: JSONObject?) {
+		if ((null == json) || (null == json["servers"]) || (json["servers"] is JSONObject)) {
 			return
 		}
 		if ((json["servers"] as JSONArray).groupBy { (it as JSONObject)["name"] }.any { it.value.size > 1 }) {
