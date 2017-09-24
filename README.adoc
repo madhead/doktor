@@ -38,8 +38,10 @@ Note, that due to a more strict YAML parser logic for AsciiDoc, strings with spe
 
 [source, asciidoc]
 ----
+---
 key: value
 key_with_specials: 'value: with specials'
+---
 ----
 
 ===== Supported front matter attributes:
