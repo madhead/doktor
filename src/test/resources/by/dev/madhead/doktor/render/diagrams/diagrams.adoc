@@ -1,0 +1,247 @@
+---
+title: Diagrams
+---
+
+== actdiag
+
+In order to be able to use `actdiag` diagrams you should install `actdiag` tool with `pip`:
+
+    sudo pip install actdiag
+
+Example diagram:
+
+[actdiag]
+....
+actdiag {
+  write -> convert -> image
+
+  lane user {
+     label = "User"
+     write [label = "Writing reST"];
+     image [label = "Get diagram IMAGE"];
+  }
+  lane actdiag {
+     convert [label = "Convert reST to Image"];
+  }
+}
+....
+
+== blockdiag
+
+In order to be able to use `blockdiag` diagrams you should install `blockdiag` tool with `pip`:
+
+    sudo pip install blockdiag
+
+Example diagram:
+
+[blockdiag]
+....
+blockdiag {
+   A -> B -> C -> D;
+   A -> E -> F -> G;
+}
+....
+
+== ditaa
+
+You should have Java installed in order to be able to use `ditaa` diagram.
+
+Example diagram:
+
+[ditaa]
+....
++--------+   +-------+    +-------+
+|        | --+ ditaa +--> |       |
+|  Text  |   +-------+    |diagram|
+|Document|   |!magic!|    |       |
+|     {d}|   |       |    |       |
++---+----+   +-------+    +-------+
+    :                         ^
+    |       Lots of work      |
+    +-------------------------+
+....
+
+== graphviz
+
+In order to be able to use `graphviz` diagrams you should install `graphviz` tool:
+
+    sudo pacman -S graphviz
+
+Example diagram:
+
+[graphviz]
+....
+digraph G {Hello->World}
+....
+
+== meme
+
+meme::can_haz.png[YO CAN HAZ,MEMES!]
+
+== mermaid
+
+In order to be able to use `mermaid` diagrams you should install `mermaid` tool with `npm`:
+
+    npm install -g mermaid phantomjs
+
+Example diagram:
+
+[mermaid]
+....
+%% Example of sequence diagram
+sequenceDiagram
+    Alice->>John: Hello John, how are you?
+    John-->>Alice: Great!
+....
+
+== nwdiag
+
+In order to be able to use `nwdiag` diagrams you should install `nwdiag` tool with `pip`:
+
+    sudo pip install nwdiag
+
+Example diagram:
+
+[nwdiag]
+....
+nwdiag {
+  network dmz {
+      address = "210.x.x.x/24"
+
+      web01 [address = "210.x.x.1"];
+      web02 [address = "210.x.x.2"];
+  }
+  network internal {
+      address = "172.x.x.x/24";
+
+      web01 [address = "172.x.x.1"];
+      web02 [address = "172.x.x.2"];
+      db01;
+      db02;
+  }
+}
+....
+
+== packetdiag
+
+In order to be able to use `packetdiag` diagrams you should install `nwdiag` tool with `pip`:
+
+    sudo pip install nwdiag
+
+Example diagram:
+
+[packetdiag]
+....
+packetdiag {
+   0-7: Source Port
+   8-15: Destination Port
+   16-31: Sequence Number
+   32-47: Acknowledgment Number
+}
+....
+
+== plantuml
+
+You should have Java installed in order to be able to use `ditaa` diagram.
+
+Example diagram:
+
+[plantuml]
+....
+@startuml
+
+(*) --> "First Activity"
+"First Activity" --> (*)
+
+@enduml
+....
+
+== rackdiag
+
+In order to be able to use `rackdiag` diagrams you should install `nwdiag` tool with `pip`:
+
+    sudo pip install nwdiag
+
+Example diagram:
+
+[rackdiag]
+....
+rackdiag {
+  // Change order of rack-number as ascending
+  ascending;
+
+  // define height of rack
+  12U;
+
+  // define description of rack
+  description = "Tokyo/1234 East";
+
+  // define rack units
+  1: UPS [2U];   // define height of unit
+  3: DB Server [5kg]  // define weight of unit
+  4: Web Server [0.5A]  // define ampere of unit
+  5: Web Server
+  6: Web Server
+  7: Load Balancer
+  8: L3 Switch
+}
+....
+
+== seqdiag
+
+In order to be able to use `seqdiag` diagrams you should install `seqdiag` tool with `pip`:
+
+    sudo pip install seqdiag
+
+Example diagram:
+
+[seqdiag]
+....
+seqdiag {
+  // normal edge and doted edge
+  A -> B [label = "normal edge"];
+  B --> C [label = "dotted edge"];
+
+  B <-- C [label = "return dotted edge"];
+  A <- B [label = "return edge"];
+
+  // asynchronus edge
+  A ->> B [label = "asynchronus edge"];
+  B -->> C [label = "asynchronus dotted edge"];
+
+  B <<-- C [label = "return asynchronus doted edge"];
+  A <<- B [label = "return asynchronus edge"];
+
+  // self referenced edge
+  A -> A [label = "self reference edge"];
+}
+....
+
+== shaape
+
+In order to be able to use `shaape` diagrams you should install `shaape` tool with `pip2` (Python 2 only):
+
+    sudo pip2 install shaape
+
+Example diagram:
+
+[shaape]
+....
++-->
+/     /\
+>---+---->+  +
+     \/
+....
+
+== wavedrom
+
+In order to be able to use `wavedrom` diagrams you should install `wavedrom` tool with `npm`:
+
+    npm install -g wavedrom phantomjs
+
+Example diagram:
+
+[wavedrom]
+....
+{ signal: [{ name: "Alfa", wave: "01.zx=ud.23.45" }] }
+....

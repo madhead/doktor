@@ -13,6 +13,7 @@ import hudson.remoting.VirtualChannel
 import jenkins.SlaveToMasterFileCallable
 import kotlinx.html.stream.appendHTML
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import org.jsoup.parser.Parser
 import java.io.File
 import java.net.URI
@@ -25,11 +26,12 @@ class DokRenderer(
 	override fun invoke(file: File, channel: VirtualChannel?): RenderedDok {
 		taskListener.logger.println(Messages.doktor_render_DokRenderer_rendering(markup, file))
 
-		val content = markup.render(file.readText())
+		val content = markup.render(file.readText(), file.parentFile)
 		val document = Jsoup.parse(content.content)
 		val images = mutableListOf<Attachment>()
 		val magic = ContentInfoUtil()
 
+		document.outputSettings().syntax(Document.OutputSettings.Syntax.xml)
 		document
 			.getElementsByTag("img")
 			.forEach {

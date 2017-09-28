@@ -9,8 +9,9 @@ import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.options.MutableDataSet
+import java.io.File
 
-fun markdown(content: String): RenderedContent {
+fun markdown(content: String, baseDir: File? = null): RenderedContent {
 	val options = MutableDataSet().apply {
 		set(Parser.EXTENSIONS, listOf(YamlFrontMatterExtension.create(), TablesExtension.create()))
 	}

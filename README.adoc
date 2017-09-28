@@ -101,6 +101,44 @@ image::./millennium_falcon.png[Millennium Falcon,400,float="right",align="center
 
 As you see, AsciiDoc is more feature-rich.
 
+==== Diagrams
+
+Diagrams are only supported in AsciiDoc, the markup looks like this:
+
+[seqdiag]
+....
+seqdiag {
+  // normal edge and doted edge
+  A -> B [label = "normal edge"];
+  B --> C [label = "dotted edge"];
+
+  B <-- C [label = "return dotted edge"];
+  A <- B [label = "return edge"];
+
+  // asynchronus edge
+  A ->> B [label = "asynchronus edge"];
+  B -->> C [label = "asynchronus dotted edge"];
+
+  B <<-- C [label = "return asynchronus doted edge"];
+  A <<- B [label = "return asynchronus edge"];
+
+  // self referenced edge
+  A -> A [label = "self reference edge"];
+}
+....
+
+The snippet above will be rendered in this image:
+
+image::https://github.com/madhead/doktor/blob/master/.github/images/seqdiag.png[]
+
+Read more about diagram syntax in http://asciidoctor.org/docs/asciidoctor-diagram[in the official AsciiDoc guide].
+Be warned, that most types of diagrams require external tools (like `seqdiag` or `dot`) to be installed.
+
+Currently, these diagrams are supported:
+
+ - `blockdiag` / `seqdiag`.
+These diagrams require http://blockdiag.com[`blockdiag`] Python package to be available on the `PATH`.
+
 === Configure Confluence servers
 
 As you might suspect, Confluence REST API requires authentication.

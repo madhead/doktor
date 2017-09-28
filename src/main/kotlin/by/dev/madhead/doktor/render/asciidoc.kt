@@ -13,21 +13,34 @@ import org.asciidoctor.AttributesBuilder
 import org.asciidoctor.OptionsBuilder
 import org.jruby.RubyInstanceConfig
 import org.jruby.javasupport.JavaEmbedUtils
+import java.io.File
 
-fun asciiDoc(content: String): RenderedContent {
+fun asciiDoc(content: String, baseDir: File? = null): RenderedContent {
 	// This crap is totally legal: https://github.com/asciidoctor/asciidoctorj#using-asciidoctorj-in-an-osgi-environment
 	val config = RubyInstanceConfig()
 	val classLoader = object : Any() {}::class.java.classLoader
 
 	config.loader = classLoader
-	JavaEmbedUtils.initialize(listOf("META-INF/jruby.home/lib/ruby/2.0", "gems/asciidoctor-1.5.6.1/lib"), config)
+	JavaEmbedUtils.initialize(listOf(
+		"META-INF/jruby.home/lib/ruby/2.0",
+		"gems/asciidoctor-1.5.6.1/lib",
+		"gems/asciidoctor-diagram-1.5.4.1/lib",
+		"gems/asciidoctor-diagram-1.5.4.1/lib/asciidoctor-diagram/blockdiag"
+	), config)
 
 	val asciidoctor = Asciidoctor.Factory.create(classLoader)
+
+	asciidoctor.requireLibrary("asciidoctor-diagram")
 
 	try {
 		val options = OptionsBuilder
 			.options()
 			.backend("xhtml")
+			.apply {
+				if (null != baseDir) {
+					baseDir(baseDir)
+				}
+			}
 			.attributes(AttributesBuilder
 				.attributes()
 				.skipFrontMatter(true)

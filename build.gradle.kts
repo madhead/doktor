@@ -18,7 +18,8 @@ repositories {
 val kotlinVersion by project
 val rxkotlinVersion by project
 val flexmarkVersion by project
-val asciidoctorVersion by project
+val asciidoctorjVersion by project
+val asciidoctorjDiagramVersion by project
 val jacksonVersion by project
 val jgraphtVersion by project
 val fuelVersion by project
@@ -39,7 +40,8 @@ dependencies {
 	compile("com.vladsch.flexmark:flexmark:${flexmarkVersion}")
 	compile("com.vladsch.flexmark:flexmark-ext-yaml-front-matter:${flexmarkVersion}")
 	compile("com.vladsch.flexmark:flexmark-ext-tables:${flexmarkVersion}")
-	compile("org.asciidoctor:asciidoctorj:${asciidoctorVersion}")
+	compile("org.asciidoctor:asciidoctorj:${asciidoctorjVersion}")
+	compile("org.asciidoctor:asciidoctorj-diagram:${asciidoctorjDiagramVersion}")
 	compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${jacksonVersion}")
 	compile("com.fasterxml.jackson.module:jackson-module-kotlin:${jacksonVersion}")
 	compile("org.jgrapht:jgrapht-core:${jgraphtVersion}")
