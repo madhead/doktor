@@ -25,7 +25,11 @@ fun asciiDoc(file: File): RenderedContent {
 		"META-INF/jruby.home/lib/ruby/2.0",
 		"gems/asciidoctor-1.5.6.1/lib",
 		"gems/asciidoctor-diagram-1.5.4.1/lib",
-		"gems/asciidoctor-diagram-1.5.4.1/lib/asciidoctor-diagram/blockdiag"
+		"gems/asciidoctor-diagram-1.5.4.1/lib/asciidoctor-diagram/blockdiag",
+		"gems/asciidoctor-diagram-1.5.4.1/lib/asciidoctor-diagram/ditaa",
+		"gems/asciidoctor-diagram-1.5.4.1/lib/asciidoctor-diagram/graphviz",
+		"gems/asciidoctor-diagram-1.5.4.1/lib/asciidoctor-diagram/mermaid",
+		"gems/asciidoctor-diagram-1.5.4.1/lib/asciidoctor-diagram/plantuml"
 	), config)
 
 	val asciidoctor = Asciidoctor.Factory.create(classLoader)

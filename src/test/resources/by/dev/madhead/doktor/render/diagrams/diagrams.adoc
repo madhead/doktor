@@ -2,6 +2,10 @@
 title: Diagrams
 ---
 
+Diagrams make managers happy:
+
+image::smile.png[align="center"]
+
 == actdiag
 
 In order to be able to use `actdiag` diagrams you should install `actdiag` tool with `pip`:
@@ -46,7 +50,7 @@ blockdiag {
 
 You should have Java installed in order to be able to use `ditaa` diagram.
 
-Example diagram:
+Example diagrams:
 
 [ditaa]
 ....
@@ -60,6 +64,62 @@ Example diagram:
     |       Lots of work      |
     +-------------------------+
 ....
+
+[ditaa, scale=2, round-corners=true, shadows=false]
+....
++--------+   +-------+    +-------+
+|        | --+ ditaa +--> |       |
+|  Text  |   +-------+    |diagram|
+|Document|   |!magic!|    |       |
+|     {d}|   |       |    |       |
++---+----+   +-------+    +-------+
+    :                         ^
+    |       Lots of work      |
+    +-------------------------+
+....
+
+[ditaa, background=FF00FF, antialias=false]
+....
++--------+   +-------+    +-------+
+|        | --+ ditaa +--> |       |
+|  Text  |   +-------+    |diagram|
+|Document|   |!magic!|    |       |
+|     {d}|   |       |    |       |
++---+----+   +-------+    +-------+
+    :                         ^
+    |       Lots of work      |
+    +-------------------------+
+....
+
+[ditaa, separation=false, transparent=true]
+....
++--------+   +-------+    +-------+
+|        | --+ ditaa +--> |{io}   |
+|  Text  |   +-------+    |diagram|
+|Document|   |!magic!|    |       |
+|     {d}|   |       |    |       |
++---+----+   +-------+    +-------+
+    :                         ^
+    |       Lots of work      |
+    +-------------------------+
+....
+
+[ditaa, debug=true, fixed-slope=true]
+....
++--------+   +-------+    +-------+
+|        | --+ ditaa +--> |{io}   |
+|  Text  |   +-------+    |diagram|
+|Document|   |!magic!|    |       |
+|     {d}|   |       |    |       |
++---+----+   +-------+    +-------+
+    :                         ^
+    |       Lots of work      |
+    +-------------------------+
+....
+
+== erd
+
+TODO
 
 == graphviz
 
@@ -76,22 +136,84 @@ digraph G {Hello->World}
 
 == meme
 
-meme::can_haz.png[YO CAN HAZ,MEMES!]
+TODO
+//meme::smile.png[YO CAN HAZ,MEMES!]
 
 == mermaid
 
 In order to be able to use `mermaid` diagrams you should install `mermaid` tool with `npm`:
 
-    npm install -g mermaid phantomjs
+    npm install -g mermaid@6.0.0 phantomjs
 
-Example diagram:
+Example diagrams:
 
 [mermaid]
 ....
-%% Example of sequence diagram
+graph TB
+    c1-->a2
+    subgraph one
+    a1-->a2
+    end
+    subgraph two
+    b1-->b2
+    end
+    subgraph three
+    c1-->c2
+    end
+....
+
+[mermaid]
+....
+graph LR
+    A[Hard edge] -->|Link text| B(Round edge)
+    B --> C{Decision}
+    C -->|One| D[Result one]
+    C -->|Two| E[Result two]
+....
+
+[mermaid, width=400]
+....
 sequenceDiagram
-    Alice->>John: Hello John, how are you?
-    John-->>Alice: Great!
+    Alice->>Bob: Hello Bob, how are you?
+    alt is sick
+        Bob->>Alice: Not so good :(
+    else is well
+        Bob->>Alice: Feeling fresh like a daisy
+    end
+    opt Extra response
+        Bob->>Alice: Thanks for asking
+    end
+....
+
+[mermaid]
+....
+gantt
+       dateFormat  YYYY-MM-DD
+       title Adding GANTT diagram functionality to mermaid
+
+       section A section
+       Completed task            :done,    des1, 2014-01-06,2014-01-08
+       Active task               :active,  des2, 2014-01-09, 3d
+       Future task               :         des3, after des2, 5d
+       Future task2              :         des4, after des3, 5d
+
+       section Critical tasks
+       Completed task in the critical line :crit, done, 2014-01-06,24h
+       Implement parser and jison          :crit, done, after des1, 2d
+       Create tests for parser             :crit, active, 3d
+       Future task in critical line        :crit, 5d
+       Create tests for renderer           :2d
+       Add to mermaid                      :1d
+
+       section Documentation
+       Describe gantt syntax               :active, a1, after des1, 3d
+       Add gantt diagram to demo page      :after a1  , 20h
+       Add another diagram to demo page    :doc1, after a1  , 48h
+
+       section Last section
+       Describe gantt syntax               :after doc1, 3d
+       Add gantt diagram to demo page      :20h
+       Add another diagram to demo page    :48h
 ....
 
 == nwdiag
@@ -142,18 +264,32 @@ packetdiag {
 
 == plantuml
 
-You should have Java installed in order to be able to use `ditaa` diagram.
+You should have Java installed in order to be able to use `plantuml` diagram.
 
 Example diagram:
 
 [plantuml]
 ....
-@startuml
-
-(*) --> "First Activity"
-"First Activity" --> (*)
-
-@enduml
+skinparam style strictuml
+class Façade {
+ doSomething()
+}
+Façade .> package1.Class1
+Façade .> package2.Class2
+Façade .> package3.Class3
+Client1 .> Façade : doSomething()
+Client2 .> Façade : doSomething()
+note as N2
+doSomething() {
+  Class1 c1 = newClass1();
+  Class2 c2 = newClass2();
+  Class3 c3 = newClass3();
+  c1.doStuff(c2)
+  c3.setX(c1.getX());
+  return c3.getY();
+}
+end note
+Façade .. N2
 ....
 
 == rackdiag
@@ -217,31 +353,31 @@ seqdiag {
 }
 ....
 
-== shaape
-
-In order to be able to use `shaape` diagrams you should install `shaape` tool with `pip2` (Python 2 only):
-
-    sudo pip2 install shaape
-
-Example diagram:
-
-[shaape]
-....
-+-->
-/     /\
->---+---->+  +
-     \/
-....
-
-== wavedrom
-
-In order to be able to use `wavedrom` diagrams you should install `wavedrom` tool with `npm`:
-
-    npm install -g wavedrom phantomjs
-
-Example diagram:
-
-[wavedrom]
-....
-{ signal: [{ name: "Alfa", wave: "01.zx=ud.23.45" }] }
-....
+//== shaape
+//
+//In order to be able to use `shaape` diagrams you should install `shaape` tool with `pip2` (Python 2 only):
+//
+//    sudo pip2 install shaape
+//
+//Example diagram:
+//
+//[shaape]
+//....
+//+-->
+///     /\
+//>---+---->+  +
+//     \/
+//....
+//
+//== wavedrom
+//
+//In order to be able to use `wavedrom` diagrams you should install `wavedrom` tool with `npm`:
+//
+//    npm install -g wavedrom phantomjs
+//
+//Example diagram:
+//
+//[wavedrom]
+//....
+//{ signal: [{ name: "Alfa", wave: "01.zx=ud.23.45" }] }
+//....
