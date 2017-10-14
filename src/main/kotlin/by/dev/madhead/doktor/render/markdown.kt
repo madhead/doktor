@@ -11,13 +11,13 @@ import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.options.MutableDataSet
 import java.io.File
 
-fun markdown(content: String, baseDir: File? = null): RenderedContent {
+fun markdown(file: File): RenderedContent {
 	val options = MutableDataSet().apply {
 		set(Parser.EXTENSIONS, listOf(YamlFrontMatterExtension.create(), TablesExtension.create()))
 	}
 	val parser = Parser.builder(options).build()
 	val htmlRenderer = HtmlRenderer.builder(options).build()
-	val document = parser.parse(content)
+	val document = parser.parse(file.readText())
 	val visitor = AbstractYamlFrontMatterVisitor()
 
 	visitor.visit(document)

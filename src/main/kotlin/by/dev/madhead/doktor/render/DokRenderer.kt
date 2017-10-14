@@ -26,7 +26,7 @@ class DokRenderer(
 	override fun invoke(file: File, channel: VirtualChannel?): RenderedDok {
 		taskListener.logger.println(Messages.doktor_render_DokRenderer_rendering(markup, file))
 
-		val content = markup.render(file.readText(), file.parentFile)
+		val content = markup.render(file)
 		val document = Jsoup.parse(content.content)
 		val images = mutableListOf<Attachment>()
 		val magic = ContentInfoUtil()
