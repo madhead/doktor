@@ -9,6 +9,7 @@ plugins {
 	kotlin("kapt") version ("1.1.51")
 
 	id("org.jenkins-ci.jpi") version ("0.22.0")
+	id("net.researchgate.release") version ("2.6.0")
 }
 
 repositories {
