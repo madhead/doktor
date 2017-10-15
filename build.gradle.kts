@@ -5,8 +5,8 @@ import org.jetbrains.kotlin.gradle.internal.KaptTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	kotlin("jvm") version ("1.1.4")
-	kotlin("kapt") version ("1.1.4")
+	kotlin("jvm") version ("1.1.51")
+	kotlin("kapt") version ("1.1.51")
 
 	id("org.jenkins-ci.jpi") version ("0.22.0")
 }
