@@ -120,6 +120,8 @@ tasks.withType(KaptGenerateStubsTask::class.java).all {
 	outputs.upToDateWhen { false }
 }
 
+tasks["afterReleaseBuild"].dependsOn("publish")
+
 task<Wrapper>("wrapper") {
 	gradleVersion = "4.1"
 	distributionType = Wrapper.DistributionType.ALL
