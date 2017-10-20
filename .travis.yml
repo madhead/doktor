@@ -5,3 +5,15 @@ language: java
 jdk:
   - oraclejdk8
 #  - oraclejdk9
+
+install: true
+
+script: .travis/script.sh
+
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: .travis/deploy_jenkins_plugin.sh
+    on:
+      tags: true
+      jdk: oraclejdk8
