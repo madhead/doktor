@@ -13,7 +13,7 @@ if [[ ${TRAVIS_BRANCH} == 'master' ]] && [[ ${TRAVIS_PULL_REQUEST} == 'false' ]]
 	EOF
 	git checkout ${TRAVIS_BRANCH}
 
-	./gradlew clean release
+	./gradlew clean release -Prelease.useAutomaticVersion=true
 else
 	./gradlew clean assemble check
 fi
