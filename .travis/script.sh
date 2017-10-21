@@ -3,9 +3,18 @@
 set -x
 
 if [[ ${TRAVIS_BRANCH} == 'master' ]] && [[ ${TRAVIS_PULL_REQUEST} == 'false' ]] &&  [[ $(git cat-file -p ${TRAVIS_COMMIT} | grep -o 'parent' | wc -l) -gt 1 ]]; then
-	openssl aes-256-cbc -K ${encrypted_6ae40059dfe6_key} -iv ${encrypted_6ae40059dfe6_iv} -in .travis/github_deploy_key.enc -out ${HOME}/.ssh/id_rsa -d
+	SECRETS=$(mktemp -d)
+
+	openssl aes-256-cbc -K $encrypted_6ae40059dfe6_key -iv $encrypted_6ae40059dfe6_iv -in .travis/secrets.tar.enc -out ${SECRETS}/secrets.tar -d
+	tar xvf ${SECRETS}/secrets.tar -C ${SECRETS}
+	mv ${SECRETS}/deploy_key ${HOME}/.ssh/id_rsa
 	cp -f .travis/config ${HOME}/.ssh/config
+	chmod 600 ${HOME}/.ssh/id_rsa
+
 	git checkout ${TRAVIS_BRANCH}
+	git remote set-url origin git@github.com:jenkinsci/doktor-plugin.git
+	git config user.name "Travis"
+	git config user.email "<>"
 
 	./gradlew clean release -Prelease.useAutomaticVersion=true
 else
