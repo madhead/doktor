@@ -12,5 +12,5 @@ mv ${SECRETS}/.jenkins-ci.org ${HOME}/.jenkins-ci.org
 
 curl \
 	-X POST \
-	--data-urlencode "payload={\"channel\": \"#petprojects\", \"username\": \"Travis\", \"text\": \"Doktor version ${TRAVIS_TAG} is available\!\", \"icon_emoji\": \":robot_face:\"}" \
+	--data-urlencode "payload={\"channel\": \"#petprojects\", \"username\": \"Travis\", \"text\": \"Doktor version ${TRAVIS_TAG} is available!\", \"icon_emoji\": \":robot_face:\"}" \
 	$SLACK_WEBHOOK_URL
