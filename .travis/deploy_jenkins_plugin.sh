@@ -9,3 +9,8 @@ tar xvf ${SECRETS}/secrets.tar -C ${SECRETS}
 mv ${SECRETS}/.jenkins-ci.org ${HOME}/.jenkins-ci.org
 
 ./gradlew clean publish
+
+curl \
+	-X POST \
+	--data-urlencode "payload={\"channel\": \"#petprojects\", \"username\": \"Travis\", \"text\": \"Doktor version ${TRAVIS_TAG} is available\!\", \"icon_emoji\": \":robot_face:\"}" \
+	$SLACK_WEBHOOK_URL
