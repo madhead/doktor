@@ -4,7 +4,6 @@ sudo: false
 language: java
 jdk:
   - oraclejdk8
-#  - oraclejdk9
 
 install: true
 
@@ -17,3 +16,12 @@ deploy:
     on:
       tags: true
       jdk: oraclejdk8
+  - provider: releases
+    api_key:
+      secure: KS+nS9Rio30stf4hSGE/mFElUBioir/nr/tSmecrtcmdAV9T/YM7YCHsMsGJk/evYola6ZRn2cv/Y8Zp9Wrs57NKXLqGCqnpCy8+mobRvX+KoMB3S8I8mVcNom2SnzICbphpU5RxxNcPgRJmHidPraR4o+HTj9L+ciI/AI3ui9i7qkanDM67xVcXTOj3wmosqW6o+7N7mKLvYn+tAKGN2ZzQip2BEErpNd1kLmc3tVJ2wjQAb4B54CotGbnOorunbVwB9shl3bp10DGCxJBPcuemUA0/GqSGHXaeeVSxniAzCfk+p8FXGuXOzRRWEdyLmHx8wqYvcbRsuBT1muq5I6F2u75cbGXFK7A3QtXwlvJFr9eiu1HEN3LRkA19Db5D43hCtpBKu2lUaxg83ilkJ1RNa5NMfLH2NkbSBNCz7OxH5B+jitcIkOSLDiWZrpm8NlkB+mq84itSZq89GDZouZwKhKSecV6fFGNIHbyTG8OEBcWkKtduxMAySQ/Xyg9kyPYqdOXYFRzDjNLqq5G2+n1aYskt9A42imDiwg1sXCvMkPXgTW+Wc8KDYeI6Jf8KGp5b4LPDriO9Ftuwnr5L8lcxK+d3pWfIgPEKe3LVI1Xf5cg8n/r6lkkADxrdDaICJnpgCVz5JlsXHvVguw+X7xNn2o8ixfi/GXLfePHN9Bg=
+    file: build/libs/doktor.jpi
+    skip_cleanup: true
+    on:
+      jdk: oraclejdk8
+      repo: jenkinsci/doktor-plugin
+      tags: true
