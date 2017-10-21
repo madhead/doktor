@@ -14,7 +14,7 @@ if [[ ${TRAVIS_BRANCH} == 'master' ]] && [[ ${TRAVIS_PULL_REQUEST} == 'false' ]]
 	git checkout ${TRAVIS_BRANCH}
 	git remote set-url origin git@github.com:jenkinsci/doktor-plugin.git
 	git config user.name "Travis"
-	git config user.email "<>"
+	git config user.email "builds@travis-ci.org"
 
 	./gradlew clean release -Prelease.useAutomaticVersion=true
 else
