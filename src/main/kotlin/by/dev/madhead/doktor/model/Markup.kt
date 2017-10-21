@@ -4,7 +4,7 @@ import by.dev.madhead.doktor.render.asciiDoc
 import by.dev.madhead.doktor.render.markdown
 import java.io.File
 
-typealias RenderFunction = (String, File?) -> RenderedContent
+typealias RenderFunction = (File) -> RenderedContent
 
 enum class Markup(val render: RenderFunction) {
 	MARKDOWN(::markdown),

@@ -8,10 +8,11 @@ import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.testng.Assert
 import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
+import java.io.File
 
 class Markdown {
-	@DataProvider(name = "data")
-	fun data(): Array<Array<*>> {
+	@DataProvider(name = "valids")
+	fun valids(): Array<Array<*>> {
 		val objectMapper = ObjectMapper(YAMLFactory()).registerKotlinModule()
 
 		return listOf(
@@ -25,29 +26,33 @@ class Markdown {
 			"labels"
 		).map {
 			arrayOf(
-				this::class.java.getResourceAsStream("/by/dev/madhead/doktor/render/Markdown/${it}.md").bufferedReader().use { it.readText() },
-				objectMapper.readValue<RenderedContent>(this::class.java.getResourceAsStream("/by/dev/madhead/doktor/render/Markdown/${it}.yml"))
+				File(this::class.java.getResource("/by/dev/madhead/doktor/render/Markdown/valids/${it}.md").toURI()),
+				objectMapper.readValue<RenderedContent>(this::class.java.getResourceAsStream("/by/dev/madhead/doktor/render/Markdown/valids/${it}.yml"))
 			)
 		}.toTypedArray()
 	}
 
-	@Test(dataProvider = "data")
-	fun valid(input: String, output: RenderedContent) {
+	@DataProvider(name = "invalids")
+	fun invalids(): Array<Array<*>> {
+
+		return listOf(
+			"no_front_matter",
+			"empty_front_matter",
+			"no_title"
+		).map {
+			arrayOf(
+				File(this::class.java.getResource("/by/dev/madhead/doktor/render/Markdown/invalids/${it}.md").toURI())
+			)
+		}.toTypedArray()
+	}
+
+	@Test(dataProvider = "valids")
+	fun valid(input: File, output: RenderedContent) {
 		Assert.assertEquals(markdown(input), output, "Unexpected output")
 	}
 
-	@Test(expectedExceptions = arrayOf(RenderException::class))
-	fun `invalid - no front matter`() {
-		markdown("# Content without front matter is not valid.")
-	}
-
-	@Test(expectedExceptions = arrayOf(RenderException::class))
-	fun `invalid - empty front matter`() {
-		markdown("---\n---\n# Content with empty front matter is not valid.")
-	}
-
-	@Test(expectedExceptions = arrayOf(RenderException::class))
-	fun `invalid - no title`() {
-		markdown("---\nparent: Parent\n---\n# Content without title is not valid.")
+	@Test(dataProvider = "invalids", expectedExceptions = arrayOf(RenderException::class))
+	fun invalid(input: File) {
+		asciiDoc(input)
 	}
 }

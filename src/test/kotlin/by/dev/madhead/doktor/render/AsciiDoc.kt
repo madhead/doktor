@@ -8,10 +8,11 @@ import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.testng.Assert
 import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
+import java.io.File
 
 class AsciiDoc {
-	@DataProvider(name = "data")
-	fun data(): Array<Array<*>> {
+	@DataProvider(name = "valids")
+	fun valids(): Array<Array<*>> {
 		val objectMapper = ObjectMapper(YAMLFactory()).registerKotlinModule()
 
 		return listOf(
@@ -26,40 +27,34 @@ class AsciiDoc {
 			"labels_inline"
 		).map {
 			arrayOf(
-				this::class.java.getResourceAsStream("/by/dev/madhead/doktor/render/AsciiDoc/${it}.asc").bufferedReader().use { it.readText() },
-				objectMapper.readValue<RenderedContent>(this::class.java.getResourceAsStream("/by/dev/madhead/doktor/render/AsciiDoc/${it}.yml"))
+				File(this::class.java.getResource("/by/dev/madhead/doktor/render/AsciiDoc/valids/${it}.asc").toURI()),
+				objectMapper.readValue<RenderedContent>(this::class.java.getResourceAsStream("/by/dev/madhead/doktor/render/AsciiDoc/valids/${it}.yml"))
 			)
 		}.toTypedArray()
 	}
 
-	@Test(dataProvider = "data")
-	fun valid(input: String, output: RenderedContent) {
+	@DataProvider(name = "invalids")
+	fun invalids(): Array<Array<*>> {
+
+		return listOf(
+			"no_front_matter",
+			"empty_front_matter",
+			"no_title",
+			"invalid_yaml"
+		).map {
+			arrayOf(
+				File(this::class.java.getResource("/by/dev/madhead/doktor/render/AsciiDoc/invalids/${it}.asc").toURI())
+			)
+		}.toTypedArray()
+	}
+
+	@Test(dataProvider = "valids")
+	fun valid(input: File, output: RenderedContent) {
 		Assert.assertEquals(asciiDoc(input), output, "Unexpected output")
 	}
 
-	@Test(expectedExceptions = arrayOf(RenderException::class))
-	fun `invalid - no front matter`() {
-		asciiDoc("# Content without front matter is not valid.")
-	}
-
-	@Test(expectedExceptions = arrayOf(RenderException::class))
-	fun `invalid - empty front matter`() {
-		asciiDoc("---\n---\n# Content with empty front matter is not valid.")
-	}
-
-	@Test(expectedExceptions = arrayOf(RenderException::class))
-	fun `invalid - no title`() {
-		asciiDoc("---\nparent: Parent\n---\n# Content without title is not valid.")
-	}
-
-	@Test(expectedExceptions = arrayOf(RenderException::class))
-	fun `invalid - ivalid YAML`() {
-		asciiDoc("---\n" +
-			"title: Steeper: Truth or Fiction\n" +
-			"---\n" +
-			"\n" +
-			"== AsciiDoc file with links\n" +
-			"\n" +
-			"[Links](https://google.com) are great!\n")
+	@Test(dataProvider = "invalids", expectedExceptions = arrayOf(RenderException::class))
+	fun invalid(input: File) {
+		asciiDoc(input)
 	}
 }

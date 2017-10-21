@@ -15,7 +15,7 @@ import org.jruby.RubyInstanceConfig
 import org.jruby.javasupport.JavaEmbedUtils
 import java.io.File
 
-fun asciiDoc(content: String, baseDir: File? = null): RenderedContent {
+fun asciiDoc(file: File): RenderedContent {
 	// This crap is totally legal: https://github.com/asciidoctor/asciidoctorj#using-asciidoctorj-in-an-osgi-environment
 	val config = RubyInstanceConfig()
 	val classLoader = object : Any() {}::class.java.classLoader
@@ -25,7 +25,11 @@ fun asciiDoc(content: String, baseDir: File? = null): RenderedContent {
 		"META-INF/jruby.home/lib/ruby/2.0",
 		"gems/asciidoctor-1.5.6.1/lib",
 		"gems/asciidoctor-diagram-1.5.4.1/lib",
-		"gems/asciidoctor-diagram-1.5.4.1/lib/asciidoctor-diagram/blockdiag"
+		"gems/asciidoctor-diagram-1.5.4.1/lib/asciidoctor-diagram/blockdiag",
+		"gems/asciidoctor-diagram-1.5.4.1/lib/asciidoctor-diagram/ditaa",
+		"gems/asciidoctor-diagram-1.5.4.1/lib/asciidoctor-diagram/graphviz",
+		"gems/asciidoctor-diagram-1.5.4.1/lib/asciidoctor-diagram/mermaid",
+		"gems/asciidoctor-diagram-1.5.4.1/lib/asciidoctor-diagram/plantuml"
 	), config)
 
 	val asciidoctor = Asciidoctor.Factory.create(classLoader)
@@ -36,16 +40,12 @@ fun asciiDoc(content: String, baseDir: File? = null): RenderedContent {
 		val options = OptionsBuilder
 			.options()
 			.backend("xhtml")
-			.apply {
-				if (null != baseDir) {
-					baseDir(baseDir)
-				}
-			}
+			.baseDir(file.parentFile)
 			.attributes(AttributesBuilder
 				.attributes()
 				.skipFrontMatter(true)
 			)
-		val documentStructure = asciidoctor.readDocumentStructure(content, options.asMap())
+		val documentStructure = asciidoctor.readDocumentStructure(file.readText(), options.asMap())
 		val objectMapper = ObjectMapper(YAMLFactory()).registerKotlinModule()
 
 		if (null == documentStructure.header.attributes["front-matter"]) {
@@ -61,7 +61,7 @@ fun asciiDoc(content: String, baseDir: File? = null): RenderedContent {
 
 		return RenderedContent(
 			ASCIIDOC,
-			asciidoctor.convert(content, options),
+			asciidoctor.convert(file.readText(), options),
 			FrontMatter(
 				title = frontMatter[FRONTMATTER_TITLE]?.asText() ?: throw RenderException(Messages.doktor_render_RenderException_titleRequired()),
 				parent = frontMatter[FRONTMATTER_PARENT]?.asText(),

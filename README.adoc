@@ -132,12 +132,20 @@ The snippet above will be rendered in this image:
 image::https://github.com/madhead/doktor/blob/master/.github/images/seqdiag.png[]
 
 Read more about diagram syntax in http://asciidoctor.org/docs/asciidoctor-diagram[in the official AsciiDoc guide].
-Be warned, that most types of diagrams require external tools (like `seqdiag` or `dot`) to be installed.
+Be warned, that most types of diagrams require external tools (like `seqdiag` or `dot`) to be installed and available on the `PATH`.
 
 Currently, these diagrams are supported:
 
- - `blockdiag` / `seqdiag`.
-These diagrams require http://blockdiag.com[`blockdiag`] Python package to be available on the `PATH`.
+ - `actdiag` / `blockdiag` / `nwdiag` / `packetdiag` / `rackdiag` / `seqdiag`.
+These diagrams require http://blockdiag.com[`blockdiag`] and related Python packages to be available on the `PATH`.
+ - http://ditaa.sourceforge.net[`ditaa`].
+No additional tools needed.
+ - `graphviz`.
+Obviously, requires http://www.graphviz.org[Graphviz] tool to be on the `PATH`.
+ - `mermaid`
+Requires https://mermaidjs.github.io[mermaid] (version prior to `7.x`) and http://phantomjs.org[PhantomJS] to be on the `PATH`.
+ - http://plantuml.com[`plantuml`]
+No additional tools needed.
 
 === Configure Confluence servers
 

@@ -26,9 +26,19 @@ class DokRenderer(
 	override fun invoke(file: File, channel: VirtualChannel?): RenderedDok {
 		taskListener.logger.println(Messages.doktor_render_DokRenderer_rendering(markup, file))
 
-		val content = markup.render(file.readText(), file.parentFile)
+		val content = markup.render(file)
 		val document = Jsoup.parse(content.content)
-		val images = mutableListOf<Attachment>()
+		val images = processImages(document, file)
+
+		return RenderedDok(
+			filePath = file.absolutePath,
+			content = content.copy(content = document.body().html()),
+			images = images
+		)
+	}
+
+	private fun processImages(document: Document, file: File): List<Attachment> {
+		val result = mutableListOf<Attachment>()
 		val magic = ContentInfoUtil()
 
 		document.outputSettings().syntax(Document.OutputSettings.Syntax.xml)
@@ -48,7 +58,7 @@ class DokRenderer(
 							".${contentInfo.fileExtensions[0]}"
 						}
 
-						images.add(Attachment(fileName, bytes))
+						result.add(Attachment(fileName, bytes))
 						it.replaceWith(Jsoup.parse(buildString {
 							appendHTML(true).acImage {
 								if (!it.attr("width").isNullOrBlank()) {
@@ -90,10 +100,6 @@ class DokRenderer(
 				}
 			}
 
-		return RenderedDok(
-			filePath = file.absolutePath,
-			content = content.copy(content = document.body().html()),
-			images = images
-		)
+		return result
 	}
 }
