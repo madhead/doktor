@@ -28,6 +28,9 @@ class DokRenderer(
 
 		val content = markup.render(file)
 		val document = Jsoup.parse(content.content)
+
+		document.outputSettings().syntax(Document.OutputSettings.Syntax.xml)
+
 		val images = processImages(document, file)
 
 		return RenderedDok(
@@ -41,7 +44,6 @@ class DokRenderer(
 		val result = mutableListOf<Attachment>()
 		val magic = ContentInfoUtil()
 
-		document.outputSettings().syntax(Document.OutputSettings.Syntax.xml)
 		document
 			.getElementsByTag("img")
 			.forEach {
