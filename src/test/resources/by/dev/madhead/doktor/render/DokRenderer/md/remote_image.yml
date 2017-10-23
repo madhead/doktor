@@ -1,0 +1,15 @@
+filePath: Not checked
+content:
+  markup: MARKDOWN
+  content: |-
+    <div class="doktor"> 
+     <p>You can't see this image, and it does not exist:</p> 
+     <p>
+      <ac:image ac:alt="Minimal PNG"> 
+       <ri:url ri:value="http://localhost:8080/image.png"></ri:url> 
+      </ac:image></p> 
+    </div>
+  frontMatter:
+    title: remote_image.md
+    labels: []
+images: []

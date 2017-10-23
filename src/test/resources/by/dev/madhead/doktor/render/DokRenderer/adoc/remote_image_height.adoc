@@ -1,0 +1,7 @@
+---
+title: remote_image_height.adoc
+---
+
+You can't see this image, and it does not exist:
+
+image::http://localhost:8080/image.png[Unexisting PNG, 200, 200]
