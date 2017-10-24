@@ -27,8 +27,8 @@ class AsciiDoc {
 			"labels_inline"
 		).map {
 			arrayOf(
-				File(this::class.java.getResource("/by/dev/madhead/doktor/render/AsciiDoc/valids/${it}.asc").toURI()),
-				objectMapper.readValue<RenderedContent>(this::class.java.getResourceAsStream("/by/dev/madhead/doktor/render/AsciiDoc/valids/${it}.yml"))
+				File(this::class.java.getResource("/by/dev/madhead/doktor/render/AsciiDoc/valids/$it.asc").toURI()),
+				objectMapper.readValue<RenderedContent>(this::class.java.getResourceAsStream("/by/dev/madhead/doktor/render/AsciiDoc/valids/$it.yml"))
 			)
 		}.toTypedArray()
 	}
@@ -43,7 +43,7 @@ class AsciiDoc {
 			"invalid_yaml"
 		).map {
 			arrayOf(
-				File(this::class.java.getResource("/by/dev/madhead/doktor/render/AsciiDoc/invalids/${it}.asc").toURI())
+				File(this::class.java.getResource("/by/dev/madhead/doktor/render/AsciiDoc/invalids/$it.asc").toURI())
 			)
 		}.toTypedArray()
 	}

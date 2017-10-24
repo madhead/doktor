@@ -7,9 +7,9 @@ import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 
 open class BaseConfluenceTest {
-	lateinit private var wiremock: WireMockServer
-	lateinit protected var anonymousConfluence: ResolvedConfluenceServer
-	lateinit protected var identifiedConfluence: ResolvedConfluenceServer
+	private lateinit var wiremock: WireMockServer
+	protected lateinit var anonymousConfluence: ResolvedConfluenceServer
+	protected lateinit var identifiedConfluence: ResolvedConfluenceServer
 
 	@BeforeClass
 	fun startWireMock() {
