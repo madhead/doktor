@@ -78,7 +78,7 @@ class DokRenderer(
 									it.children().find {
 										it.attr("class")?.contains("title") ?: false
 									}?.let {
-										acTitle = it.html()
+										acTitle = it.text()
 									}
 								}
 								riAttachment(fileName)
@@ -103,7 +103,7 @@ class DokRenderer(
 									it.children().find {
 										it.attr("class")?.contains("title") ?: false
 									}?.let {
-										acTitle = it.html()
+										acTitle = it.text()
 									}
 								}
 								riUrl(src)

@@ -1,0 +1,8 @@
+---
+title: local_image_title_specials.adoc
+---
+
+You can't see this image, but it exists and has title:
+
+.This title contains https://en.wikipedia.org/wiki/Hyperlink[links]!
+image::../image.png[Minimal PNG]

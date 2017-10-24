@@ -40,11 +40,13 @@ class DokRendererTest {
 			"local_image_height",
 			"local_image_no_alt",
 			"local_image_title",
+			"local_image_title_specials",
 			"local_image_width",
 			"remote_image_alt",
 			"remote_image_height",
 			"remote_image_no_alt",
 			"remote_image_title",
+			"remote_image_title_specials",
 			"remote_image_width",
 			"zero_image"
 		).map {

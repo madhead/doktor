@@ -1,0 +1,24 @@
+filePath: Not checked
+content:
+  markup: ASCIIDOC
+  content: |-
+    <div class="doktor"> 
+     <div class="paragraph"> 
+      <p>You can’t see this image, and it does not exist:</p> 
+     </div> 
+     <div class="imageblock"> 
+      <div class="content"> 
+       <ac:image ac:alt="Unexisting PNG" ac:title="Figure 1. This title contains links!"> 
+        <ri:url ri:value="http://localhost:8080/image.png"></ri:url> 
+       </ac:image> 
+      </div> 
+      <div class="title">
+       Figure 1. This title contains 
+       <a href="https://en.wikipedia.org/wiki/Hyperlink">links</a>!
+      </div> 
+     </div> 
+    </div>
+  frontMatter:
+    title: remote_image_title_specials.adoc
+    labels: []
+images: []
