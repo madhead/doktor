@@ -18,7 +18,7 @@ import java.io.File
 fun asciiDoc(file: File): RenderedContent {
 	// This crap is totally legal: https://github.com/asciidoctor/asciidoctorj#using-asciidoctorj-in-an-osgi-environment
 	val config = RubyInstanceConfig()
-	val classLoader = object : Any() {}::class.java.classLoader
+	val classLoader = object : Any() {} ::class.java.classLoader
 
 	config.loader = classLoader
 	JavaEmbedUtils.initialize(listOf(
