@@ -20,8 +20,8 @@ He was the son-in-law of fallen [Jedi Knight](http://starwars.wikia.com/wiki/Jed
 
 #### Early life
 
-Han Solo was born on the planet Corellia during the waning years of the Galactic Republic.
-He was orphaned at a young age, and turned to a life of crime as a thief in order to survive the perils of the galaxy.
+Han Solo was __born__ on the planet Corellia during the ~~waning~~ years of the Galactic Republic.
+He was orphaned at a young age, and <span class="blue">turned</span> to a life of crime as a thief in order to survive the perils of the galaxy.
 Solo, at some point, acquired a starship and became an exceptional pilot.
 Solo began working outside of the Galactic Empire's laws, beginning a career in illegal smuggling.
 Solo eventually met the Wookiee Chewbacca, whom he saved from imprisonment.

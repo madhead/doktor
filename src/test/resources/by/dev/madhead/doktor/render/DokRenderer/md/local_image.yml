@@ -1,0 +1,17 @@
+filePath: Not checked
+content:
+  markup: MARKDOWN
+  content: |-
+    <div class="doktor"> 
+     <p>You can't see this image, but it exists:</p> 
+     <p>
+      <ac:image ac:alt="Minimal PNG"> 
+       <ri:attachment ri:filename="93ca32a536da1698ea979f183679af29.png"></ri:attachment> 
+      </ac:image></p> 
+    </div>
+  frontMatter:
+    title: local_image.md
+    labels: []
+images:
+  - fileName: 93ca32a536da1698ea979f183679af29.png
+    bytes: !!binary iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==

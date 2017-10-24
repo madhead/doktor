@@ -1,0 +1,17 @@
+filePath: Not checked
+content:
+  markup: MARKDOWN
+  content: |-
+    <div class="doktor"> 
+     <p>You can't see this image, it is broken:</p> 
+     <p>
+      <ac:image ac:alt="Zeros"> 
+       <ri:attachment ri:filename="a302a771ee0e3127b8950f0a67d17e49.jpeg"></ri:attachment> 
+      </ac:image></p> 
+    </div>
+  frontMatter:
+    title: zero_image.md
+    labels: []
+images:
+  - fileName: a302a771ee0e3127b8950f0a67d17e49.jpeg
+    bytes: !!binary AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA

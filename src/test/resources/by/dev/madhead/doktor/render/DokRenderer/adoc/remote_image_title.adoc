@@ -1,0 +1,8 @@
+---
+title: remote_image_title.adoc
+---
+
+You can't see this image, and it does not exist:
+
+.Unexisting PNG
+image::http://localhost:8080/image.png[Unexisting PNG]

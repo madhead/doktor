@@ -1,0 +1,8 @@
+---
+title: remote_image_title_specials.adoc
+---
+
+You can't see this image, and it does not exist:
+
+.This title contains https://en.wikipedia.org/wiki/Hyperlink[links]!
+image::http://localhost:8080/image.png[Unexisting PNG]

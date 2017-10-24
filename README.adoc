@@ -147,6 +147,11 @@ Requires https://mermaidjs.github.io[mermaid] (version prior to `7.x`) and http:
  - http://plantuml.com[`plantuml`]
 No additional tools needed.
 
+==== Custom stylesheets
+
+Confluence allows space admins to provide custom stylesheets that override globals.
+Doktor supports styling generated content by wrapping it in a `<div class="doktor">`, so you can use `.doctor` prefix in your selector to stylize content.
+
 === Configure Confluence servers
 
 As you might suspect, Confluence REST API requires authentication.

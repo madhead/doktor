@@ -27,11 +27,13 @@ val fuelVersion by project
 val jsoupVersion by project
 val kotlinxHtmlJvmVersion by project
 val simplemagicVersion by project
+val commonsCodecVersion by project
 val jenkinsCredentialsPluginVersion by project
 val jenkinsWorkflowStepsAPIPluginVersion by project
 
 val testngVersion by project
 val wiremockVersion by project
+val mockitoVersion by project
 
 val sezpozVersion by project
 
@@ -51,12 +53,14 @@ dependencies {
 	compile("org.jsoup:jsoup:${jsoupVersion}")
 	compile("org.jetbrains.kotlinx:kotlinx-html-jvm:${kotlinxHtmlJvmVersion}")
 	compile("com.j256.simplemagic:simplemagic:${simplemagicVersion}")
+	compile("commons-codec:commons-codec:${commonsCodecVersion}")
 
 	jenkinsPlugins("org.jenkins-ci.plugins:credentials:${jenkinsCredentialsPluginVersion}@jar")
 	jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:${jenkinsWorkflowStepsAPIPluginVersion}@jar")
 
 	testCompile("org.testng:testng:${testngVersion}")
 	testCompile("com.github.tomakehurst:wiremock:${wiremockVersion}")
+	testCompile("org.mockito:mockito-core:${mockitoVersion}")
 
 	// SezPoz is used to process @hudson.Extension and other annotations
 	kapt("net.java.sezpoz:sezpoz:${sezpozVersion}")

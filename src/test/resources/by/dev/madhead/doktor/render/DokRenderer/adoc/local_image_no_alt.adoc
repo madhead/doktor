@@ -1,0 +1,7 @@
+---
+title: local_image_no_alt.adoc
+---
+
+You can't see this image, but it exists and has no alt:
+
+image::../image.png[]

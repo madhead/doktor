@@ -12,12 +12,12 @@ import hudson.model.TaskListener
 import hudson.remoting.VirtualChannel
 import jenkins.SlaveToMasterFileCallable
 import kotlinx.html.stream.appendHTML
+import org.apache.commons.codec.digest.DigestUtils
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.parser.Parser
 import java.io.File
 import java.net.URI
-import java.util.UUID
 
 class DokRenderer(
 	val markup: Markup,
@@ -27,7 +27,10 @@ class DokRenderer(
 		taskListener.logger.println(Messages.doktor_render_DokRenderer_rendering(markup, file))
 
 		val content = markup.render(file)
-		val document = Jsoup.parse(content.content)
+		val document = Jsoup.parseBodyFragment(wrap(content.content))
+
+		document.outputSettings().syntax(Document.OutputSettings.Syntax.xml)
+
 		val images = processImages(document, file)
 
 		return RenderedDok(
@@ -41,7 +44,6 @@ class DokRenderer(
 		val result = mutableListOf<Attachment>()
 		val magic = ContentInfoUtil()
 
-		document.outputSettings().syntax(Document.OutputSettings.Syntax.xml)
 		document
 			.getElementsByTag("img")
 			.forEach {
@@ -51,8 +53,7 @@ class DokRenderer(
 					if (null == URI(src).host) {
 						val bytes = file.resolveSibling(src).readBytes()
 						val contentInfo = magic.findMatch(bytes)
-
-						val fileName = UUID.randomUUID().toString() + if ((null == contentInfo) || (null == contentInfo.fileExtensions)) {
+						val fileName = DigestUtils.md5Hex(bytes) + if ((null == contentInfo) || (null == contentInfo.fileExtensions)) {
 							".jpeg" // why not?
 						} else {
 							".${contentInfo.fileExtensions[0]}"
@@ -70,8 +71,15 @@ class DokRenderer(
 								if (!it.attr("alt").isNullOrBlank()) {
 									acAlt = it.attr("alt")
 								}
-								if (!it.attr("title").isNullOrBlank()) {
-									acAlt = it.attr("title")
+								// Special support for Asciidoc image titles
+								it.parents().find {
+									it.attr("class")?.contains("imageblock") ?: false
+								}?.let {
+									it.children().find {
+										it.attr("class")?.contains("title") ?: false
+									}?.let {
+										acTitle = it.text()
+									}
 								}
 								riAttachment(fileName)
 							}
@@ -88,8 +96,15 @@ class DokRenderer(
 								if (!it.attr("alt").isNullOrBlank()) {
 									acAlt = it.attr("alt")
 								}
-								if (!it.attr("title").isNullOrBlank()) {
-									acAlt = it.attr("title")
+								// Special support for Asciidoc image titles
+								it.parents().find {
+									it.attr("class")?.contains("imageblock") ?: false
+								}?.let {
+									it.children().find {
+										it.attr("class")?.contains("title") ?: false
+									}?.let {
+										acTitle = it.text()
+									}
 								}
 								riUrl(src)
 							}
@@ -101,5 +116,13 @@ class DokRenderer(
 			}
 
 		return result
+	}
+
+	private fun wrap(content: String): String {
+		return """
+			<div class="doktor">
+				${content}
+			</div>
+		"""
 	}
 }
