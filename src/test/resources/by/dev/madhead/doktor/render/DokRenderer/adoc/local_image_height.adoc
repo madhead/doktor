@@ -1,0 +1,7 @@
+---
+title: local_image_height.adoc
+---
+
+You can't see this image, but it exists:
+
+image::../image.png[Minimal PNG, 200, 200]
