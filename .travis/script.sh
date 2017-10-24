@@ -2,7 +2,11 @@
 
 set -x
 
-if [[ ${TRAVIS_BRANCH} == 'master' ]] && [[ ${TRAVIS_PULL_REQUEST} == 'false' ]] &&  [[ $(git cat-file -p ${TRAVIS_COMMIT} | grep -o 'parent' | wc -l) -gt 1 ]]; then
+if  [[ ${TRAVIS_REPO_SLUG} == 'jenkinsci/doktor-plugin' ]] && \
+	[[ ${TRAVIS_BRANCH} == 'master' ]] && \
+	[[ ${TRAVIS_PULL_REQUEST} == 'false' ]] && \
+	[[ $(git cat-file -p ${TRAVIS_COMMIT} | grep -o 'parent' | wc -l) -gt 1 ]]
+then
 	SECRETS=$(mktemp -d)
 
 	openssl aes-256-cbc -K $encrypted_6ae40059dfe6_key -iv $encrypted_6ae40059dfe6_iv -in .travis/secrets.tar.enc -out ${SECRETS}/secrets.tar -d
