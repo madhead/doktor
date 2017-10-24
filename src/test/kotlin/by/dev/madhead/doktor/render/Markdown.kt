@@ -26,8 +26,8 @@ class Markdown {
 			"labels"
 		).map {
 			arrayOf(
-				File(this::class.java.getResource("/by/dev/madhead/doktor/render/Markdown/valids/${it}.md").toURI()),
-				objectMapper.readValue<RenderedContent>(this::class.java.getResourceAsStream("/by/dev/madhead/doktor/render/Markdown/valids/${it}.yml"))
+				File(this::class.java.getResource("/by/dev/madhead/doktor/render/Markdown/valids/$it.md").toURI()),
+				objectMapper.readValue<RenderedContent>(this::class.java.getResourceAsStream("/by/dev/madhead/doktor/render/Markdown/valids/$it.yml"))
 			)
 		}.toTypedArray()
 	}
@@ -41,7 +41,7 @@ class Markdown {
 			"no_title"
 		).map {
 			arrayOf(
-				File(this::class.java.getResource("/by/dev/madhead/doktor/render/Markdown/invalids/${it}.md").toURI())
+				File(this::class.java.getResource("/by/dev/madhead/doktor/render/Markdown/invalids/$it.md").toURI())
 			)
 		}.toTypedArray()
 	}
