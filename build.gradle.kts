@@ -8,6 +8,7 @@ plugins {
 	kotlin("jvm") version ("1.1.51")
 	kotlin("kapt") version ("1.1.51")
 
+	id("jacoco")
 	id("org.jenkins-ci.jpi") version ("0.22.0")
 	id("net.researchgate.release") version ("2.6.0")
 }
@@ -74,6 +75,10 @@ kapt {
 	correctErrorTypes = true
 }
 
+jacoco {
+	toolVersion = "0.7.9"
+}
+
 val jenkinsCoreVersion by project
 
 jenkinsPlugin {
@@ -114,6 +119,12 @@ tasks.withType(KotlinCompile::class.java).all {
 
 tasks.withType(Test::class.java).all {
 	useTestNG()
+}
+
+tasks.withType(JacocoReport::class.java).all {
+	reports {
+		xml.setEnabled(true)
+	}
 }
 
 tasks.withType(KaptTask::class.java).all {

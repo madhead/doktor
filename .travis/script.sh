@@ -22,5 +22,6 @@ then
 
 	./gradlew clean release -Prelease.useAutomaticVersion=true
 else
-	./gradlew clean assemble check
+	./gradlew clean assemble check jacocoTestReport
+	bash <(curl -s https://codecov.io/bash)
 fi
