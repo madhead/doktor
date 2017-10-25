@@ -1,4 +1,5 @@
 image:https://travis-ci.org/jenkinsci/doktor-plugin.svg?branch=master["Build Status", link="https://travis-ci.org/jenkinsci/doktor-plugin"]
+image:https://codecov.io/gh/jenkinsci/doktor-plugin/branch/master/graph/badge.svg["Build Status", link="https://codecov.io/gh/jenkinsci/doktor-plugin"]
 
 = Doktor
 
