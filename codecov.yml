@@ -1,0 +1,12 @@
+coverage:
+  range: 60..95
+  round: down
+  precision: 2
+
+ignore:
+  - src/test
+
+comment:
+  behavior: new
+  layout: reach, diff, flags, files
+  require_changes: false
