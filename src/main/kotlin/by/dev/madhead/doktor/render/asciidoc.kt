@@ -48,15 +48,13 @@ fun asciiDoc(file: File): RenderedContent {
 		val documentStructure = asciidoctor.readDocumentStructure(file.readText(), options.asMap())
 		val objectMapper = ObjectMapper(YAMLFactory()).registerKotlinModule()
 
-		if (null == documentStructure.header.attributes["front-matter"]) {
-			throw RenderException(Messages.doktor_render_RenderException_frontMatterRequired())
-		}
-
 		val frontMatter =
 			try {
-				objectMapper.readTree(documentStructure.header.attributes["front-matter"] as String) ?: throw RenderException(Messages.doktor_render_RenderException_frontMatterRequired())
+				objectMapper.readTree(documentStructure.header.attributes["front-matter"]!! as String)!!
+			} catch (e: NullPointerException) {
+				throw RenderException(Messages.doktor_render_RenderException_frontMatterRequired())
 			} catch (e: Throwable) {
-				throw RenderException(Messages.doktor_render_RenderException_frontMatterInvalid())
+				throw RenderException(Messages.doktor_render_RenderException_frontMatterInvalid(), e)
 			}
 
 		return RenderedContent(

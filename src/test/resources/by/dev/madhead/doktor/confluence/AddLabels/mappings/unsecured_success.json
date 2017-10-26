@@ -1,0 +1,35 @@
+{
+	"request": {
+		"method": "POST",
+		"urlPath": "/rest/api/content/57010/label",
+		"bodyPatterns": [
+			{
+				"equalToJson": "[{\"prefix\":\"global\", \"name\":\"test\"},{\"prefix\":\"global\", \"name\":\"labels\"}]"
+			}
+		],
+		"basicAuth": {
+			"username": "test",
+			"password": ""
+		}
+	},
+	"response": {
+		"status": 200,
+		"jsonBody": {
+			"results": [
+				{
+					"prefix": "global",
+					"name": "test",
+					"id": "20873222"
+				},
+				{
+					"prefix": "global",
+					"name": "labels",
+					"id": "74678342"
+				}
+			],
+			"start": 0,
+			"limit": 200,
+			"size": 2
+		}
+	}
+}

@@ -25,8 +25,44 @@ class AddLabels : BaseConfluenceTest() {
 	}
 
 	@Test
+	fun `blank, success`() {
+		addLabels(blankConfluence, "57005", listOf(Label(name = "test"), Label(name = "labels")))
+			.test()
+			.run {
+				awaitTerminalEvent(10, TimeUnit.SECONDS)
+
+				assertValue {
+					Assert.assertEquals(it.results, listOf(Label(name = "test"), Label(name = "labels")))
+					Assert.assertEquals(it.start, 0)
+					Assert.assertEquals(it.limit, 200)
+					Assert.assertEquals(it.size, 2)
+
+					true
+				}
+			}
+	}
+
+	@Test
 	fun `identified, success`() {
 		addLabels(identifiedConfluence, "57006", listOf(Label(name = "test"), Label(name = "labels")))
+			.test()
+			.run {
+				awaitTerminalEvent(10, TimeUnit.SECONDS)
+
+				assertValue {
+					Assert.assertEquals(it.results, listOf(Label(name = "test"), Label(name = "labels")))
+					Assert.assertEquals(it.start, 0)
+					Assert.assertEquals(it.limit, 200)
+					Assert.assertEquals(it.size, 2)
+
+					true
+				}
+			}
+	}
+
+	@Test
+	fun `unsecured, success`() {
+		addLabels(unsecuredConfluence, "57010", listOf(Label(name = "test"), Label(name = "labels")))
 			.test()
 			.run {
 				awaitTerminalEvent(10, TimeUnit.SECONDS)

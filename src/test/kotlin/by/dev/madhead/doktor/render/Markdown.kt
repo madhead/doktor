@@ -38,6 +38,7 @@ class Markdown {
 		return listOf(
 			"no_front_matter",
 			"empty_front_matter",
+			"invalid_front_matter",
 			"no_title"
 		).map {
 			arrayOf(
@@ -53,6 +54,6 @@ class Markdown {
 
 	@Test(dataProvider = "invalids", expectedExceptions = arrayOf(RenderException::class))
 	fun invalid(input: File) {
-		asciiDoc(input)
+		markdown(input)
 	}
 }

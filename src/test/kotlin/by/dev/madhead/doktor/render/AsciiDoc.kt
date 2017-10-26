@@ -40,7 +40,8 @@ class AsciiDoc {
 			"no_front_matter",
 			"empty_front_matter",
 			"no_title",
-			"invalid_yaml"
+			"invalid_yaml",
+			"invalid_front_matter"
 		).map {
 			arrayOf(
 				File(this::class.java.getResource("/by/dev/madhead/doktor/render/AsciiDoc/invalids/${it}.asc").toURI())

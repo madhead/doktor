@@ -20,6 +20,18 @@ class CreateAttachment : BaseConfluenceTest() {
 					true
 				}
 			}
+		createAttachment(blankConfluence, "57005", Attachment("file.png", "bytes".toByteArray()))
+			.test()
+			.run {
+				awaitTerminalEvent(10, TimeUnit.SECONDS)
+
+				assertValue {
+					Assert.assertEquals(it.results.size, 1)
+					Assert.assertEquals(it.results[0].id, "att57005")
+
+					true
+				}
+			}
 	}
 
 	@Test

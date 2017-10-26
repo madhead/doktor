@@ -9,7 +9,9 @@ import org.testng.annotations.BeforeClass
 open class BaseConfluenceTest {
 	lateinit private var wiremock: WireMockServer
 	lateinit protected var anonymousConfluence: ResolvedConfluenceServer
+	lateinit protected var blankConfluence: ResolvedConfluenceServer
 	lateinit protected var identifiedConfluence: ResolvedConfluenceServer
+	lateinit protected var unsecuredConfluence: ResolvedConfluenceServer
 
 	@BeforeClass
 	fun startWireMock() {
@@ -26,12 +28,26 @@ open class BaseConfluenceTest {
 			null,
 			null
 		)
+		blankConfluence = ResolvedConfluenceServer(
+			"TEST",
+			"http://localhost:${wiremock.port()}",
+			"TEST",
+			"",
+			""
+		)
 		identifiedConfluence = ResolvedConfluenceServer(
 			"TEST",
 			"http://localhost:${wiremock.port()}",
 			"TEST",
 			"test",
 			"test"
+		)
+		unsecuredConfluence = ResolvedConfluenceServer(
+			"TEST",
+			"http://localhost:${wiremock.port()}",
+			"TEST",
+			"test",
+			null
 		)
 	}
 
