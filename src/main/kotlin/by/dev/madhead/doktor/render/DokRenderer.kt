@@ -121,7 +121,7 @@ class DokRenderer(
 	private fun wrap(content: String): String {
 		return """
 			<div class="doktor">
-				${content}
+				$content
 			</div>
 		"""
 	}
