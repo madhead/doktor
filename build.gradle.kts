@@ -5,11 +5,11 @@ import org.jetbrains.kotlin.gradle.internal.KaptTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	kotlin("jvm") version ("1.1.51")
-	kotlin("kapt") version ("1.1.51")
+	kotlin("jvm") version ("1.2.21")
+	kotlin("kapt") version ("1.2.21")
 
 	id("jacoco")
-	id("org.jenkins-ci.jpi") version ("0.22.0")
+	id("org.jenkins-ci.jpi") version ("0.23.1")
 	id("net.researchgate.release") version ("2.6.0")
 }
 
@@ -40,6 +40,7 @@ val sezpozVersion by project
 
 dependencies {
 	compile(kotlin("stdlib-jre8", "${kotlinVersion}"))
+	compile(kotlin("reflect", "${kotlinVersion}"))
 	compile("io.reactivex.rxjava2:rxkotlin:${rxkotlinVersion}")
 	compile("com.vladsch.flexmark:flexmark:${flexmarkVersion}")
 	compile("com.vladsch.flexmark:flexmark-ext-yaml-front-matter:${flexmarkVersion}")
@@ -56,8 +57,8 @@ dependencies {
 	compile("com.j256.simplemagic:simplemagic:${simplemagicVersion}")
 	compile("commons-codec:commons-codec:${commonsCodecVersion}")
 
-	jenkinsPlugins("org.jenkins-ci.plugins:credentials:${jenkinsCredentialsPluginVersion}@jar")
-	jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:${jenkinsWorkflowStepsAPIPluginVersion}@jar")
+	jenkinsPlugins("org.jenkins-ci.plugins:credentials:${jenkinsCredentialsPluginVersion}")
+	jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:${jenkinsWorkflowStepsAPIPluginVersion}")
 
 	testCompile("org.testng:testng:${testngVersion}")
 	testCompile("com.github.tomakehurst:wiremock:${wiremockVersion}")

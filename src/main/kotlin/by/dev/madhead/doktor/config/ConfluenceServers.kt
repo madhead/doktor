@@ -51,7 +51,7 @@ class ConfluenceServers : GlobalConfiguration() {
 				CredentialsMatchers.firstOrNull(
 					CredentialsProvider.lookupCredentials(
 						StandardUsernamePasswordCredentials::class.java,
-						Jenkins.getInstance(),
+						Jenkins.getInstanceOrNull(),
 						ACL.SYSTEM,
 						emptyList()
 					),

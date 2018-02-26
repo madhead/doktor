@@ -26,7 +26,7 @@ constructor(
 	class ConfluenceServerDescriptor : Descriptor<ConfluenceServer>() {
 		fun doFillCredentialsItems() = StandardListBoxModel()
 			.includeEmptyValue()
-			.includeMatchingAs(ACL.SYSTEM, Jenkins.getInstance(), StandardUsernamePasswordCredentials::class.java, emptyList(), CredentialsMatchers.always())
+			.includeMatchingAs(ACL.SYSTEM, Jenkins.getInstanceOrNull()!!, StandardUsernamePasswordCredentials::class.java, emptyList(), CredentialsMatchers.always())
 
 		fun doCheckName(@QueryParameter value: String?): FormValidation {
 			if (value.isNullOrBlank()) {
