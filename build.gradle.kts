@@ -5,8 +5,8 @@ import org.jetbrains.kotlin.gradle.internal.KaptTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	kotlin("jvm") version ("1.2.21")
-	kotlin("kapt") version ("1.2.21")
+	kotlin("jvm") version ("1.2.30")
+	kotlin("kapt") version ("1.2.30")
 
 	id("jacoco")
 	id("org.jenkins-ci.jpi") version ("0.23.1")
@@ -31,6 +31,7 @@ val simplemagicVersion by project
 val commonsCodecVersion by project
 val jenkinsCredentialsPluginVersion by project
 val jenkinsWorkflowStepsAPIPluginVersion by project
+val jenkinsKotlinStdlibVersion by project
 
 val testngVersion by project
 val wiremockVersion by project
@@ -39,7 +40,6 @@ val mockitoVersion by project
 val sezpozVersion by project
 
 dependencies {
-	compile(kotlin("stdlib-jre8", "${kotlinVersion}"))
 	compile(kotlin("reflect", "${kotlinVersion}"))
 	compile("io.reactivex.rxjava2:rxkotlin:${rxkotlinVersion}")
 	compile("com.vladsch.flexmark:flexmark:${flexmarkVersion}")
@@ -59,6 +59,7 @@ dependencies {
 
 	jenkinsPlugins("org.jenkins-ci.plugins:credentials:${jenkinsCredentialsPluginVersion}")
 	jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:${jenkinsWorkflowStepsAPIPluginVersion}")
+	jenkinsPlugins("org.jenkins-ci.plugins.kotlin:kotlin-v1-stdlib-jdk8:${kotlinVersion}-${jenkinsKotlinStdlibVersion}")
 
 	testCompile("org.testng:testng:${testngVersion}")
 	testCompile("com.github.tomakehurst:wiremock:${wiremockVersion}")
