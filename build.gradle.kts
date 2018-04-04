@@ -9,11 +9,12 @@ plugins {
 	kotlin("kapt") version ("1.2.30")
 
 	id("jacoco")
-	id("org.jenkins-ci.jpi") version ("0.23.1")
+	id("org.jenkins-ci.jpi") version ("0.26.0")
 	id("net.researchgate.release") version ("2.6.0")
 }
 
 repositories {
+	maven(url = "https://repo.jenkins-ci.org/public/")
 	jcenter()
 }
 
@@ -125,7 +126,7 @@ tasks.withType(Test::class.java).all {
 
 tasks.withType(JacocoReport::class.java).all {
 	reports {
-		xml.setEnabled(true)
+		xml.isEnabled = true
 	}
 }
 
