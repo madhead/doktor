@@ -5,15 +5,16 @@ import org.jetbrains.kotlin.gradle.internal.KaptTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	kotlin("jvm") version ("1.1.51")
-	kotlin("kapt") version ("1.1.51")
+	kotlin("jvm") version ("1.2.31")
+	kotlin("kapt") version ("1.2.31")
 
 	id("jacoco")
-	id("org.jenkins-ci.jpi") version ("0.22.0")
+	id("org.jenkins-ci.jpi") version ("0.26.0")
 	id("net.researchgate.release") version ("2.6.0")
 }
 
 repositories {
+	maven(url = "https://repo.jenkins-ci.org/public/")
 	jcenter()
 }
 
@@ -35,7 +36,6 @@ val jenkinsWorkflowStepsAPIPluginVersion by project
 val testngVersion by project
 val wiremockVersion by project
 val mockitoVersion by project
-
 val sezpozVersion by project
 
 dependencies {
@@ -56,8 +56,8 @@ dependencies {
 	compile("com.j256.simplemagic:simplemagic:${simplemagicVersion}")
 	compile("commons-codec:commons-codec:${commonsCodecVersion}")
 
-	jenkinsPlugins("org.jenkins-ci.plugins:credentials:${jenkinsCredentialsPluginVersion}@jar")
-	jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:${jenkinsWorkflowStepsAPIPluginVersion}@jar")
+	jenkinsPlugins("org.jenkins-ci.plugins:credentials:${jenkinsCredentialsPluginVersion}")
+	jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:${jenkinsWorkflowStepsAPIPluginVersion}")
 
 	testCompile("org.testng:testng:${testngVersion}")
 	testCompile("com.github.tomakehurst:wiremock:${wiremockVersion}")
@@ -76,7 +76,7 @@ kapt {
 }
 
 jacoco {
-	toolVersion = "0.7.9"
+	toolVersion = "0.8.1"
 }
 
 val jenkinsCoreVersion by project
@@ -136,6 +136,6 @@ tasks.withType(KaptGenerateStubsTask::class.java).all {
 }
 
 task<Wrapper>("wrapper") {
-	gradleVersion = "4.1"
+	gradleVersion = "4.6"
 	distributionType = Wrapper.DistributionType.ALL
 }
