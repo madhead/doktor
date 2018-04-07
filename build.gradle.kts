@@ -1,4 +1,5 @@
 import org.jenkinsci.gradle.plugins.jpi.JpiDeveloper
+import org.jenkinsci.gradle.plugins.jpi.JpiExtension
 import org.jenkinsci.gradle.plugins.jpi.JpiLicense
 import org.jetbrains.kotlin.gradle.internal.KaptGenerateStubsTask
 import org.jetbrains.kotlin.gradle.internal.KaptTask
@@ -92,21 +93,20 @@ jenkinsPlugin {
 	fileExtension = "jpi"
 	pluginFirstClassLoader = true
 
-	developers = this.Developers().apply {
-		developer(delegateClosureOf<JpiDeveloper> {
+	developers(closureOf<JpiExtension.Developers> {
+		developer(closureOf<JpiDeveloper> {
 			setProperty("id", "madhead")
 			setProperty("name", "Siarhei Krukau")
 			setProperty("email", "siarhei.krukau@gmail.com")
 			setProperty("url", "https://madhead.me")
 			setProperty("timezone", "UTC+3")
 		})
-	}
-
-	licenses = this.Licenses().apply {
-		license(delegateClosureOf<JpiLicense> {
+	})
+	licenses(closureOf<JpiExtension.Licenses> {
+		license(closureOf<JpiLicense> {
 			setProperty("url", "http://www.apache.org/licenses/LICENSE-2.0")
 		})
-	}
+	})
 }
 
 tasks.withType(KotlinCompile::class.java).all {
