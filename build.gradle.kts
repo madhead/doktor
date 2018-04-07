@@ -123,7 +123,7 @@ tasks.withType(Test::class.java).all {
 
 tasks.withType(JacocoReport::class.java).all {
 	reports {
-		xml.setEnabled(true)
+		xml.isEnabled = true
 	}
 }
 
