@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -x
+set -ex
 
 if  [[ ${TRAVIS_REPO_SLUG} == 'jenkinsci/doktor-plugin' ]] && \
 	[[ ${TRAVIS_BRANCH} == 'master' ]] && \
