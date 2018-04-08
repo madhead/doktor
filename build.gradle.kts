@@ -1,19 +1,21 @@
 import org.jenkinsci.gradle.plugins.jpi.JpiDeveloper
+import org.jenkinsci.gradle.plugins.jpi.JpiExtension
 import org.jenkinsci.gradle.plugins.jpi.JpiLicense
 import org.jetbrains.kotlin.gradle.internal.KaptGenerateStubsTask
 import org.jetbrains.kotlin.gradle.internal.KaptTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	kotlin("jvm") version ("1.1.51")
-	kotlin("kapt") version ("1.1.51")
+	kotlin("jvm") version ("1.2.31")
+	kotlin("kapt") version ("1.2.31")
 
 	id("jacoco")
-	id("org.jenkins-ci.jpi") version ("0.22.0")
+	id("org.jenkins-ci.jpi") version ("0.26.0")
 	id("net.researchgate.release") version ("2.6.0")
 }
 
 repositories {
+	maven(url = "https://repo.jenkins-ci.org/public/")
 	jcenter()
 }
 
@@ -35,7 +37,6 @@ val jenkinsWorkflowStepsAPIPluginVersion by project
 val testngVersion by project
 val wiremockVersion by project
 val mockitoVersion by project
-
 val sezpozVersion by project
 
 dependencies {
@@ -56,8 +57,8 @@ dependencies {
 	compile("com.j256.simplemagic:simplemagic:${simplemagicVersion}")
 	compile("commons-codec:commons-codec:${commonsCodecVersion}")
 
-	jenkinsPlugins("org.jenkins-ci.plugins:credentials:${jenkinsCredentialsPluginVersion}@jar")
-	jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:${jenkinsWorkflowStepsAPIPluginVersion}@jar")
+	jenkinsPlugins("org.jenkins-ci.plugins:credentials:${jenkinsCredentialsPluginVersion}")
+	jenkinsPlugins("org.jenkins-ci.plugins.workflow:workflow-step-api:${jenkinsWorkflowStepsAPIPluginVersion}")
 
 	testCompile("org.testng:testng:${testngVersion}")
 	testCompile("com.github.tomakehurst:wiremock:${wiremockVersion}")
@@ -76,7 +77,7 @@ kapt {
 }
 
 jacoco {
-	toolVersion = "0.7.9"
+	toolVersion = "0.8.1"
 }
 
 val jenkinsCoreVersion by project
@@ -92,21 +93,20 @@ jenkinsPlugin {
 	fileExtension = "jpi"
 	pluginFirstClassLoader = true
 
-	developers = this.Developers().apply {
-		developer(delegateClosureOf<JpiDeveloper> {
+	developers(closureOf<JpiExtension.Developers> {
+		developer(closureOf<JpiDeveloper> {
 			setProperty("id", "madhead")
 			setProperty("name", "Siarhei Krukau")
 			setProperty("email", "siarhei.krukau@gmail.com")
 			setProperty("url", "https://madhead.me")
 			setProperty("timezone", "UTC+3")
 		})
-	}
-
-	licenses = this.Licenses().apply {
-		license(delegateClosureOf<JpiLicense> {
+	})
+	licenses(closureOf<JpiExtension.Licenses> {
+		license(closureOf<JpiLicense> {
 			setProperty("url", "http://www.apache.org/licenses/LICENSE-2.0")
 		})
-	}
+	})
 }
 
 tasks.withType(KotlinCompile::class.java).all {
@@ -123,7 +123,7 @@ tasks.withType(Test::class.java).all {
 
 tasks.withType(JacocoReport::class.java).all {
 	reports {
-		xml.setEnabled(true)
+		xml.isEnabled = true
 	}
 }
 
@@ -136,6 +136,6 @@ tasks.withType(KaptGenerateStubsTask::class.java).all {
 }
 
 task<Wrapper>("wrapper") {
-	gradleVersion = "4.1"
+	gradleVersion = "4.6"
 	distributionType = Wrapper.DistributionType.ALL
 }
