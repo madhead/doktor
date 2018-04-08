@@ -17,7 +17,7 @@ import java.io.PrintStream
 
 class DokRendererTest {
 	val objectMapper = ObjectMapper(YAMLFactory()).registerKotlinModule()
-	lateinit private var wiremock: WireMockServer
+	private lateinit var wiremock: WireMockServer
 
 	@DataProvider(name = "markdowns")
 	fun markdowns(): Array<Array<*>> {
@@ -27,8 +27,8 @@ class DokRendererTest {
 			"zero_image"
 		).map {
 			arrayOf(
-				File(this::class.java.getResource("/by/dev/madhead/doktor/render/DokRenderer/md/${it}.md").toURI()),
-				objectMapper.readValue<RenderedDok>(this::class.java.getResourceAsStream("/by/dev/madhead/doktor/render/DokRenderer/md/${it}.yml"))
+				File(this::class.java.getResource("/by/dev/madhead/doktor/render/DokRenderer/md/$it.md").toURI()),
+				objectMapper.readValue<RenderedDok>(this::class.java.getResourceAsStream("/by/dev/madhead/doktor/render/DokRenderer/md/$it.yml"))
 			)
 		}.toTypedArray()
 	}
@@ -51,8 +51,8 @@ class DokRendererTest {
 			"zero_image"
 		).map {
 			arrayOf(
-				File(this::class.java.getResource("/by/dev/madhead/doktor/render/DokRenderer/adoc/${it}.adoc").toURI()),
-				objectMapper.readValue<RenderedDok>(this::class.java.getResourceAsStream("/by/dev/madhead/doktor/render/DokRenderer/adoc/${it}.yml"))
+				File(this::class.java.getResource("/by/dev/madhead/doktor/render/DokRenderer/adoc/$it.adoc").toURI()),
+				objectMapper.readValue<RenderedDok>(this::class.java.getResourceAsStream("/by/dev/madhead/doktor/render/DokRenderer/adoc/$it.yml"))
 			)
 		}.toTypedArray()
 	}
