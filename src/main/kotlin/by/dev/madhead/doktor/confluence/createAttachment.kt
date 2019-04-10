@@ -12,7 +12,7 @@ import io.reactivex.Single
 import java.net.URL
 
 fun createAttachment(confluenceServer: ResolvedConfluenceServer, id: String, attachment: Attachment): Single<CreateAttachmentResponse> {
-	return URL(URL(confluenceServer.url), "/rest/api/content/${id}/child/attachment").toString()
+	return URL(URL(confluenceServer.url).toExternalForm() + "/rest/api/content/${id}/child/attachment").toString()
 		.httpUpload()
 		.apply {
 			if (!confluenceServer.user.isNullOrBlank()) {
