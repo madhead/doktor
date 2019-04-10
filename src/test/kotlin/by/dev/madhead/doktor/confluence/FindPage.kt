@@ -76,7 +76,7 @@ class FindPage : BaseConfluenceTest() {
 
 	@Test
 	fun `identified, no pages, 401`() {
-		findPage(anonymousConfluence, "identified, no pages, success")
+		findPage(anonymousConfluence, "identified, no pages, 401")
 			.test()
 			.run {
 				awaitTerminalEvent(10, TimeUnit.SECONDS)

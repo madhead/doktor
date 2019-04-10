@@ -11,7 +11,7 @@ import io.reactivex.Single
 import java.net.URL
 
 fun createPage(confluenceServer: ResolvedConfluenceServer, createPageRequest: CreatePageRequest): Single<CreatePageResponse> {
-	return URL(URL(confluenceServer.url), "/rest/api/content").toString()
+	return URL(URL(confluenceServer.url).toExternalForm() + "/rest/api/content").toString()
 		.httpPost()
 		.apply {
 			if (!confluenceServer.user.isNullOrBlank()) {

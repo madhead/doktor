@@ -7,7 +7,7 @@
 				"equalTo": "TEST"
 			},
 			"title": {
-				"equalTo": "identified, no pages, success"
+				"equalTo": "identified, no pages, 401"
 			}
 		}
 	},
