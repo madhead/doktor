@@ -12,7 +12,7 @@ import io.reactivex.Single
 import java.net.URL
 
 fun addLabels(confluenceServer: ResolvedConfluenceServer, id: String, labels: Labels): Single<AddLabelsResponse> {
-	return URL(URL(confluenceServer.url), "/rest/api/content/${id}/label").toString()
+	return URL(URL(confluenceServer.url).toExternalForm() + "/rest/api/content/${id}/label").toString()
 		.httpPost()
 		.apply {
 			if (!confluenceServer.user.isNullOrBlank()) {

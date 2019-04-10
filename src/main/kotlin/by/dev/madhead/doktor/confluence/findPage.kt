@@ -11,7 +11,7 @@ import io.reactivex.Maybe
 import java.net.URL
 
 fun findPage(confluenceServer: ResolvedConfluenceServer, title: String): Maybe<ContentReference> {
-	return URL(URL(confluenceServer.url), "/rest/api/content").toString()
+	return URL(URL(confluenceServer.url).toExternalForm() + "/rest/api/content").toString()
 		.httpGet(
 			listOf(
 				"spaceKey" to confluenceServer.space,

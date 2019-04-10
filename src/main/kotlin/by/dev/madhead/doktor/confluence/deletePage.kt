@@ -9,7 +9,7 @@ import io.reactivex.Completable
 import java.net.URL
 
 fun deletePage(confluenceServer: ResolvedConfluenceServer, id: String): Completable {
-	return URL(URL(confluenceServer.url), "/rest/api/content/${id}").toString()
+	return URL(URL(confluenceServer.url).toExternalForm() + "/rest/api/content/${id}").toString()
 		.httpDelete()
 		.apply {
 			if (!confluenceServer.user.isNullOrBlank()) {
